@@ -14,7 +14,8 @@ table_view_ui <- function(id){
        type = 4
         )
       )
-    ),
+    )
+    ,
     shinyjs::hidden(
       p(id = ns("tbl_div_msg"), style="color:red;",
         "Incomplete settings configuration")
@@ -82,7 +83,7 @@ table_view_server <- function(id, tab_selected, data, tfrmt_app_out, mode){
 
 
       observeEvent(tfrmt_app_out(),{
-        shinyjs::addClass("refresh", class = "invalid")
+        shinyjs::addClass("refresh", class = "btn-danger")
       }, ignoreInit = TRUE)
 
       observeEvent(tfrmt_app_out(),{
@@ -90,7 +91,7 @@ table_view_server <- function(id, tab_selected, data, tfrmt_app_out, mode){
       })
 
       observeEvent(retbl(),{
-        shinyjs::removeClass("refresh", class = "invalid")
+        shinyjs::removeClass("refresh", class = "btn-danger")
         tbl_invalid(FALSE)
       })
 
@@ -104,6 +105,7 @@ table_view_server <- function(id, tab_selected, data, tfrmt_app_out, mode){
           isolate(tfrmt_app_out())%>% print_to_gt(.data = isolate(data()))
 
         } else {
+          browser()
           isolate(tfrmt_app_out())%>% print_mock_gt(.data = isolate(data()))
         }
 

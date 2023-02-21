@@ -149,8 +149,8 @@ col_plan_server <- function(id, data, tfrmt_app){
         lbl <- tfrmt_app()$label %>% as_label
         col <- tfrmt_app()$column %>% map_chr(as_label)
 
-        # TODO spanning
-        cols_to_keep <- cols_dat_out()[[col]] %>% as.character()
+        # TODO spanning - just keep lowest level in meantime
+        cols_to_keep <- cols_dat_out()[[last(col)]] %>% as.character()
 
       args <- as.list(c(grps, lbl, cols_to_keep))
       args <- c(args,  list(.drop = TRUE))

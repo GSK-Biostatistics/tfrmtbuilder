@@ -9,7 +9,7 @@ remove_shiny_inputs <- function(id, .input) {
 
 # data-driven selectInputs: for selecting values of the tfrmt parameters (group, value, etc)
 create_filter_select <- function(ns, type, data, existing_filters, var_vec, allow_create = TRUE){
- 
+
   existing_vars <- existing_filters %>%
     keep_at(type) %>%
     map2(., names(.), function(x, y ){
@@ -33,7 +33,7 @@ create_filter_select <- function(ns, type, data, existing_filters, var_vec, allo
     } else {
       selected_vals <- character(0)
     }
-    
+
     choices <- if (is.null(data)) NULL else data %>% pull(all_of(v)) %>% unique()
     selectizeInput(inputId = ns(paste0("values-", v)),
                    label = HTML(paste0(type, ": <span style=\"font-weight: 400;\">", v, "</span>")),
@@ -46,7 +46,7 @@ create_filter_select <- function(ns, type, data, existing_filters, var_vec, allo
 }
 
 input_dynamic_vars <- function(ns, all_vars, var, num_vars, data = NULL){
- 
+
   if (num_vars==0){
     div()
   } else {
@@ -71,10 +71,12 @@ input_dynamic_vars <- function(ns, all_vars, var, num_vars, data = NULL){
       id <- ns(paste0(var, "-", i))
 
       if (is.null(data)){
-        textInput(id, label = NULL, value = value, placeholder = placeholder)
+        input_div <- textInput(id, label = NULL, value = value, placeholder = placeholder)
       } else {
-        selectInput(id, label = NULL, selected = selected, choices = choices)
+        input_div <- selectInput(id, label = NULL, selected = selected, choices = choices)
       }
+
+      div(id = paste0(id,"_outer"), input_div)
 
     })
   }
@@ -132,10 +134,10 @@ create_col_plan_sortable <- function(ns, col_num, col_name, col_levs, col_confir
   levs_drop <- tagList(
     div(class = "itemlist-start",
         div(class = "itemlist",
-            id = css_id_drop, 
-            contents_drop)), 
+            id = css_id_drop,
+            contents_drop)),
     sortable_js(css_id = css_id_drop,
-                options = sortable_options( 
+                options = sortable_options(
                   group = list(
                     group = col_name,
                     put = TRUE,
@@ -143,54 +145,54 @@ create_col_plan_sortable <- function(ns, col_num, col_name, col_levs, col_confir
                   ),
                   onSort = sortable_js_capture_input(input_id = ns(paste0("drop_", col_num)))
                 )))
-  
+
   # UI elements for the "keep" levels
   levs_keep <- lapply(1:length(col_levs), function(lev_num){
-    
+
     css_id <- ns(paste0("levs_keep_", col_num, "_", lev_num))
-    
+
     if (distribute=="Keep all"){
       col_val <- col_levs[lev_num]
       contents_keep <- div(class="itemlist-item", col_val)
     } else {
       contents_keep <- list()
     }
-    
+
     tagList(
       div(class = "itemlist-end",
           style = paste0("width: ", 100*(1/length(col_levs)), "%"),
           div(class = "itemlist",
-              id = css_id, 
+              id = css_id,
              contents_keep)),
       sortable_js(css_id = css_id,
                   options = sortable_options(
-                    swap = TRUE, 
+                    swap = TRUE,
                     group = list(
-                      group = col_name, 
+                      group = col_name,
                       put = TRUE,
                       pull = TRUE
                     ),
                     onLoad = sortable_js_capture_input(input_id = ns(paste0("keep_", col_num, "_", lev_num))),
                     onSort = sortable_js_capture_input(input_id = ns(paste0("keep_", col_num, "_", lev_num)))
                   )))
-  }) 
-  
-  
-  tagList(  
+  })
+
+
+  tagList(
     fluidRow(
-      column(3,   
+      column(3,
              prettyCheckbox(ns(paste0("confirm_", col_num)),
                               label = paste0("`", col_name, "`"),
-                              status = "success", 
+                              status = "success",
                               value = col_confirmed,
                               icon = icon("check"))
              ),
-      column(2,  
+      column(2,
              levs_drop),
-      column(7, 
+      column(7,
              div(style = "width:800px; display: flex; flex-direction: row; flex-wrap: wrap;", levs_keep))
-      ) 
+      )
     )
-      
+
 }
 

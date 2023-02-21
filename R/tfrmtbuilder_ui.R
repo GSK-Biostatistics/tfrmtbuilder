@@ -1,9 +1,9 @@
 #' Main UI function
 
 tfrmtbuilder_ui <- function(id){
-  
+
   ns <- NS(id)
-  
+
   tagList(
     fluidPage(
       titlePanel(""),
@@ -14,7 +14,7 @@ tfrmtbuilder_ui <- function(id){
         # selected = "Edit",
         tabPanel("Load", load_ui(ns("load"))),
         tabPanel("Edit",
-                 fluidPage( 
+                 fluidPage(
                    fluidRow(
                      column(7,
                             navlistPanel(
@@ -25,8 +25,9 @@ tfrmtbuilder_ui <- function(id){
                                            column(5,
                                                   datamapping_ui(ns("overview"))),
                                            column(7,
-                                                  h3("Data"),
-                                                  DTOutput(ns("data_view")))
+                                                  h3("Data") #,
+                                                 # DTOutput(ns("data_view"))
+                                                  )
                                          )
                                        )),
                               tabPanel("Body Plan", body_plan_ui(ns("body_plan"))),
@@ -41,15 +42,15 @@ tfrmtbuilder_ui <- function(id){
                      )  ,
                      column(5,
                             div(id = ns("sidebar"),
-                                table_view_ui(ns("tbl_view")) 
+                                table_view_ui(ns("tbl_view"))
                             )
                      )
-                   ) 
+                   )
                  )
         ) ,
         tabPanel("Export", export_ui(ns("export")))
       )
-      
+
     )
   )
 }

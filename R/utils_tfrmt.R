@@ -277,7 +277,7 @@ cols_to_dat <- function(data, tfrmt){
   # establish order of all slots
   cols_dat <- data %>%
     ungroup() %>%
-    select(all_of(cols)) %>%
+    select(any_of(cols)) %>%
     unique %>%
     mutate(across(everything(), function(x){
       ifelse(is.na(x), paste0("__span_empty_", cumsum(is.na(x))), x)

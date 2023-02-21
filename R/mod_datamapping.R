@@ -180,31 +180,43 @@ datamapping_server <- function(id, data, tfrmt_orig){
         }
       })
 
+
       # fill in the default values
       output$single_settings <- renderUI({
 
         reset()
 
-        if (is.null(data())){
-          tagList(
-            textInput(ns("label"), label = "Label", value = settings_default()$label),
-            textInput(ns("param"), label = "Param", value = settings_default()$param),
-            textInput(ns("value"), label = "Value", value = settings_default()$value),
-          )
+        settings_default <- settings_default()
+        data <- isolate(data())
+
+        if (is.null(data)){
+
+          map(c("label", "param", "value"),
+              function(x){
+                div(
+                  id = ns(paste0(x, "_outer")),
+                  textInput(ns(x), label = stringr::str_to_title(x),
+                          value = settings_default[[x]])
+                )
+              }) %>%
+            tagList()
 
         } else{
-          choices <- c("", names(isolate(data())))
+          choices <- c("", names(data))
 
-          label <- if (settings_default()$label %in% choices) {settings_default()$label} else {character(0)}
-          param <- if (settings_default()$param %in% choices) {settings_default()$param} else {character(0)}
-          value <- if (settings_default()$value %in% choices) {settings_default()$value} else {character(0)}
+          map(c("label", "param", "value"),
+              function(x){
 
+                val <- if (settings_default[[x]] %in% choices) {settings_default[[x]]} else {character(0)}
 
-          tagList(
-            selectInput(ns("label"), label = "Label", choices = choices, selected = label, selectize = TRUE),
-            selectInput(ns("param"), label = "Param", choices = choices, selected = param, selectize = TRUE),
-            selectInput(ns("value"), label = "Value", choices = choices, selected = value, selectize = TRUE)
-            )
+                div(
+                  id = ns(paste0(x, "_outer")),
+                  selectInput(ns(x), label = stringr::str_to_title(x),
+                              choices = choices, selected = val, selectize = TRUE)
+                )
+              }) %>%
+            tagList()
+
         }
       })
 
@@ -252,13 +264,56 @@ datamapping_server <- function(id, data, tfrmt_orig){
 
 
       # indicate that settings are ready
+      #  to bypass hitting "save" on initial load if complete
       collect_settings <- reactive({
         req(input$save || settings_default_complete()==TRUE)
 
       })
 
+      # get status of settings to determine whether to highlight "save" button
+      settings_complete <- reactiveVal(NULL)
+      observeEvent(reactiveValuesToList(input), {
+
+        # get names of all current & expected inputs
+        inputs <- reactiveValuesToList(input) %>% names
+        expected_grps <- if (num_grps()>0) {paste0("group-", 1:num_grps())} else {character(0)}
+        expected_cols <- if (num_cols()>0) {paste0("column-", 1:num_cols())} else {character(0)}
+        expected_sortcols <- if (num_sortcols()>0) {paste0("sorting_cols-", 1:num_sortcols())} else {character(0)}
+        expected_inputs <- c(expected_grps, expected_cols, expected_sortcols, "label", "param", "value")
+
+        # require them to be available
+        req(all(expected_inputs %in% inputs))
+
+        # status check
+        input_vals <- map(expected_inputs, function(x) input[[x]]) %>% set_names(expected_inputs)
+
+         input_vals_empty <- map_lgl(input_vals, ~.x=="")
+         if (any(input_vals_empty)){
+           settings_complete(FALSE)
+
+           # highlight inputs that are empty
+           inputs_to_flag <- input_vals_empty[which(input_vals_empty)] %>% names()
+
+           map(inputs_to_flag, ~shinyjs::addClass(paste0(.x, "_outer"), class = "invalid"))
+
+           inputs_to_unflag <- input_vals_empty[which(! input_vals_empty)] %>% names()
+           if (length(inputs_to_unflag)>0){
+             map(inputs_to_unflag, ~shinyjs::removeClass(paste0(.x, "_outer"), class = "invalid"))
+           }
+         } else {
+           settings_complete(TRUE)
+
+           map(expected_inputs, ~shinyjs::removeClass(paste0(.x, "_outer"), class = "invalid"))
+         }
+      })
+
+      observe({
+        shinyjs::toggleState("save", condition = settings_complete())
+      })
+
       # collect all settings
-    #  observeEvent(input$save, {
+     # observeEvent(input$save, {
+   #   observeEvent(settings_complete(), {
       observeEvent(collect_settings(), {
         if (num_grps()>0){
           group_inputs <- paste0("group-", 1:num_grps())
@@ -292,6 +347,7 @@ datamapping_server <- function(id, data, tfrmt_orig){
         }
 
         req(input$label, input$param, input$value)
+
 
         settings_out(
           list(

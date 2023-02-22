@@ -180,7 +180,7 @@ format_big_n_struct <- function(x){
 
 # template frmt objects
 dummy_frmt <- function(){
-  "frmt(\"xx.x\", missing = NULL, scientific = NULL)"
+  "frmt(\"xx.x\", missing = NULL, scientific = NULL, transform = NULL)"
 }
 dummy_frmt_when <- function(){
   "frmt_when(
@@ -195,64 +195,6 @@ dummy_frmt_combine <- function(){
  param1 = frmt(\"XXX %\"),
  param2 = frmt(\"XX.XXX\")
 )"
-}
-
-#  convert a frmt to string (for going from R obj -> editable textbox)
-
-frmt_to_string <- function(x, ...){
-  UseMethod("frmt_to_string")
-}
-
-#' @exportS3Method frmt_to_string frmt
-frmt_to_string.frmt <- function(frmt_obj, param_val = NULL){
-
-  if(!is.null(param_val)) param <- paste0(param_val, " = ") else param <- NULL
-  frmt_txt <- frmt_obj$expression
-  if (!is.null(frmt_obj$missing )) missing <- paste0(", missing = \"", frmt_obj$missing, "\"") else missing <- NULL
-  if (!is.null(frmt_obj$scientific )) scientific <- paste0(", scientific = \"", frmt_obj$scientific, "\"") else scientific <- NULL
-
-  paste0(
-    param, "frmt(\"", frmt_txt, "\"", missing, scientific, ")"
-  )
-}
-
-#' @exportS3Method frmt_to_string frmt_when
-
-frmt_to_string.frmt_when <- function(frmt_obj, param_val = NULL){
-
-  if(!is.null(param_val)) param <- paste0(param_val, " = ") else param <- NULL
-  if (!is.null(frmt_obj$missing )) missing <- paste0(", missing = \"", frmt_obj$missing, "\"") else missing <- NULL
-
-  frmt_txt <- map_chr(frmt_obj$frmt_ls, function(x){
-    lhs <- paste0("\"", x[[2]], "\"")
-    rhs <- x[[3]]
-    if (is.list(rhs)){
-      rhs <- rhs %>% frmt_to_string
-    } else {
-      rhs <- paste0("\"", rhs, "\"")
-    }
-    paste0(lhs, " ~ ", rhs)
-  }) %>%
-    paste0(collapse = ", ")
-
-  paste0(
-    param, "frmt_when(", frmt_txt, missing, ")"
-  )
-}
-
-#' @exportS3Method frmt_to_string frmt_combine
-
-frmt_to_string.frmt_combine <- function(frmt_obj, ...){
-
-  if (!is.null(frmt_obj$missing )) missing <- paste0(", missing = \"", frmt_obj$missing, "\"") else missing <- NULL
-  frmt_glue <- paste0("\"", frmt_obj$expression, "\"")
-
-  frmt_txt <- imap_chr(frmt_obj$frmt_ls, frmt_to_string.frmt) %>%
-    paste0(collapse = ", ")
-
-  paste0(
-    "frmt_combine(", frmt_glue, ", ", frmt_txt, missing, ")"
-  )
 }
 
 # convert string to frmt obj (for going from text -> R obj)

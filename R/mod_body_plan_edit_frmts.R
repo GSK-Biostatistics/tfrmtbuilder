@@ -37,9 +37,6 @@ body_plan_edit_frmts_server <- function(id, selected){
 
           sel_frmt <- selected()$frmt_to_apply
           existing_frmt <- as.character(sel_frmt[[1]])
-
-         # existing_frmt <- frmt_to_string(frmt_obj = sel_frmt[[1]], param_val = names(sel_frmt))
-
         } else {
 
           existing_frmt <- dummy_frmt()

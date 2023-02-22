@@ -38,10 +38,11 @@ body_plan_ui <- function(id){
 #' @param id module ID
 #' @param data data for the table
 #' @param tfrmt_app tfrmt object
-#'
+#' @param mode_load mock mode w/ no data, w/ data, reporting
+
 #'
 #' @noRd
-body_plan_server <- function(id, data, tfrmt_app){
+body_plan_server <- function(id, data, tfrmt_app, mode_load){
 
   moduleServer(
     id,
@@ -215,23 +216,27 @@ body_plan_server <- function(id, data, tfrmt_app){
       })
 
 
-      # recreate data when frmt_structure_list is updated following a save, deletion, or reorder
+      # recreate data (mock no data only) when frmt_structure_list is updated following a save, deletion, or reorder
       observeEvent(struct_list(), {
 
         req(mode()=="done")
 
         shinyjs::hide("invalid")
 
-        new_tfrmt <- tfrmt_app()
-        new_tfrmt$body_plan <- struct_list()
+        if (mode_load()=="mock_no_data"){
 
-        if (length(struct_list())>0){
-          new_data <- tfrmt:::make_mock_data(new_tfrmt)
-        } else {
-          new_data <- data()
+          new_tfrmt <- tfrmt_app()
+          new_tfrmt$body_plan <- struct_list()
+
+          if (length(struct_list())>0){
+            new_data <- tfrmt:::make_mock_data(new_tfrmt)
+          } else {
+            new_data <- data()
+          }
+
+          data_bp(new_data)
+
         }
-
-        data_bp(new_data)
 
       })
 

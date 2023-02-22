@@ -23,10 +23,11 @@ col_plan_ui <- function(id){
 #' @param id module ID
 #' @param data data for the table
 #' @param tfrmt_app tfrmt object
-#'
+#' @param mode_load mock mode w/ no data, w/ data, reporting
+
 #'
 #' @noRd
-col_plan_server <- function(id, data, tfrmt_app){
+col_plan_server <- function(id, data, tfrmt_app, mode_load){
 
   moduleServer(
     id,
@@ -149,8 +150,8 @@ col_plan_server <- function(id, data, tfrmt_app){
         lbl <- tfrmt_app()$label %>% as_label
         col <- tfrmt_app()$column %>% map_chr(as_label)
 
-        # TODO spanning
-        cols_to_keep <- cols_dat_out()[[col]] %>% as.character()
+        # TODO spanning - just keep lowest level in meantime
+        cols_to_keep <- cols_dat_out()[[last(col)]] %>% as.character()
 
       args <- as.list(c(grps, lbl, cols_to_keep))
       args <- c(args,  list(.drop = TRUE))

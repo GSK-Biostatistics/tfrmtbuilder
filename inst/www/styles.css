@@ -10,20 +10,22 @@
          background-color: #ddeaf6 !important;
        }
 
-      .invalid {
-          color: #333;
-          background-color: #fff;
-          border: 2px solid red;
-      }
-      
+.invalid .selectize-input {
+  border: 2px solid red;
+}
+.invalid .form-control {
+  border: 2px solid red;
+}
+
+
        .itemlist-start {
     flex: 1 0 200px;
     background-color: transparent;
     border: 1px solid #ddd;
     padding: 0px 5px;
-    display: flex; 
+    display: flex;
     }
-    
+
     .itemlist-end {
     background-color: transparent;
     border: 1px solid #ddd;
@@ -38,7 +40,7 @@ display: inline-block;
     border-radius: 5px;
     background-color: white;
    margin: 5px;
-min-height: 30px; 
+min-height: 30px;
     }
 
    .itemlist-item {
@@ -47,6 +49,5 @@ min-height: 30px;
     padding: 0px;
     background-color: #f8f8f8;
     border: 1px solid #ddd;
-    overflow: hidden; 
-} 
-        
+    overflow: hidden;
+}

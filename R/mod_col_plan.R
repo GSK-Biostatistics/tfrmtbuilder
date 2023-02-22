@@ -23,10 +23,11 @@ col_plan_ui <- function(id){
 #' @param id module ID
 #' @param data data for the table
 #' @param tfrmt_app tfrmt object
-#'
+#' @param mode_load mock mode w/ no data, w/ data, reporting
+
 #'
 #' @noRd
-col_plan_server <- function(id, data, tfrmt_app){
+col_plan_server <- function(id, data, tfrmt_app, mode_load){
 
   moduleServer(
     id,

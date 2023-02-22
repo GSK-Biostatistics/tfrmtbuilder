@@ -46,9 +46,10 @@ row_grp_plan_ui <- function(id){
 #' @param id module ID
 #' @param data data for the table
 #' @param tfrmt_app tfrmt object
+#' @param mode_load mock mode w/ no data, w/ data, reporting
 #'
 #' @noRd
-row_grp_plan_server <- function(id, data, tfrmt_app){
+row_grp_plan_server <- function(id, data, tfrmt_app, mode_load){
 
   moduleServer(
     id,
@@ -230,24 +231,28 @@ row_grp_plan_server <- function(id, data, tfrmt_app){
       })
 
 
-      # recreate data when row_grp_structure_list is updated following a save, deletion, or reorder
+      # recreate data (mock no data only) when row_grp_structure_list is updated following a save, deletion, or reorder
       observeEvent(struct_list(), {
 
         req(mode()=="done")
 
         shinyjs::hide("invalid")
 
-        new_tfrmt <- tfrmt_app()
+        if (mode_load()=="mock_no_data"){
 
-        new_tfrmt$row_grp_plan <- do.call("row_grp_plan", struct_list())
+          new_tfrmt <- tfrmt_app()
 
-        if (length(struct_list())>0){
-          new_data <- tfrmt:::make_mock_data(new_tfrmt)
-        } else {
-          new_data <- data()
+          new_tfrmt$row_grp_plan <- do.call("row_grp_plan", struct_list())
+
+          if (length(struct_list())>0){
+            new_data <- tfrmt:::make_mock_data(new_tfrmt)
+          } else {
+            new_data <- data()
+          }
+
+          data_bp(new_data)
+
         }
-
-        data_bp(new_data)
 
       })
 

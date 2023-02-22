@@ -22,13 +22,13 @@ tfrmtbuilder_ui <- function(id){
                               tabPanel("Overview",
                                        fluidPage(
                                          fluidRow(
-                                           column(5,
-                                                  datamapping_ui(ns("overview"))),
-                                           column(7,
-                                                  h3("Data") #,
-                                                 # DTOutput(ns("data_view"))
-                                                  )
-                                         )
+                                        #   column(5,
+                                                  datamapping_ui(ns("overview")) #),
+                                        #   column(7,
+                                        #          h3("Data") ,
+                                        # DTOutput(ns("data_view"))
+                                        #           )
+                                          )
                                        )),
                               tabPanel("Body Plan", body_plan_ui(ns("body_plan"))),
                               tabPanel("Row Group Plan", row_grp_plan_ui(ns("row_grp_plan"))),

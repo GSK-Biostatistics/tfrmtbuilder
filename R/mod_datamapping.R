@@ -265,10 +265,18 @@ datamapping_server <- function(id, data, tfrmt_orig){
 
       # indicate that settings are ready
       #  to bypass hitting "save" on initial load if complete
-      collect_settings <- reactive({
-        req(input$save || settings_default_complete()==TRUE)
-
+      collect_settings <- reactiveVal(0)
+      observeEvent(input$save,{
+        collect_settings(collect_settings()+1)
       })
+      # observe({
+      #   req(tfrmt_orig())
+      #   req(settings_default())
+      #   req(settings_default_complete())
+      #   if(settings_default_complete()==TRUE){
+      #     collect_settings(isolate(collect_settings())+1)
+      #   }
+      # })
 
       # get status of settings to determine whether to highlight "save" button
       settings_complete <- reactiveVal(NULL)
@@ -312,20 +320,19 @@ datamapping_server <- function(id, data, tfrmt_orig){
       })
 
       # collect all settings
-     # observeEvent(input$save, {
-   #   observeEvent(settings_complete(), {
-      observeEvent(collect_settings(), {
-        if (num_grps()>0){
-          group_inputs <- paste0("group-", 1:num_grps())
-          for (grp in group_inputs) req(input[[grp]])
-          group_vars <- map_chr(group_inputs, function(x){
-            val <- input[[x]]
-            if (!val=="") val else NULL})
+      observeEvent(collect_settings(),{
 
-          sel_grps(group_vars)
-        } else{
-          group_vars <- vars()
-        }
+          if (num_grps()>0){
+            group_inputs <- paste0("group-", 1:num_grps())
+            for (grp in group_inputs) req(input[[grp]])
+            group_vars <- map_chr(group_inputs, function(x){
+              val <- input[[x]]
+              if (!val=="") val else NULL})
+
+            sel_grps(group_vars)
+          } else{
+            group_vars <- vars()
+          }
 
         column_inputs <- paste0("column-", 1:num_cols())
 

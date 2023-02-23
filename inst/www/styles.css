@@ -67,4 +67,41 @@ min-height: 30px;
   background: #254988;
 }
 
+/* for title and navlinks in navheader */
+.navbar.navbar-default {
+  background-color: #254988 !important;
+}
+
+.navbar-default .navbar-nav > li > a {
+  color: #ffffff !important;
+}
+
+.navbar-default .navbar-nav > li > a:hover {
+  color: #FF4D00 !important;
+}
+
+.navbar-default .navbar-nav > li > a.active {
+  text-decoration: underline #FF4D00;
+}
+
+.navbar {
+  font-size: 1.3rem !important;
+  font-weight: bold !important;
+}
+
+.navbar-brand {
+  font-size: 1.4rem !important;
+  font-weight: bold !important;
+  text-shadow: 1px 1px #FF4D00;
+}
+
+.navheader_padding {
+  margin-top: 30px !important;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.navbar .container-fluid {
+  height: 30px;
+}
 

@@ -11,7 +11,7 @@ tfrmtbuilder_ui <- function(id){
       useShinyjs(),
       navbarPage(
         windowTitle = "tfrmt Builder",
-        title = "tfrmt Builder",
+        title = div("tfrmt Builder", class = "navheader_padding"),
         theme = bs_theme(bootswatch = "flatly",
                          base_font = font_google("Lato"),
                          primary = "#254988",

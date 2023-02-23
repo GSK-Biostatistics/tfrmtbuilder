@@ -20,7 +20,7 @@ load_ui <- function(id){
                      )
                    ),
                    fluidRow(
-                     div(style = "height: 500px; overflow-y:scroll; ",
+                     div(style = "height: 500px; overflow-y:auto; ",
                          shinycssloaders::withSpinner(
                            color = getOption("spinner.color", default = "#254988"),
                            type = 4,

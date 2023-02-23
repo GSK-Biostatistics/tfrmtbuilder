@@ -11,7 +11,7 @@ export_ui <- function(id){
              wellPanel(
                div(style = "height: 650px;",
                      h3("JSON", downloadButton(ns("json_save"), label = "Export", icon = icon("download"))),
-                   div(style = "height: 550px; overflow-y:scroll; ",
+                   div(style = "height: 550px; overflow-y:auto; ",
                        shinycssloaders::withSpinner(
                          color = getOption("spinner.color", default = "#254988"),
                          type = 4,
@@ -26,7 +26,7 @@ export_ui <- function(id){
              wellPanel(
                div(style = "height: 650px;",
                    h3("Table", downloadButton(ns("tbl_save"), label = "Export", icon = icon("download"))),
-                   div(style = "height: 550px; overflow-y:scroll; ",
+                   div(style = "height: 550px; overflow-y:auto; ",
                        shinycssloaders::withSpinner(
                          color = getOption("spinner.color", default = "#254988"),
                          type = 4,

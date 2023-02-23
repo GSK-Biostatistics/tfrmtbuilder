@@ -10,7 +10,14 @@ tfrmtbuilder_ui <- function(id){
       includeCSS(system.file("www","styles.css", package = "tfrmtbuilder")),
       useShinyjs(),
       navbarPage(
-        "tfrmt Builder",
+        windowTitle = "tfrmt Builder",
+        title = "tfrmt Builder",
+        theme = bs_theme(bootswatch = "flatly",
+                         base_font = font_google("Lato"),
+                         primary = "#254988",
+                         bg = "#ffffff",
+                         fg = "#E64500"
+                         ),
         # selected = "Edit",
         tabPanel("Load", load_ui(ns("load"))),
         tabPanel("Edit",

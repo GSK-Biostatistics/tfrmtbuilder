@@ -8,14 +8,17 @@ col_plan_ui <- function(id){
 
   tagList(
     fluidRow(
-      column(4, radioGroupButtons(ns("distribute"),label = NULL, choices = c("Remove all", "Keep all"), selected = "Keep all")),
-      column(2, actionButton(ns("reset"), "Reset all", icon = icon("undo"))),
-    ),
+      h3("Col Plan", class = "heading_style",
+         actionButton(ns("reset"), "Reset all", icon = icon("undo")))
+      ),
+    fluidRow(
+      column(4, radioGroupButtons(ns("distribute"),label = NULL, choices = c("Remove all", "Keep all"), selected = "Keep all"))
+      ),
     fluidRow(
       column(3, p("Mark complete"), style= "font-weight: bold;"),
       column(2, p("Drop"), style= "font-weight: bold;"),
       column(7, p("Arrange Columns"), align = "center", style = "font-weight: bold;")
-    ),
+      ),
     uiOutput(ns("all_buckets"))
   )
 }

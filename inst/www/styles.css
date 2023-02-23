@@ -103,3 +103,23 @@
   height: 30px;
 }
 
+/* for required/optional note in side_panel navlinks */
+.zero_margin {
+  margin: 0px !important;
+}
+
+#tab_note {
+  color: #FF4D00;
+  margin: 0px;
+  font-style: italic;
+  font-size: 14px;
+}
+
+.side_panel .nav-pills a:hover #tab_note {
+  color: #254988;
+}
+
+.side_panel .nav-pills .nav-link.active #tab_note {
+  color: #ffffff;
+}
+

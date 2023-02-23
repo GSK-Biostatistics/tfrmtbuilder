@@ -1,14 +1,14 @@
-   .default-sortable.rank-list-container {
-              border: 0px !important;
-          }
+.default-sortable.rank-list-container {
+  border: 0px !important;
+}
 
-          .default-sortable .rank-list-item {
-              padding: 0px 0px !important;
-            }
+.default-sortable .rank-list-item {
+  padding: 0px 0px !important;
+}
 
-       .rank-list-select{
-         background-color: #ddeaf6 !important;
-       }
+.rank-list-select{
+  background-color: #ddeaf6 !important;
+}
 
 .invalid .selectize-input {
   border: 2px solid red;
@@ -17,39 +17,37 @@
   border: 2px solid red;
 }
 
+.itemlist-start {
+  flex: 1 0 200px;
+  background-color: transparent;
+  border: 1px solid #ddd;
+  padding: 0px 5px;
+  display: flex;
+}
 
-       .itemlist-start {
-    flex: 1 0 200px;
-    background-color: transparent;
-    border: 1px solid #ddd;
-    padding: 0px 5px;
-    display: flex;
-    }
+.itemlist-end {
+  background-color: transparent;
+  border: 1px solid #ddd;
+  padding: 0px 5px;
+  display: inline-block;
+}
 
-    .itemlist-end {
-    background-color: transparent;
-    border: 1px solid #ddd;
-    padding: 0px 5px;
-display: inline-block;
+.itemlist {
+  flex: 1 0 auto;
+  -webkit-border-radius: 3px;
+  border-radius: 5px;
+  background-color: white;
+  margin: 5px;
+  min-height: 30px;
+}
 
-    }
-
-    .itemlist {
-    flex: 1 0 auto;
-    -webkit-border-radius: 3px;
-    border-radius: 5px;
-    background-color: white;
-   margin: 5px;
-min-height: 30px;
-    }
-
-   .itemlist-item {
-    border-radius: 3px;
-    display: flex;
-    padding: 0px;
-    background-color: #f8f8f8;
-    border: 1px solid #ddd;
-    overflow: hidden;
+.itemlist-item {
+  border-radius: 3px;
+  display: flex;
+  padding: 0px;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  overflow: hidden;
 }
 
 /* for navlinks in side_panel (wrapped around navlistPanel) */

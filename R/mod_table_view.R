@@ -109,7 +109,7 @@ table_view_server <- function(id, tab_selected, data, tfrmt_app_out, mode){
           isolate(tfrmt_app_out())%>% print_mock_gt(.data = isolate(data()))
         }
 
-      })
+      }, align = "left")
     }
   )
 }

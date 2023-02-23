@@ -28,17 +28,12 @@ tfrmtbuilder_ui <- function(id){
                               class = "side_panel",
                               navlistPanel(
                                 id = ns("tabs"),
-                                tabPanel("Overview",
-                                         fluidPage(
-                                           fluidRow(
-                                             # column(5,
-                                                    datamapping_ui(ns("overview")) #),
-                                             # column(7,
-                                             #        h3("Data") ,
-                                             #        DTOutput(ns("data_view"))
-                                             #      )
-                                           )
-                                         )),
+                                tabPanel(div( h6("Overview", class = "zero_margin"),
+                                              div("(Required)", id = "tab_note")),
+                                         datamapping_ui(ns("overview"))
+                                         # h3("Data"),
+                                         # DTOutput(ns("data_view"))
+                                         ),
                                 tabPanel(div( h6("Body Plan", class = "zero_margin"),
                                               div("(Required)", id = "tab_note")),
                                          body_plan_ui(ns("body_plan"))),

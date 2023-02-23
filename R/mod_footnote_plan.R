@@ -8,7 +8,8 @@ footnote_plan_ui <- function(id){
 
   tagList(
     fluidRow(
-      h3("Footnote Plan", actionButton(ns("reset"), "Reset", icon = icon("undo"))),
+      h3("Footnote Plan", class = "heading_style",
+         actionButton(ns("reset"), "Reset", icon = icon("undo"))),
       h4("Marks"),
       shinyWidgets::radioGroupButtons(
         inputId = ns("marks"), label = NULL,

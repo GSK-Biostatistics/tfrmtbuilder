@@ -5,7 +5,8 @@ table_view_ui <- function(id){
   ns <- NS(id)
 
   tagList(
-    h3("Table", actionButton(ns("refresh"), "Refresh", icon = icon("sync"))),
+    h3("Table", class = "heading_style",
+       actionButton(ns("refresh"), "Refresh", icon = icon("sync"))),
     shinyjs::hidden(
       div(
       id = ns("tbl_div"),

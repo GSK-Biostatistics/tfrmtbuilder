@@ -8,7 +8,8 @@ col_style_plan_ui <- function(id){
 
   tagList(
     fluidRow(
-      h3("Col Style Plan", actionButton(ns("reset"), "Reset", icon = icon("undo"))),
+      h3("Col Style Plan", class = "heading_style",
+         actionButton(ns("reset"), "Reset", icon = icon("undo"))),
       h4("Col Style Structures"),
       shinyjs::hidden(
         p(id = ns("none"),

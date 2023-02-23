@@ -11,7 +11,7 @@ load_ui <- function(id){
       column(4,
              wellPanel(
                div(style = "height: 650px",
-                   h3("tfrmt"),
+                   h3("tfrmt", class = "heading_style"),
                    fluidRow(
                      column(4, radioGroupButtons(ns("tfrmt_source"), label = "Source", choices = c("none", "custom"))),
                      column(6, conditionalPanel( "input.tfrmt_source=='custom'",
@@ -34,7 +34,7 @@ load_ui <- function(id){
       column(8,
              wellPanel(
                div(style = "height: 650px",
-                   h3("Data"),
+                   h3("Data", class = "heading_style"),
                    fluidRow(
                      column(2, radioGroupButtons(ns("mode"), "Select mode", choices = c("mock", "reporting"), selected = "mock")),
                      column(3, conditionalPanel("input.mode=='mock'",

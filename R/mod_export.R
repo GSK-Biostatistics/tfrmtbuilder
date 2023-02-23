@@ -10,7 +10,8 @@ export_ui <- function(id){
       column(4,
              wellPanel(
                div(style = "height: 650px;",
-                     h3("JSON", downloadButton(ns("json_save"), label = "Export", icon = icon("download"))),
+                     h3("JSON", class = "heading_style",
+                        downloadButton(ns("json_save"), label = "Export", icon = icon("download"))),
                    div(style = "height: 550px; overflow-y:auto; ",
                        shinycssloaders::withSpinner(
                          color = getOption("spinner.color", default = "#254988"),
@@ -25,7 +26,8 @@ export_ui <- function(id){
       column(8,
              wellPanel(
                div(style = "height: 650px;",
-                   h3("Table", downloadButton(ns("tbl_save"), label = "Export", icon = icon("download"))),
+                   h3("Table", class = "heading_style",
+                      downloadButton(ns("tbl_save"), label = "Export", icon = icon("download"))),
                    div(style = "height: 550px; overflow-y:auto; ",
                        shinycssloaders::withSpinner(
                          color = getOption("spinner.color", default = "#254988"),

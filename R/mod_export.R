@@ -12,7 +12,11 @@ export_ui <- function(id){
                div(style = "height: 650px;",
                      h3("JSON", downloadButton(ns("json_save"), label = "Export", icon = icon("download"))),
                    div(style = "height: 550px; overflow-y:scroll; ",
-                       verbatimTextOutput(ns("json"))
+                       shinycssloaders::withSpinner(
+                         color = getOption("spinner.color", default = "#254988"),
+                         type = 4,
+                         verbatimTextOutput(ns("json"))
+                         )
                    )
                  )
                )
@@ -23,7 +27,11 @@ export_ui <- function(id){
                div(style = "height: 650px;",
                    h3("Table", downloadButton(ns("tbl_save"), label = "Export", icon = icon("download"))),
                    div(style = "height: 550px; overflow-y:scroll; ",
-                       gt_output(ns("tbl"))
+                       shinycssloaders::withSpinner(
+                         color = getOption("spinner.color", default = "#254988"),
+                         type = 4,
+                         gt_output(ns("tbl"))
+                       )
                    )
                )
              )

@@ -10,8 +10,9 @@ table_view_ui <- function(id){
       div(
       id = ns("tbl_div"),
       shinycssloaders::withSpinner(
-        gt_output(ns("tbl_view")),
-       type = 4
+        color = getOption("spinner.color", default = "#254988"),
+        type = 4,
+        gt_output(ns("tbl_view"))
         )
       )
     )

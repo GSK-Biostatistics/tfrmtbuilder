@@ -51,3 +51,20 @@ min-height: 30px;
     border: 1px solid #ddd;
     overflow: hidden;
 }
+
+/* for navlinks in side_panel (wrapped around navlistPanel) */
+.side_panel .nav-pills a {
+  color: #254988;
+}
+
+.side_panel .nav-pills a:hover {
+  color: #ffffff;
+  background: #83A3DD;
+}
+
+.side_panel .nav-pills .nav-link.active {
+  color: #ffffff;
+  background: #254988;
+}
+
+

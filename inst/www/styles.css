@@ -145,3 +145,8 @@
 .heading_style {
   font-weight: bold !important;
 }
+
+label {
+  margin-bottom: 0.5rem !important;
+}
+

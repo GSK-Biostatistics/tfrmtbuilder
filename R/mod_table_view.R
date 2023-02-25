@@ -31,7 +31,7 @@ table_view_ui <- function(id){
 #' @param mode mock mode w/ no data, w/ data, reporting
 #'
 #' @noRd
-table_view_server <- function(id, tab_selected, data, tfrmt_app_out, mode){
+table_view_server <- function(id, tab_selected, data, tfrmt_app_out, settings){
 
   moduleServer(
     id,
@@ -47,50 +47,56 @@ table_view_server <- function(id, tab_selected, data, tfrmt_app_out, mode){
 
 
       # register when the tfrmt/table should update:
-      #    - on initialization
+      #    - on initialization, if all valid
       #    - when refresh button is pressed
       #    - when selected tab changes & tbl is out of sync
-      #    - TODO: on initialization after data settings are updated
 
       retbl <- reactiveVal(0)
 
+      # on initialization, if all valid
+      observe({
+        req(settings()$original==TRUE)
+        req(tfrmt_app_out())
+        isolate(
+          retbl(retbl()+1)
+        )
+      })
+      # refreshed
+      observeEvent(input$refresh, {
+        retbl(retbl()+1)
+      })
+      # tab change
+      observeEvent(tab_selected(), {
+        if (tbl_invalid()){
+          retbl(retbl()+1)
+        }
+      }, ignoreInit = TRUE)
+
+      # no update if tfrmt is reset (starting from beginning) or incomplete
       observe({
         if (is.null(tfrmt_app_out())){
           retbl(0)
         }
       })
 
-      observeEvent(tfrmt_app_out(), {
-        retbl(retbl()+1)
-      }, once = TRUE)
-
-      observeEvent(input$refresh, {
-
-        retbl(retbl()+1)
-
-      })
-
-      observeEvent(tab_selected(), {
-
-        if (tbl_invalid()){
-          retbl(retbl()+1)
-        }
-      }, ignoreInit = TRUE)
 
 
-      # track state of tbl
+
+      # track state of tbl (for css of refresh button)
+      #  - when final tfrmt is changed, indicate refresh needed
+      #  - if a refresh is triggered (automatically or by button press), remove the indication
+
       tbl_invalid<- reactiveVal(FALSE)
 
-
+      # when the final tfrmt is changed, indicate refresh is needed
       observeEvent(tfrmt_app_out(),{
         shinyjs::addClass("refresh", class = "btn-danger")
-      }, ignoreInit = TRUE)
-
-      observeEvent(tfrmt_app_out(),{
         tbl_invalid(TRUE)
       })
 
-      observeEvent(retbl(),{
+      # when display update is triggered, remove the indication
+      observeEvent(req(retbl()>0),{
+        print("ok")
         shinyjs::removeClass("refresh", class = "btn-danger")
         tbl_invalid(FALSE)
       })
@@ -101,7 +107,7 @@ table_view_server <- function(id, tab_selected, data, tfrmt_app_out, mode){
 
         req(retbl()>0)
 
-        if (isolate(mode())=="reporting"){
+        if (isolate(settings()$mode)=="reporting"){
           isolate(tfrmt_app_out())%>% print_to_gt(.data = isolate(data()))
 
         } else {

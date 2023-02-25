@@ -31,12 +31,11 @@ datamapping_ui <- function(id){
 }
 
 #' @param id module ID
-#' @param data data for the table
-#' @param tfrmt_orig baseline tfrmt object
+#' @param settings - list of data, tfrmt, mode
 #'
 #'
 #' @noRd
-datamapping_server <- function(id, data, tfrmt_orig){
+datamapping_server <- function(id, data, tfrmt_orig, mode){
 
   moduleServer(
     id,
@@ -49,7 +48,7 @@ datamapping_server <- function(id, data, tfrmt_orig){
           data()
 
            nms <- c("group","label","param","value","column","sorting_cols")
-          tfrmt_orig()[nms] %>%
+           tfrmt_orig()[nms] %>%
             map(function(x){
               if (is.null(x)){
                 NULL
@@ -80,21 +79,21 @@ datamapping_server <- function(id, data, tfrmt_orig){
       settings_default_complete <- reactiveVal(NULL)
 
       # reset to defaults
-      reset <- reactiveVal(NULL)
+      reset <- reactiveVal(0)
       observeEvent(req(input$reset>0), {
-         reset(TRUE)
+         reset(reset()+1)
       })
       observeEvent(settings_default(),{
-        reset(TRUE)
+        reset(reset()+1)
       })
 
-      observeEvent(req(reset()==TRUE),{
+      observeEvent(req(reset()>0),{
 
-        settings_out(settings_default())
+       # settings_out(settings_default())
 
-        sel_grps(settings_out()$group)
-        sel_cols(settings_out()$column)
-        sel_sortcols(settings_out()$sorting_cols)
+        sel_grps(settings_default()$group)
+        sel_cols(settings_default()$column)
+        sel_sortcols(settings_default()$sorting_cols)
 
         num_grps(length(sel_grps()))
         num_cols(length(sel_cols()))
@@ -112,8 +111,6 @@ datamapping_server <- function(id, data, tfrmt_orig){
             settings_default_complete(FALSE)
           }
         }
-
-        reset(FALSE)
 
       })
 
@@ -263,21 +260,6 @@ datamapping_server <- function(id, data, tfrmt_orig){
       outputOptions(output, "sortcols", suspendWhenHidden = FALSE)
 
 
-      # indicate that settings are ready
-      #  to bypass hitting "save" on initial load if complete
-      collect_settings <- reactiveVal(0)
-      observeEvent(input$save,{
-        collect_settings(collect_settings()+1)
-      })
-      # observe({
-      #   req(tfrmt_orig())
-      #   req(settings_default())
-      #   req(settings_default_complete())
-      #   if(settings_default_complete()==TRUE){
-      #     collect_settings(isolate(collect_settings())+1)
-      #   }
-      # })
-
       # get status of settings to determine whether to highlight "save" button
       settings_complete <- reactiveVal(NULL)
       observeEvent(reactiveValuesToList(input), {
@@ -289,8 +271,8 @@ datamapping_server <- function(id, data, tfrmt_orig){
         expected_sortcols <- if (num_sortcols()>0) {paste0("sorting_cols-", 1:num_sortcols())} else {character(0)}
         expected_inputs <- c(expected_grps, expected_cols, expected_sortcols, "label", "param", "value")
 
-        # require them to be available
-        req(all(expected_inputs %in% inputs))
+        # # require them to be available
+         if(all(expected_inputs %in% inputs)){
 
         # status check
         input_vals <- map(expected_inputs, function(x) input[[x]]) %>% set_names(expected_inputs)
@@ -313,14 +295,33 @@ datamapping_server <- function(id, data, tfrmt_orig){
 
            map(expected_inputs, ~shinyjs::removeClass(paste0(.x, "_outer"), class = "invalid"))
          }
+         }
       })
 
       observe({
         shinyjs::toggleState("save", condition = settings_complete())
       })
 
-      # collect all settings
-      observeEvent(collect_settings(),{
+      # collect all settings when "save" pressed or if all complete on initialization
+      # - on initialization:
+      observe({
+              req(reset()>0)
+              req(settings_default_complete())
+
+              isolate({
+                data <- data() %||% tfrmt:::make_mock_data(tfrmt_orig())
+
+                settings_out(
+                  list(tfrmt = tfrmt_orig(),
+                       data = data,
+                       mode = mode(),
+                       original = TRUE)
+                )
+                }
+              )
+      })
+      # - if save button pressed:
+      observeEvent(input$save, {
 
           if (num_grps()>0){
             group_inputs <- paste0("group-", 1:num_grps())
@@ -355,9 +356,7 @@ datamapping_server <- function(id, data, tfrmt_orig){
 
         req(input$label, input$param, input$value)
 
-
-        settings_out(
-          list(
+       new_settings <- list(
             group = group_vars,
             label = input$label,
             param = input$param,
@@ -366,22 +365,16 @@ datamapping_server <- function(id, data, tfrmt_orig){
             sorting_cols = sc_vars
           ) %>%
             discard(is.null)
-        )
-      })
 
-      #layer onto original and return
-      tfrmt_orig_out <- eventReactive(settings_out(), {
-
-        settings_out <- settings_out() %>% discard(is.null)
-        if (!is_empty(settings_out)){
+        if (!is_empty(new_settings)){
           # tfrmt old and new (to be layered)
           tf <- isolate(tfrmt_orig())
 
-          tfrmt_new <- do.call(tfrmt, settings_out)
+          tfrmt_new <- do.call(tfrmt, new_settings)
 
           # update groups if needed
           old_grps <- tf$group %>% map_chr(as_label)
-          new_grps <- settings_out$group[1:length(old_grps)]
+          new_grps <- new_settings$group[1:length(old_grps)]
 
           grps_to_update <- which(!old_grps==new_grps)
 
@@ -396,15 +389,25 @@ datamapping_server <- function(id, data, tfrmt_orig){
             tf <- eval(parse(text = tf_txt))
           }
 
+          tfrmt_out <- layer_tfrmt(tf, tfrmt_new)
+          data <- data() %||% tfrmt:::make_mock_data(tfrmt_out)
+
           # layer for return
-          layer_tfrmt(tf, tfrmt_new)
+          settings_out(
+            list(
+              tfrmt = tfrmt_out,
+            data = data,
+            mode = mode(),
+            original= FALSE
+            )
+          )
         } else {
-          NULL
+          settings_out(NULL)
         }
 
-      }, ignoreNULL = FALSE)
+      })
 
-     return(tfrmt_orig_out)
+     return(settings_out)
 
     }
   )

@@ -16,7 +16,7 @@ tfrmtbuilder_ui <- function(id){
         tabPanel("Edit",
                  fluidPage(
                    fluidRow(
-                     column(7,
+                     column(5,
                             navlistPanel(
                               id = ns("tabs"),
                               tabPanel("Overview",
@@ -40,7 +40,7 @@ tfrmtbuilder_ui <- function(id){
                               well = FALSE
                             )
                      )  ,
-                     column(5,
+                     column(7,
                             div(id = ns("sidebar"),
                                 table_view_ui(ns("tbl_view"))
                             )

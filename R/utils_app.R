@@ -121,7 +121,7 @@ create_struct_list_sortable <- function(ns, struct_list_txt, mode){
 
 
 # create sortable row of column values
-create_col_plan_sortable <- function(ns, col_num, col_name, col_levs, col_confirmed, distribute){
+create_col_plan_sortable <- function(ns, col_num, col_name, col_levs, col_confirmed, distribute, width){
 
   # UI elements for the "dropped" levels
   if (distribute=="Keep all"){
@@ -190,7 +190,7 @@ create_col_plan_sortable <- function(ns, col_num, col_name, col_levs, col_confir
       column(2,
              levs_drop),
       column(7,
-             div(style = "width:800px; display: flex; flex-direction: row; flex-wrap: wrap;", levs_keep))
+             div(style = paste0("width:", width, "; display: flex; flex-direction: row; flex-wrap: wrap;"), levs_keep))
       )
     )
 

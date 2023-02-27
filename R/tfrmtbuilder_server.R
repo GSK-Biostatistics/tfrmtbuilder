@@ -92,17 +92,17 @@ tfrmtbuilder_server <- function(id) {
                     mode = settings_orig$mode)
 
       # view data
-      # output$data_view <- renderDT({
-      #
-      #   datatable(data_out(),
-      #             rownames = FALSE,
-      #             fillContainer = TRUE,
-      #             options = list(paging = FALSE,
-      #                            scrollY = "500px",
-      #                            dom = "t")
-      #   )
-      #
-      # })
+      output$data_view <- renderDT({
+
+        datatable(data_out(),
+                  rownames = FALSE,
+                  fillContainer = TRUE,
+                  options = list(paging = FALSE,
+                                 scrollY = "500px",
+                                 dom = "t")
+        )
+
+      })
 
     }
   )

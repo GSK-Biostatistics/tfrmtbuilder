@@ -19,17 +19,7 @@ tfrmtbuilder_ui <- function(id){
                      column(5,
                             navlistPanel(
                               id = ns("tabs"),
-                              tabPanel("Overview",
-                                       fluidPage(
-                                         fluidRow(
-                                        #   column(5,
-                                                  datamapping_ui(ns("overview")) #),
-                                        #   column(7,
-                                        #          h3("Data") ,
-                                        # DTOutput(ns("data_view"))
-                                        #           )
-                                          )
-                                       )),
+                              tabPanel("Data Mapping", datamapping_ui(ns("overview"))),
                               tabPanel("Body Plan", body_plan_ui(ns("body_plan"))),
                               tabPanel("Row Group Plan", row_grp_plan_ui(ns("row_grp_plan"))),
                               tabPanel("Column Plan", col_plan_ui(ns("col_plan"))),
@@ -42,7 +32,12 @@ tfrmtbuilder_ui <- function(id){
                      )  ,
                      column(7,
                             div(id = ns("sidebar"),
-                                table_view_ui(ns("tbl_view"))
+                                tabsetPanel(
+                                  tabPanel("Table",
+                                           br(),
+                                        table_view_ui(ns("tbl_view"))),
+                                  tabPanel("Data", DTOutput(ns("data_view")))
+                                  )
                             )
                      )
                    )

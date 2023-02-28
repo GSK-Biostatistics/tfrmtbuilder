@@ -5,13 +5,15 @@ table_view_ui <- function(id){
   ns <- NS(id)
 
   tagList(
-    h3("Table", actionButton(ns("refresh"), "Refresh", icon = icon("sync"))),
+    h3("Table", class = "heading_style",
+       actionButton(ns("refresh"), "Refresh", icon = icon("sync"))),
     shinyjs::hidden(
       div(
       id = ns("tbl_div"),
       shinycssloaders::withSpinner(
-        gt_output(ns("tbl_view")),
-       type = 4
+        color = getOption("spinner.color", default = "#254988"),
+        type = 4,
+        gt_output(ns("tbl_view"))
         )
       )
     )
@@ -115,7 +117,7 @@ table_view_server <- function(id, tab_selected, data, tfrmt_app_out, settings){
           isolate(tfrmt_app_out())%>% print_mock_gt(.data = isolate(data()))
         }
 
-      })
+      }, align = "left")
     }
   )
 }

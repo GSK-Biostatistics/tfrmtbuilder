@@ -13,7 +13,7 @@ tfrmtbuilder_ui <- function(id){
         windowTitle = "tfrmt Builder",
         title = div("tfrmt Builder", class = "navheader_padding"),
         theme = bs_theme(bootswatch = "flatly",
-                         base_font = font_google("Lato"),
+                         base_font = c("sans-serif"), #font_google("Lato"),
                          primary = "#254988",
                          bg = "#ffffff",
                          fg = "#E64500"

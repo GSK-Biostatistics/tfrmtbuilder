@@ -11,7 +11,6 @@ tfrmtbuilder_ui <- function(id){
       useShinyjs(),
       navbarPage(
         "tfrmt Builder",
-        # selected = "Edit",
         tabPanel("Load", load_ui(ns("load"))),
         tabPanel("Edit",
                  fluidPage(

@@ -57,6 +57,7 @@ table_view_server <- function(id, tab_selected, data, tfrmt_app_out, settings){
       observe({
         req(settings()$original==TRUE)
         req(tfrmt_app_out())
+      #  req(settings()$tfrmt)
         isolate(
           retbl(retbl()+1)
         )
@@ -79,9 +80,6 @@ table_view_server <- function(id, tab_selected, data, tfrmt_app_out, settings){
         }
       })
 
-
-
-
       # track state of tbl (for css of refresh button)
       #  - when final tfrmt is changed, indicate refresh needed
       #  - if a refresh is triggered (automatically or by button press), remove the indication
@@ -100,18 +98,23 @@ table_view_server <- function(id, tab_selected, data, tfrmt_app_out, settings){
         tbl_invalid(FALSE)
       })
 
-
-      # view table
+       # view table
       output$tbl_view <- render_gt({
 
         req(retbl()>0)
 
-        if (isolate(settings()$mode)=="reporting"){
-          isolate(tfrmt_app_out())%>% print_to_gt(.data = isolate(data()))
+        tfrmt_app_out <- isolate(tfrmt_app_out())
+        mode <- isolate(settings()$mode)
+        data <- isolate(data())
+
+        if (mode=="reporting"){
+          tfrmt_app_out %>% print_to_gt(.data = data)
+
+        } else if (mode=="mock_no_data"){
+          tfrmt_app_out %>% print_mock_gt()
 
         } else {
-
-          isolate(tfrmt_app_out())%>% print_mock_gt(.data = isolate(data()))
+          tfrmt_app_out %>% print_mock_gt(.data = data)
         }
 
       })

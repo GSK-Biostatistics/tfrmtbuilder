@@ -1,14 +1,14 @@
-   .default-sortable.rank-list-container {
-              border: 0px !important;
-          }
+.default-sortable.rank-list-container {
+  border: 0px !important;
+}
 
-          .default-sortable .rank-list-item {
-              padding: 0px 0px !important;
-            }
+.default-sortable .rank-list-item {
+  padding: 0px 0px !important;
+}
 
-       .rank-list-select{
-         background-color: #ddeaf6 !important;
-       }
+.rank-list-select{
+  background-color: #ddeaf6 !important;
+}
 
 .invalid .selectize-input {
   border: 2px solid red;
@@ -17,37 +17,136 @@
   border: 2px solid red;
 }
 
+.itemlist-start {
+  flex: 1 0 200px;
+  background-color: transparent;
+  border: 1px solid #ddd;
+  padding: 0px 5px;
+  display: flex;
+}
 
-       .itemlist-start {
-    flex: 1 0 200px;
-    background-color: transparent;
-    border: 1px solid #ddd;
-    padding: 0px 5px;
-    display: flex;
-    }
+.itemlist-end {
+  background-color: transparent;
+  border: 1px solid #ddd;
+  padding: 0px 5px;
+  display: inline-block;
+}
 
-    .itemlist-end {
-    background-color: transparent;
-    border: 1px solid #ddd;
-    padding: 0px 5px;
-display: inline-block;
+.itemlist {
+  flex: 1 0 auto;
+  -webkit-border-radius: 3px;
+  border-radius: 5px;
+  background-color: white;
+  margin: 5px;
+  min-height: 30px;
+}
 
-    }
+.itemlist-item {
+  border-radius: 3px;
+  display: flex;
+  padding: 0px;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  overflow: hidden;
+}
 
-    .itemlist {
-    flex: 1 0 auto;
-    -webkit-border-radius: 3px;
-    border-radius: 5px;
-    background-color: white;
-   margin: 5px;
-min-height: 30px;
-    }
+/* for navlinks in side_panel (wrapped around navlistPanel) */
+.side_panel .nav-pills a {
+  color: #254988;
+}
 
-   .itemlist-item {
-    border-radius: 3px;
-    display: flex;
-    padding: 0px;
-    background-color: #f8f8f8;
-    border: 1px solid #ddd;
-    overflow: hidden;
+.side_panel .nav-pills a:hover {
+  color: #ffffff;
+  background: #83A3DD;
+}
+
+.side_panel .nav-pills .nav-link.active {
+  color: #ffffff;
+  background: #254988;
+}
+
+/* for title and navlinks in navheader */
+.navbar.navbar-default {
+  background-color: #254988 !important;
+}
+
+.navbar-default .navbar-nav > li > a {
+  color: #ffffff !important;
+}
+
+.navbar-default .navbar-nav > li > a:hover {
+  color: #FF4D00 !important;
+}
+
+.navbar-default .navbar-nav > li > a.active {
+  text-decoration: underline #FF4D00;
+}
+
+.navbar {
+  font-size: 1.3rem !important;
+  font-weight: bold !important;
+}
+
+.navbar-brand {
+  font-size: 1.4rem !important;
+  font-weight: bold !important;
+  text-shadow: 1px 1px #FF4D00;
+}
+
+.navheader_padding {
+  margin-top: 30px !important;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.navbar .container-fluid {
+  height: 30px;
+}
+
+/* for required/optional note in side_panel navlinks */
+.zero_margin {
+  margin: 0px !important;
+}
+
+#tab_note {
+  color: #FF4D00;
+  margin: 0px;
+  font-style: italic;
+  font-size: 14px;
+}
+
+.side_panel .nav-pills a:hover #tab_note {
+  color: #254988;
+}
+
+.side_panel .nav-pills .nav-link.active #tab_note {
+  color: #ffffff;
+}
+
+/* for scrollbar */
+::-webkit-scrollbar {
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #FFDFD1;
+}
+
+::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #F08F66;
+}
+
+/* heading style */
+.heading_style {
+  font-weight: bold !important;
+}
+
+/* for text input labels under settings */
+label {
+  margin-bottom: 0.5rem !important;
 }

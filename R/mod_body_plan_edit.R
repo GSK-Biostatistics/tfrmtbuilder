@@ -40,7 +40,8 @@ body_plan_edit_server <- function(id, data, tfrmt_app, selected){
       # TODO - no allow_create for the uploaded data
       collected_filters <- filters_server("filters", data, tfrmt_app, selected,
                                           include = c("group", "label"),
-                                          allow_create = reactive(TRUE))
+                                          allow_create = reactive(TRUE),
+                                          null_to_default = TRUE)
 
       # output of the frmts editor
       frmt_out <- body_plan_edit_frmts_server("formats", selected = selected)

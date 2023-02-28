@@ -8,7 +8,9 @@ remove_shiny_inputs <- function(id, .input) {
 }
 
 # data-driven selectInputs: for selecting values of the tfrmt parameters (group, value, etc)
-create_filter_select <- function(ns, type, data, existing_filters, var_vec, allow_create = TRUE){
+create_filter_select <- function(ns, type, data, existing_filters, var_vec,
+                                 allow_create = TRUE,
+                                 null_to_default = TRUE){
 
   existing_vars <- existing_filters %>%
     keep_at(type) %>%
@@ -31,16 +33,31 @@ create_filter_select <- function(ns, type, data, existing_filters, var_vec, allo
     if (length(filter_keep)>0){
       selected_vals <- filter_keep %>% unlist() %>% unname()
     } else {
-      selected_vals <- character(0)
+        selected_vals <- character(0)
     }
 
-    choices <- if (is.null(data)) NULL else data %>% pull(all_of(v)) %>% unique()
+    if (is.null(data)){
+      if (length(selected_vals)>0){
+        choices <- selected_vals
+      } else {
+        choices <- NULL
+      }
+    } else {
+      choices <- data %>% pull(all_of(v)) %>% unique()
+    }
+
+    if (null_to_default){
+      placeholder <- ".default"
+    } else {
+      placeholder <- "None"
+    }
+
     selectizeInput(inputId = ns(paste0("values-", v)),
                    label = HTML(paste0(type, ": <span style=\"font-weight: 400;\">", v, "</span>")),
                    choices = choices,
                    selected = selected_vals,
                    multiple = TRUE,
-                   options = list( placeholder = "None", create = allow_create))
+                   options = list( placeholder = placeholder, create = allow_create))
 
   })
 }

@@ -198,12 +198,11 @@ dummy_frmt_combine <- function(){
 }
 
 # convert string to frmt obj (for going from text -> R obj)
-string_to_tfrmtobj <- function(obj, class){
+string_to_tfrmtobj <- function(obj){
 
   tryCatch({
     obj_eval <- eval(parse(text = obj))
-    is_expected_class <- match.fun(paste0("is_", class))
-    if (is_expected_class(obj_eval)) obj_eval else NULL
+    if (is_frmt(obj_eval)) obj_eval else NULL
   },
   error = function(e){
     NULL

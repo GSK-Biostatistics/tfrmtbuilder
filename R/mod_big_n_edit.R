@@ -14,7 +14,10 @@ big_n_edit_ui <- function(id){
       ),
       column(6,
              h3("Format"),
-             textAreaInput(ns("frmt"), label = "", value = "frmt(\"\\nN = xx\")"))
+             div(id = ns("frmt_outer"),
+                 textAreaInput(ns("frmt"), label = "", value = "frmt(\"\\nN = xx\")")),
+             p(id = ns("invalid_txt"), style = "color: red;", "Invalid format entry")
+      )
 
     )
   )
@@ -57,14 +60,24 @@ big_n_edit_server <- function(id, data, tfrmt_app, selected, mode_load){
                             value = existing_frmt)
       })
 
+      # text entered - evaluate and check
+      frmt_out <- reactive({
+        string_to_tfrmtobj(input$frmt)
+      }) %>%
+        debounce(500)
+
+      # validation indicators
+      observe({
+        shinyjs::toggleCssClass("frmt_outer", class = "invalid", condition = is.null(frmt_out()))
+        shinyjs::toggle("invalid_txt", condition = is.null(frmt_out()))
+      })
 
       # data filters module
       collected_filters <- filters_server("filters",
                                           data = reactive({if(mode_load()=="mock_no_data") NULL else data()}),
-                                        #  data,
                                           tfrmt_app, selected,
                                           include = c("param"),
-                                          null_to_default = TRUE,
+                                          null_to_default = FALSE,
                                           allow_create = reactive({if(mode_load()=="mock_no_data") TRUE else FALSE}))
 
 
@@ -73,12 +86,12 @@ big_n_edit_server <- function(id, data, tfrmt_app, selected, mode_load){
       reactive({
 
           req(length(collected_filters())>0)
-          req(input$frmt)
+          req(frmt_out())
 
           param_val <- collected_filters()$param_val
 
         do.call("big_n_structure", list(param_val = param_val,
-                                        n_frmt =  string_to_tfrmtobj(input$frmt, class = "frmt")))
+                                        n_frmt =  frmt_out()))
 
       })
 

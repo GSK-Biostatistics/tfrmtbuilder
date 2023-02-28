@@ -8,11 +8,11 @@ table_view_ui <- function(id){
     actionButton(ns("refresh"), "Refresh", icon = icon("sync")),
     shinyjs::hidden(
       div(
-      id = ns("tbl_div"),
-      shinycssloaders::withSpinner(
-        color = getOption("spinner.color", default = "#254988"),
-        type = 4,
-        gt_output(ns("tbl_view"))
+        id = ns("tbl_div"),
+        shinycssloaders::withSpinner(
+          color = getOption("spinner.color", default = "#254988"),
+          type = 4,
+          htmlOutput(ns("tbl_view"))
         )
       )
     )
@@ -58,7 +58,7 @@ table_view_server <- function(id, tab_selected, data, tfrmt_app_out, settings){
       observe({
         req(settings()$original==TRUE)
         req(tfrmt_app_out())
-      #  req(settings()$tfrmt)
+        #  req(settings()$tfrmt)
         isolate(
           retbl(retbl()+1)
         )
@@ -99,8 +99,8 @@ table_view_server <- function(id, tab_selected, data, tfrmt_app_out, settings){
         tbl_invalid(FALSE)
       })
 
-       # view table
-      output$tbl_view <- render_gt({
+      # view table
+      output$tbl_view <- renderUI({
 
         req(retbl()>0)
 
@@ -109,16 +109,26 @@ table_view_server <- function(id, tab_selected, data, tfrmt_app_out, settings){
         data <- isolate(data())
 
         if (mode=="reporting"){
-          tfrmt_app_out %>% print_to_gt(.data = data)
+          tab <- tfrmt_app_out %>% print_to_gt(.data = data)
 
         } else if (mode=="mock_no_data"){
-          tfrmt_app_out %>% print_mock_gt()
+          tab <- tfrmt_app_out %>% print_mock_gt()
 
         } else {
-          tfrmt_app_out %>% print_mock_gt(.data = data)
+          tab <- tfrmt_app_out %>% print_mock_gt(.data = data)
         }
 
-      }, align = "left")
+        div(style = "height:100%; overflow-x: auto; overflow-y: auto; width: 100%",
+            as_raw_html(
+              tab %>%
+                tab_style(style = gt::cell_text(whitespace = "pre"),
+                          locations = list(cells_stub(), cells_body(), cells_row_groups()))  %>%
+                tab_options(
+                  table.align = "left"
+                )
+            ))
+
+      })
     }
   )
 }

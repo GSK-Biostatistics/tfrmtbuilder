@@ -7,49 +7,39 @@ tfrmtbuilder_server <- function(id) {
     function(input, output, session) {
 
       # ui for loading
-      loaded_list <- load_server("load")
+      settings_orig <- load_server("load")
 
       # collapse tfrmt view for column plan
       observe({
         shinyjs::toggle("sidebar", condition = !input$tabs == "Column Plan")
       })
 
+      # tfrmt data mapping - returns an updated tfrmt/data to be fed into the other modules
+      settings <- datamapping_server("overview", settings_orig$data, settings_orig$tfrmt, settings_orig$mode)
 
-      # tfrmt data mapping - returns an updated tfrmt to be fed into the other modules
-      tfrmt_app <- datamapping_server("overview", loaded_list$data, loaded_list$tfrmt)
-
-      # data to be passed through app - either the loaded data or baseline generated mock data
-      data <- eventReactive(tfrmt_app(),{
-        if (loaded_list$mode()=="mock_no_data"){
-          tfrmt:::make_mock_data(tfrmt_app())
-        } else {
-          loaded_list$data()
-        }
-      })
 
       # body plan creation
-      bp_out <- body_plan_server("body_plan", data, tfrmt_app, loaded_list$mode)
+      bp_out <- body_plan_server("body_plan", reactive(settings()$data), reactive(settings()$tfrmt), settings_orig$mode)
       # row group plan creation
-      rg_out <- row_grp_plan_server("row_grp_plan", data, tfrmt_app, loaded_list$mode)
+      rg_out <- row_grp_plan_server("row_grp_plan", reactive(settings()$data), reactive(settings()$tfrmt), settings_orig$mode)
       # footnote plan creation
-      fn_out <- footnote_plan_server("footnote_plan", data, tfrmt_app)
+      fn_out <- footnote_plan_server("footnote_plan", reactive(settings()$data), reactive(settings()$tfrmt))
       # col style plan creation
-      cs_out <- col_style_plan_server("col_style_plan", data, tfrmt_app)
+      cs_out <- col_style_plan_server("col_style_plan", reactive(settings()$data), reactive(settings()$tfrmt))
       # col plan creation
-      cp_out <- col_plan_server("col_plan", data, tfrmt_app, loaded_list$mode)
+      cp_out <- col_plan_server("col_plan",  reactive(settings()$data), reactive(settings()$tfrmt), settings_orig$mode)
       # big N creation
-      bn_out <- big_n_server("big_n", data, tfrmt_app, loaded_list$mode)
+      bn_out <- big_n_server("big_n", reactive(settings()$data), reactive(settings()$tfrmt), settings_orig$mode)
 
       # final tfrmt to combine results of all modules
-      # TODO - store as reactiveValues so it can be fed back into the plans??
       tfrmt_app_out <- reactiveVal(NULL)
 
-      observeEvent(loaded_list$data(), # when data changes, reset
+      observeEvent(settings_orig$data(), # when data changes, reset
                    tfrmt_app_out(NULL))
 
       # generate the updated tfrmt
       observe({
-        req(tfrmt_app())
+        req(settings())
         req(bp_out())
         req(rg_out())
         req(fn_out())
@@ -57,7 +47,7 @@ tfrmtbuilder_server <- function(id) {
         req(cp_out())
         req(bn_out())
 
-        tfrmt_app <-  tfrmt_app()
+        tfrmt_app <-  settings()$tfrmt
         tfrmt_app$body_plan <- bp_out()
         tfrmt_app$row_grp_plan <- rg_out()
         tfrmt_app$col_style_plan <- cs_out()
@@ -78,9 +68,9 @@ tfrmtbuilder_server <- function(id) {
 
       # data to display
       data_out <- reactive({
-        if (!loaded_list$mode()=="mock_no_data"){
+        if (!settings()$mode=="mock_no_data"){
           # original data loaded in
-          loaded_list$data()
+          settings()$data
         } else {
           req(tfrmt_app_out())
           # regenerate mock data from new tfrmt
@@ -91,28 +81,28 @@ tfrmtbuilder_server <- function(id) {
       # table viewer module
       table_view_server("tbl_view",
                         tab_selected = reactive(input$tabs),
-                        data = loaded_list$data,
+                        data = reactive(settings()$data) ,
                         tfrmt_app_out = tfrmt_app_out,
-                        mode = loaded_list$mode)
+                        settings = settings)
 
       # export module
       export_server("export",
-                    data = loaded_list$data,
+                    data =  reactive(settings()$data) ,
                     tfrmt_app_out = tfrmt_app_out,
-                    mode = loaded_list$mode)
+                    mode = settings_orig$mode)
 
       # view data
-      output$data_view <- renderDT({
-
-        datatable(data_out(),
-                  rownames = FALSE,
-                  fillContainer = TRUE,
-                  options = list(paging = FALSE,
-                                 scrollY = "500px",
-                                 dom = "t")
-        )
-
-      })
+      # output$data_view <- renderDT({
+      #
+      #   datatable(data_out(),
+      #             rownames = FALSE,
+      #             fillContainer = TRUE,
+      #             options = list(paging = FALSE,
+      #                            scrollY = "500px",
+      #                            dom = "t")
+      #   )
+      #
+      # })
 
     }
   )

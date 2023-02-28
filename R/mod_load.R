@@ -3,15 +3,15 @@
 # returns list of reactives: data and tfrmt
 
 load_ui <- function(id){
-  
+
   ns <- NS(id)
-  
+
   tagList(
     fluidRow(
       column(4,
              wellPanel(
                div(style = "height: 650px",
-                   h3("tfrmt"),
+                   h3("tfrmt", class = "heading_style"),
                    fluidRow(
                      column(4, radioGroupButtons(ns("tfrmt_source"), label = "Source", choices = c("none", "custom"))),
                      column(6, conditionalPanel( "input.tfrmt_source=='custom'",
@@ -20,17 +20,21 @@ load_ui <- function(id){
                      )
                    ),
                    fluidRow(
-                     div(style = "height: 500px; overflow-y:scroll; ",
-                         verbatimTextOutput(ns("json"))
+                     div(style = "height: 500px; overflow-y:auto; ",
+                         shinycssloaders::withSpinner(
+                           color = getOption("spinner.color", default = "#254988"),
+                           type = 4,
+                           verbatimTextOutput(ns("json"))
+                         )
                      )
                    )
                )
              )
-      ), 
-      column(8,  
+      ),
+      column(8,
              wellPanel(
                div(style = "height: 650px",
-                   h3("Data"),
+                   h3("Data", class = "heading_style"),
                    fluidRow(
                      column(2, radioGroupButtons(ns("mode"), "Select mode", choices = c("mock", "reporting"), selected = "mock")),
                      column(3, conditionalPanel("input.mode=='mock'",
@@ -44,8 +48,12 @@ load_ui <- function(id){
                                              ns = ns))
                    ),
                    fluidRow(
-                     div(style="height: 550px;",
-                         DTOutput(ns("data_view"), height = "500px")
+                     div(style = "height: 550px;",
+                         shinycssloaders::withSpinner(
+                           color = getOption("spinner.color", default = "#254988"),
+                           type = 4,
+                           DTOutput(ns("data_view"), height = "500px")
+                         )
                      )
                    )
                )
@@ -66,7 +74,7 @@ load_server <- function(id){
         loaded_data <- eventReactive(input$data_load,{
           rio::import(input$data_load$datapath)
         })
-        
+
         # uploaded tfrmt (if applicable)
         loaded_tfrmt <- eventReactive(input$tfrmt_load,{
           tfrmt:::json_to_tfrmt(path = input$tfrmt_load$datapath)
@@ -76,18 +84,18 @@ load_server <- function(id){
         example_data <- eventReactive(input$example_data,{
 
           str_to_eval <- paste0("tfrmt::data_", input$example_data)
-          
+
           if (input$example_data=="labs") {
             str_to_eval <- paste0(str_to_eval, " %>% filter(group2 %in% unique(group2)[1:3])")
           }
           eval(parse(text = str_to_eval))
-          
+
         })
-        
-        
+
+
         # tfrmt to be used in the app
         tfrmt_out <- reactive({
-          
+
           if (input$tfrmt_source=="none"){
             prep_tfrmt_app(tfrmt())
           } else {
@@ -96,7 +104,7 @@ load_server <- function(id){
           }
 
         })
-        
+
         # keep track of mode for downstream functionality
         mode <- reactive({
           if (input$mode == "mock"){
@@ -104,15 +112,15 @@ load_server <- function(id){
               "mock_no_data"
             } else {
               "mock_with_data"
-            } 
+            }
           } else if (input$mode == "reporting"){
             "reporting"
-          } 
-        }) 
-        
+          }
+        })
+
         # data to be used in the app
         data_out <- reactive({
-          
+
           if (input$mode=="mock" && input$data_source=="none"){
             NULL
           } else if (input$mode=="mock" && input$data_source=="example"){
@@ -121,10 +129,10 @@ load_server <- function(id){
             loaded_data()
           }
         })
-        
+
         # data preview
         output$data_view <- renderDT({
-          
+
           if (is.null(data_out())){
             data_tbl <- tfrmt:::make_mock_data(tfrmt_out())
           } else {
@@ -137,22 +145,22 @@ load_server <- function(id){
                                    scrollY = "500px",
                                    dom = "t")
           )
-          
+
         })
-        
+
         # tfrmt preview (as json)
         output$json <- renderText({
           tfrmt_to_json(tfrmt_out())
         })
-        
+
         return(
           list(
           data = data_out,
           tfrmt = tfrmt_out,
           mode = mode
         )
-        ) 
-        
+        )
+
       }
     )
 }

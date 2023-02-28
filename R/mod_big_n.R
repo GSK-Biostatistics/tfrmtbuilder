@@ -8,7 +8,8 @@ big_n_ui <- function(id){
 
   tagList(
     fluidRow(
-      h3("Big Ns", actionButton(ns("reset"), "Reset", icon = icon("undo"))),
+      h3("Big Ns", class = "heading_style",
+         actionButton(ns("reset"), "Reset", icon = icon("undo"))),
       shinyjs::hidden(
         p(id = ns("none"),
           "None supplied.")

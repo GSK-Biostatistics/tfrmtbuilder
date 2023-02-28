@@ -156,3 +156,11 @@ label {
   --bs-nav-link-color: #F08F66;
   --bs-nav-link-hover-color: #FF4D00;
 }
+
+/* for tab content */
+#content_border {
+ border-radius: 10px;
+ border: 2px solid #83A3DD;
+ background: #F2F6FC;
+ padding: 15px;
+}

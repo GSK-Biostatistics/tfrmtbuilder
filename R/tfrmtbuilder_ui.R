@@ -58,10 +58,11 @@ tfrmtbuilder_ui <- function(id){
                      column(7,
                             div(id = ns("sidebar"),
                                 tabsetPanel(
-                                  tabPanel("Table",
+                                  tabPanel(title = "Table",
                                            br(),
-                                        table_view_ui(ns("tbl_view"))),
-                                  tabPanel("Data", DTOutput(ns("data_view")))
+                                           table_view_ui(ns("tbl_view"))),
+                                  tabPanel(title = "Data",
+                                           DTOutput(ns("data_view")))
                                   )
                      )
                    )

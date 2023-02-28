@@ -150,3 +150,9 @@
 label {
   margin-bottom: 0.5rem !important;
 }
+
+/* tab panel title */
+.nav {
+  --bs-nav-link-color: #F08F66;
+  --bs-nav-link-hover-color: #FF4D00;
+}

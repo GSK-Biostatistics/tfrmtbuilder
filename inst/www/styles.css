@@ -176,3 +176,48 @@ div.tab_names {
   font-size: 20px !important;
 }
 
+/* for table refresh button */
+.btn-danger {
+  border: 1px transparent;
+  color: #eeeeee;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  -webkit-animation: glowing 1300ms infinite;
+  -moz-animation: glowing 1300ms infinite;
+  -o-animation: glowing 1300ms infinite;
+  animation: glowing 1300ms infinite;
+
+}
+
+@-webkit-keyframes glowing {
+  0% {
+    background-color: #0091b2;
+    -webkit-box-shadow: 0 0 3px #0091b2;
+  }
+  50% {
+    background-color: #21c7ed;
+    -webkit-box-shadow: 0 0 15px #21c7ed;
+  }
+  100% {
+    background-color: #0091b2;
+    -webkit-box-shadow: 0 0 3px #0091b2;
+  }
+}
+
+@keyframes glowing {
+  0% {
+    background-color: #0091b2;
+    box-shadow: 0 0 3px #0091b2;
+  }
+  50% {
+    background-color: #21c7ed;
+    box-shadow: 0 0 15px #21c7ed;
+  }
+  100% {
+    background-color: #0091b2;
+    box-shadow: 0 0 3px #0091b2;
+  }
+}
+

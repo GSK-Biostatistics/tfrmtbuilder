@@ -113,6 +113,7 @@
   margin: 0px;
   font-style: italic;
   font-size: 14px;
+  font-weight:; normal !important;
 }
 
 .side_panel .nav-pills a:hover #tab_note {
@@ -166,12 +167,8 @@ label {
 }
 
 /* for tab names */
-a.nav-link.active {
-  font-weight: bold !important;
-  font-size: 20px !important;
-}
 
-div.tab_names {
+a.nav-link > div.tab_names {
   font-weight: bold !important;
   font-size: 20px !important;
 }

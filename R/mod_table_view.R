@@ -54,11 +54,25 @@ table_view_server <- function(id, tab_selected, data, tfrmt_app_out, settings){
 
       retbl <- reactiveVal(0)
 
+      # settings_counter for # of times the tfrmt settings are captured
+      # aim is to trigger an auto-refresh when settings_count =1 and original settings are valid
+      settings_count <- reactiveVal(NULL)
+      observeEvent(settings(),{
+        if (settings()$original==TRUE){
+          settings_count(0)
+        } else {
+          settings_count(1)
+        }
+      })
+      observeEvent(tfrmt_app_out(), {
+        settings_count(settings_count() + 1)
+      })
       # on initialization, if all valid
       observe({
         req(settings()$original==TRUE)
         req(tfrmt_app_out())
-        #  req(settings()$tfrmt)
+        req(settings_count()==1)
+
         isolate(
           retbl(retbl()+1)
         )
@@ -121,7 +135,7 @@ table_view_server <- function(id, tab_selected, data, tfrmt_app_out, settings){
         div(style = "height:100%; overflow-x: auto; overflow-y: auto; width: 100%",
             as_raw_html(
               tab %>%
-                tab_style(style = gt::cell_text(whitespace = "pre"),
+                tab_style(style = cell_text(whitespace = "pre"),
                           locations = list(cells_stub(), cells_body(), cells_row_groups()))  %>%
                 tab_options(
                   table.align = "left"

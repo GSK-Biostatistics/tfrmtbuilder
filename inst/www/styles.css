@@ -164,3 +164,15 @@ label {
  background: #F2F6FC;
  padding: 15px;
 }
+
+/* for tab names */
+a.nav-link.active {
+  font-weight: bold !important;
+  font-size: 20px !important;
+}
+
+div.tab_names {
+  font-weight: bold !important;
+  font-size: 20px !important;
+}
+

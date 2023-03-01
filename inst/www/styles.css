@@ -177,3 +177,13 @@ a.nav-link > div.tab_names {
   background-color: #254988;
   box-shadow: 0 0 15px #FF4D00;
 }
+
+/* for wellPanel */
+div.well {
+  background: #F7F7F7;
+}
+
+/* for code output */
+pre.shiny-text-output {
+  background: #FFFFFF;
+}

@@ -199,3 +199,49 @@ body {
   border: 1px solid #F8C7B2;
 }
 
+/* all (default) buttons */
+.btn-default {
+  color: #FFFFFFf;
+  background: #E85819 !important;
+  border-color: #E85819
+ !important;
+}
+.btn-default:hover {
+  color: #FFFFFF;
+  background-color: #D14F15 !important;
+  border-color: #D14F15 !important;
+}
+.btn-default:disabled {
+  color: #FFFFFF;
+  background-color: #E85819 !important;
+  border-color: #E85819 !important;
+}
+.btn-default.focus {
+  box-shadow: inset 0 3px 5px rgba(230,69,0,0.125);
+}
+
+/* save buttons */
+button#tb-col_plan-save.btn.btn-default.action-button.shiny-bound-input,
+button#tb-overview-save.btn.btn-default.action-button.shiny-bound-input {
+  color: #FFFFFF;
+  background: #254988 !important;
+  border-color: #254988
+ !important;
+}
+button#tb-col_plan-save.btn.btn-default.action-button.shiny-bound-input:hover,
+button#tb-overview-save.btn.btn-default.action-button.shiny-bound-input:hover {
+  color: #FFFFFF;
+  background-color: #1D3A6D !important;
+  border-color: #1D3A6D !important;
+}
+button#tb-col_plan-save.btn.btn-default.action-button.shiny-bound-input:disabled,
+button#tb-overview-save.btn.btn-default.action-button.shiny-bound-input:disabled {
+  color: #FFFFFF;
+  background-color: #254988 !important;
+  border-color: #254988 !important;
+}
+button#tb-col_plan-save.btn.btn-default.action-button.shiny-bound-input.focus,
+button#tb-overview-save.btn.btn-default.action-button.shiny-bound-input.focus {
+  box-shadow: inset 0 3px 5px rgba(230,69,0,0.125);
+}
+

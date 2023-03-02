@@ -162,7 +162,7 @@ label {
 /* for tab content */
 #content_border {
  border-radius: 10px;
- border: 1px solid #83A3DD;
+ border: 1px solid #F8C7B2; /*#83A3DD;*/
  background: #F2F6FC;
  padding: 15px;
 }
@@ -190,3 +190,14 @@ pre.shiny-text-output {
   background: #FFFFFF;
 }
 
+.btn-refresh {
+  color: #FFFFFFf;
+  background: #E85819 !important;
+  border-color: #E85819
+ !important;
+}
+.btn-refresh:hover {
+  color: #FFFFFF;
+  background-color: #D14F15 !important;
+  border-color: #D14F15 !important;
+}

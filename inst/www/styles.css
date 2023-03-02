@@ -56,8 +56,8 @@
 }
 
 .side_panel .nav-pills a:hover {
-  color: #ffffff;
-  background: #83A3DD;
+  color: #1D3A6D;
+  background: #AAC0E8;
 }
 
 .side_panel .nav-pills .nav-link.active {
@@ -75,11 +75,11 @@
 }
 
 .navbar-default .navbar-nav > li > a:hover {
-  color: #FF4D00 !important;
+  color: #E85819 !important;
 }
 
 .navbar-default .navbar-nav > li > a.active {
-  text-decoration: underline #FF4D00;
+  text-decoration: underline #E85819;
 }
 
 .navbar {
@@ -90,7 +90,7 @@
 .navbar-brand {
   font-size: 1.4rem !important;
   font-weight: bold !important;
-  text-shadow: 1px 1px #FF4D00;
+  text-shadow: 1px 1px #E85819;
 }
 
 .navheader_padding {
@@ -109,7 +109,7 @@
 }
 
 #tab_note {
-  color: #FF4D00;
+  color: #E85819;
   margin: 0px;
   font-style: italic;
   font-size: 14px;
@@ -139,7 +139,7 @@
 ::-webkit-scrollbar-thumb {
 	border-radius: 10px;
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-	background-color: #F08F66;
+	background-color: #F29A72;
 }
 
 /* heading style */
@@ -154,8 +154,8 @@ label {
 
 /* tab panel title */
 .nav {
-  --bs-nav-link-color: #F08F66;
-  --bs-nav-link-hover-color: #FF4D00;
+  --bs-nav-link-color: #E85819;
+  --bs-nav-link-hover-color: #D14F15;
 }
 
 /* for tab content */
@@ -187,3 +187,15 @@ div.well {
 pre.shiny-text-output {
   background: #FFFFFF;
 }
+
+/* for body text */
+body {
+  color: #E85819;
+}
+
+/* for settings text intput */
+.form-control {
+  color: #E85819;
+  border: 1px solid #F8C7B2;
+}
+

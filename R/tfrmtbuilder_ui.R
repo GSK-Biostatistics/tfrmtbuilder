@@ -16,7 +16,7 @@ tfrmtbuilder_ui <- function(id){
                          base_font = font_collection(font_google("Lato", local = FALSE), "sans-serif"),
                          primary = "#254988",
                          bg = "#ffffff",
-                         fg = "#E64500"
+                         fg = "#000000" #"#E64500"
                          ),
         # selected = "Edit",
         tabPanel("Load", load_ui(ns("load"))),

@@ -144,6 +144,7 @@
 
 /* heading style */
 .heading_style {
+  color: #E85819;
   font-weight: bold !important;
 }
 
@@ -161,12 +162,12 @@ label {
 /* for tab content */
 #content_border {
  border-radius: 10px;
- border: 2px solid #83A3DD;
+ border: 1px solid #83A3DD;
  background: #F2F6FC;
  padding: 15px;
 }
 
-/* for tab names */
+/* for table/data view tab names */
 a.nav-link > div.tab_names {
   font-weight: bold !important;
   font-size: 20px !important;
@@ -175,73 +176,17 @@ a.nav-link > div.tab_names {
 /* for table refresh button */
 .btn-danger {
   background-color: #254988;
-  box-shadow: 0 0 15px #FF4D00;
+  box-shadow: 0 0 15px #E85819;
 }
 
 /* for wellPanel */
 div.well {
   background: #F7F7F7;
+  border: 1px solid #F8C7B2;
 }
 
 /* for code output */
 pre.shiny-text-output {
   background: #FFFFFF;
-}
-
-/* for body text */
-body {
-  color: #E85819;
-}
-
-/* for settings text intput */
-.form-control {
-  color: #E85819;
-  border: 1px solid #F8C7B2;
-}
-
-/* all (default) buttons */
-.btn-default {
-  color: #FFFFFFf;
-  background: #E85819 !important;
-  border-color: #E85819
- !important;
-}
-.btn-default:hover {
-  color: #FFFFFF;
-  background-color: #D14F15 !important;
-  border-color: #D14F15 !important;
-}
-.btn-default:disabled {
-  color: #FFFFFF;
-  background-color: #E85819 !important;
-  border-color: #E85819 !important;
-}
-.btn-default.focus {
-  box-shadow: inset 0 3px 5px rgba(230,69,0,0.125);
-}
-
-/* save buttons */
-button#tb-col_plan-save.btn.btn-default.action-button.shiny-bound-input,
-button#tb-overview-save.btn.btn-default.action-button.shiny-bound-input {
-  color: #FFFFFF;
-  background: #254988 !important;
-  border-color: #254988
- !important;
-}
-button#tb-col_plan-save.btn.btn-default.action-button.shiny-bound-input:hover,
-button#tb-overview-save.btn.btn-default.action-button.shiny-bound-input:hover {
-  color: #FFFFFF;
-  background-color: #1D3A6D !important;
-  border-color: #1D3A6D !important;
-}
-button#tb-col_plan-save.btn.btn-default.action-button.shiny-bound-input:disabled,
-button#tb-overview-save.btn.btn-default.action-button.shiny-bound-input:disabled {
-  color: #FFFFFF;
-  background-color: #254988 !important;
-  border-color: #254988 !important;
-}
-button#tb-col_plan-save.btn.btn-default.action-button.shiny-bound-input.focus,
-button#tb-overview-save.btn.btn-default.action-button.shiny-bound-input.focus {
-  box-shadow: inset 0 3px 5px rgba(230,69,0,0.125);
 }
 

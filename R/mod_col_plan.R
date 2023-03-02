@@ -9,7 +9,7 @@ col_plan_ui <- function(id){
   tagList(
     fluidRow(
       h3("Col Plan", class = "heading_style",
-      actionButton(ns("reset"), "Reset", icon = icon("undo")))
+      actionButton(ns("reset"), "Reset", icon = icon("undo")), class = "btn-reset")
     ),
     fluidRow(
       column(5, radioGroupButtons(ns("distribute"),label = NULL, choices = c("Drop all", "Keep all"), selected = "Keep all"))

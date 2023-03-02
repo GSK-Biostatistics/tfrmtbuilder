@@ -190,14 +190,27 @@ pre.shiny-text-output {
   background: #FFFFFF;
 }
 
+/* for refresh button */
 .btn-refresh {
-  color: #FFFFFFf;
+  color: #FFFFFF;
   background: #E85819 !important;
-  border-color: #E85819
- !important;
+  border-color: #E85819 !important;
 }
 .btn-refresh:hover {
   color: #FFFFFF;
   background-color: #D14F15 !important;
   border-color: #D14F15 !important;
 }
+
+/* for reset button */
+.btn-reset > button {
+  color: #FFFFFF;
+  background: #666666 !important;
+  border-color: #666666 !important;
+}
+.btn-reset:hover > button {
+  color: #FFFFFF;
+  background-color: #575757 !important;
+  border-color: #575757 !important;
+}
+

@@ -9,7 +9,7 @@ col_style_plan_ui <- function(id){
   tagList(
     fluidRow(
       h3("Col Style Plan", class = "heading_style",
-         actionButton(ns("reset"), "Reset", icon = icon("undo"))),
+         actionButton(ns("reset"), "Reset", icon = icon("undo")), class = "btn-reset"),
       h4("Col Style Structures"),
       shinyjs::hidden(
         p(id = ns("none"),

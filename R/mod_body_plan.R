@@ -9,7 +9,7 @@ body_plan_ui <- function(id){
   tagList(
     fluidRow(
       h3("Format Structures", class = "heading_style",
-         actionButton(ns("reset"), "Reset", icon = icon("undo"))),
+         actionButton(ns("reset"), "Reset", icon = icon("undo")), class = "btn-reset"),
       shinyjs::hidden(
         p(id = ns("none"),
           "None supplied.")

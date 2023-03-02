@@ -9,7 +9,7 @@ datamapping_ui <- function(id){
     h3("Settings", class = "heading_style",
        div(style = "display: inline-block;",
           # actionButton(ns("save"), "Save", icon = icon("save")),
-           actionButton(ns("reset"), "Reset", icon = icon("undo")))),
+           actionButton(ns("reset"), "Reset", icon = icon("undo")), class = "btn-reset")),
     div(class = "form-group shiny-input-container",
         tags$label("Groups"),
         circleButton(ns("addgrp"), icon = icon("plus"), size = "xs"),

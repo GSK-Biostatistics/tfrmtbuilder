@@ -9,7 +9,7 @@ row_grp_plan_ui <- function(id){
   tagList(
     fluidRow(
       h3("Row Group Plan", class = "heading_style",
-         actionButton(ns("reset"), "Reset", icon = icon("undo"))),
+         actionButton(ns("reset"), "Reset", icon = icon("undo")), class = "btn-reset"),
       h4("Label location"),
       shinyWidgets::radioGroupButtons(
         inputId = ns("label_loc"), label = NULL,

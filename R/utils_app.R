@@ -57,7 +57,7 @@ create_filter_select <- function(ns, type, data, existing_filters, var_vec,
                    choices = choices,
                    selected = selected_vals,
                    multiple = TRUE,
-                   options = list( placeholder = placeholder, create = allow_create))
+                   options = list(placeholder = placeholder, create = allow_create))
 
   })
 }
@@ -137,6 +137,61 @@ create_struct_list_sortable <- function(ns, struct_list_txt, mode){
 }
 
 
+
+
+
+# create sortable list of *structure objects
+create_col_plan_sortable_simple <- function(ns, col_levs, col_fixed, col_dropped, mode){
+
+  ind <- 1:length(col_levs)
+
+  divs <- lapply(ind,
+                 function(i) {
+
+                   # if in add mode, highlight the added row
+                   if (isolate(mode=="add") && i==max(ind)){
+                     class = "rank-list-select"
+                   } else {
+                     class = ""
+                   }
+                   if (col_fixed[i]){
+                     class <- paste(class, "no-move")
+                   }
+
+                   # item HTML
+                   HTML(paste0(
+                     "<div id = ", ns(paste0("item-", i)),
+                     " onclick = \"Shiny.setInputValue('",ns("button-item"), "', '", i,"')\"",
+                     " style = \"padding: 10px 15px;\"",
+                     " class = \"", class , "\"",
+                     " >",
+                     col_levs[i],
+                     "</div>"
+                   ))
+                 }) %>%
+    setNames(as.character(ind))
+
+  which_keep <- divs[! col_dropped]
+  which_drop <- divs[col_dropped]
+
+  bucket_list(
+    header = NULL,
+    add_rank_list(
+      text = "Order Columns",
+      labels = which_keep,
+      css_id = ns("items"),
+      input_id = ns("item_list"),
+      options = sortable_options(filter = ".no-move")),
+    add_rank_list(
+      text ="Drop Columns",
+      labels = which_drop,
+      input_id = ns("drop_list")
+    ),
+    orientation = "vertical"
+  )
+}
+
+
 # create sortable row of column values
 create_col_plan_sortable <- function(ns, col_num, col_name, col_levs, col_confirmed, distribute, width){
 
@@ -170,7 +225,7 @@ create_col_plan_sortable <- function(ns, col_num, col_name, col_levs, col_confir
 
     if (distribute=="Keep all"){
       col_val <- col_levs[lev_num]
-      contents_keep <- div(class="itemlist-item", col_val)
+      contents_keep <- div(class="itemlist-item", draggable = "false", col_val)
     } else {
       contents_keep <- list()
     }
@@ -196,19 +251,22 @@ create_col_plan_sortable <- function(ns, col_num, col_name, col_levs, col_confir
 
 
   tagList(
-    fluidRow(
-      column(3,
-             prettyCheckbox(ns(paste0("confirm_", col_num)),
-                              label = paste0("`", col_name, "`"),
-                              status = "success",
-                              value = col_confirmed,
-                              icon = icon("check"))
-             ),
-      column(2,
-             levs_drop),
-      column(7,
-             div(style = paste0("width:", width, "; display: flex; flex-direction: row; flex-wrap: wrap;"), levs_keep))
-      )
+    #fluidRow(
+      # column(3,
+      #        prettyCheckbox(ns(paste0("confirm_", col_num)),
+      #                         label = paste0("`", col_name, "`"),
+      #                         status = "success",
+      #                         value = col_confirmed,
+      #                         icon = icon("check"))
+      #        ),
+      # column(2,
+      #        levs_drop),
+      # column(7,
+      p("Arrange Columns", style = "font-weight: bold;"),
+      div(style = paste0("width:", width, "; display: flex; flex-direction: row; flex-wrap: wrap;"), levs_keep),
+      br(),
+      p("Drop Columns", style = "font-weight: bold;"),
+      div(levs_drop, style = paste0("width: ", 100*(1/length(col_levs)), "%"))
     )
 
 }

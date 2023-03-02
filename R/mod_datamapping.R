@@ -6,9 +6,8 @@ datamapping_ui <- function(id){
   ns <- NS(id)
 
   tagList(
-    h3("Settings", class = "heading_style",
+    h3("Data Mapping", class = "heading_style",
        div(style = "display: inline-block;",
-          # actionButton(ns("save"), "Save", icon = icon("save")),
            actionButton(ns("reset"), "Reset", icon = icon("undo")))),
     div(class = "form-group shiny-input-container",
         tags$label("Groups"),

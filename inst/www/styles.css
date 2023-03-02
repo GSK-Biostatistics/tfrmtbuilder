@@ -6,6 +6,10 @@
   padding: 0px 0px !important;
 }
 
+.rank-list-title {
+ font-weight: bold;
+}
+
 .rank-list-select{
   background-color: #ddeaf6 !important;
 }
@@ -147,6 +151,6 @@
 }
 
 /* for text input labels under settings */
-label {
+.form-label {
   margin-bottom: 0.5rem !important;
 }

@@ -12,19 +12,28 @@ datamapping_ui <- function(id){
            actionButton(ns("reset"), "Reset", icon = icon("undo")), class = "btn-reset")),
     div(class = "form-group shiny-input-container",
         tags$label("Groups"),
-        div(circleButton(ns("addgrp"), icon = icon("plus"), size = "xs"),
-            circleButton(ns("dropgrp"), icon = icon("minus"), size = "xs"), class = "btn-circle"),
+        span(
+          div(circleButton(ns("addgrp"), icon = icon("plus"), size = "xs"), class = "btn-circle"),
+          div(circleButton(ns("dropgrp"), icon = icon("minus"), size = "xs"), class = "btn-circle"),
+          style = "display: flex; gap: 5px;"
+        ),
         uiOutput(ns("grps"))),
     uiOutput(ns("single_settings")),
     div(class = "form-group shiny-input-container",
         tags$label("Columns"),
-        div(circleButton(ns("addcol"), icon = icon("plus"), size = "xs"),
-            circleButton(ns("dropcol"), icon = icon("minus"), size = "xs"), class = "btn-circle"),
+        span(
+          div(circleButton(ns("addcol"), icon = icon("plus"), size = "xs"), class = "btn-circle"),
+          div(circleButton(ns("dropcol"), icon = icon("minus"), size = "xs"), class = "btn-circle"),
+          style = "display: flex; gap: 5px;"
+        ),
         uiOutput(ns("cols"))) ,
     div(class = "form-group shiny-input-container",
         tags$label("Sorting Columns"),
-        div(circleButton(ns("addsortcol"), icon = icon("plus"), size = "xs"),
-            circleButton(ns("dropsortcol"), icon = icon("minus"), size = "xs"), class = "btn-circle"),
+        span(
+          div(circleButton(ns("addsortcol"), icon = icon("plus"), size = "xs"), class = "btn-circle"),
+          div(circleButton(ns("dropsortcol"), icon = icon("minus"), size = "xs"), class = "btn-circle"),
+          style = "display: flex; gap: 5px;"
+        ),
         uiOutput(ns("sortcols"))),
     div(actionButton(ns("save"), "Save", icon = icon("save")), class = "btn-save")
   )

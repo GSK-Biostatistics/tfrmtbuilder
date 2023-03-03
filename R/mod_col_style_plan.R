@@ -15,7 +15,10 @@ col_style_plan_ui <- function(id){
         p(id = ns("none"),
           "None supplied.")
       ),
-      uiOutput(ns("tbl")),
+      div(
+        id = ns("sortable"),
+        uiOutput(ns("tbl"))
+      ),
       br(),
       fluidRow(
         column(3, div(actionButton(ns("add"), "New", icon = icon("plus")), class = "btn-new")),
@@ -100,7 +103,7 @@ col_style_plan_server <- function(id, data, tfrmt_app){
 
 
       # when any are selected, switch to edit mode
-      onclick("items", expr = {
+      shinyjs::onevent(event = "dblclick", "items", expr = {
 
         last_struct <- pluck(struct_list(), length(struct_list()))
         if(!is_empty(last_struct)){
@@ -163,6 +166,8 @@ col_style_plan_server <- function(id, data, tfrmt_app){
         shinyjs::toggle("customize", condition = (mode() %in% c("add", "edit")))
         shinyjs::toggleState("add", condition = (mode()=="done"))
         shinyjs::toggleState("delete", condition = (mode() %in% c("add", "edit")))
+
+        shinyjs::toggleClass(id = "sortable", class = "unclickable", condition = (mode() %in% c("add", "edit")))
 
       })
 

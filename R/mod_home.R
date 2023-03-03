@@ -17,39 +17,49 @@ home_server <- function(id){
     function(input, output, session) {
       output$about <- renderUI({
         HTML("
-             <h2 class=heading_style> Welcome to the {tfrmtbuilder} App </h2>
+             <h2 class=heading_style> Welcome to the {tfrmtbuilder} Shiny App </h2>
 
              <p>
-             Lorem ipsum dolor sit amet. Qui excepturi reprehenderit ut inventore
-             laudantium ut architecto veniam. Eos eligendi eaque ut minima odio At
-             magni beatae est minima molestias aut consequatur molestiae id sequi deleniti.
+             The {tfrmt} package provides a language for defining display-related
+             metadata, which can then be used to automate and easily update output formats.
+             {tfrmtbuilder} serves as an interface to the package, allowing users
+             to quickly and easily modify existing or new table templates.
              </p>
 
-             <h4 class=heading_style><i> About </i></h4>
+             <h4 class=heading_style><i> Features and Workflow </i></h4>
 
              <p>
-             Lorem ipsum dolor sit amet. Qui excepturi reprehenderit ut inventore
-             laudantium ut architecto veniam. Eos eligendi eaque ut minima odio At
-             magni beatae est minima molestias aut consequatur molestiae id sequi deleniti.
-             </p>
-
-             <h4 class=heading_style><i> Info </i></h4>
-
-             <p>
-             Lorem ipsum dolor sit amet. Qui excepturi reprehenderit ut inventore
-             laudantium ut architecto veniam. Eos eligendi eaque ut minima odio At
-             magni beatae est minima molestias aut consequatur molestiae id sequi deleniti.
+             <ul>
+             <li> Load tab
+             <ul>
+             <li> Load an existing tfrmt (json file) or start fresh </li>
+             <li> Load an existing dataset (most file formats) or use generated mock data </li>
+             </ul>
+             <li> Edit tab
+             <ul>
+             <li> Select ARD column mappings </li>
+             <li> Format table via the 'plans' </li>
+             <li> View the table as you modify </li>
+             </ul>
+             </li>
+             <li> Export tab
+             <ul>
+             <li> Download tfrmt metadata (json file) </li>
+             <li> Download tfrmt table (HTML) </li>
+             </ul>
+             </li>
+             </ul>
              </p>
 
              <h4 class=heading_style><i> Useful Links </i></h4>
 
              <ul>
+             <li> <a target=_blank class=home_links href=https://gsk-biostatistics.github.io/tfrmt/>
+             {tfrmt} User Guide </a> </li>
              <li> <a target=_blank class=home_links href=https://github.com/GSK-Biostatistics/tfrmtbuilder>
              {tfrmtbuilder} GitHub Repository</a> </li>
              <li> <a target=_blank class=home_links href=https://github.com/GSK-Biostatistics/tfrmt>
              {tfrmt} GitHub Repository</a> </li>
-             <li> <a target=_blank class=home_links href=https://gsk-biostatistics.github.io/tfrmt/>
-             {tfrmt} User Guide </a> </li>
              </ul>
 
              ")
@@ -57,7 +67,7 @@ home_server <- function(id){
 
       output$hex <- renderUI({
         HTML(" <center> <img src=https://github.com/GSK-Biostatistics/tfrmt/blob/main/man/figures/tfrmt.png?raw=true
-                alt=hex width=100% > </center> ")
+                alt=hex width=75% > </center> ")
 
       })
 

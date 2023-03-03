@@ -81,7 +81,7 @@ big_n_server <- function(id, data, tfrmt_app, mode_load){
       })
 
       # when any are selected, switch to edit mode
-      onclick("items", expr = {
+      shinyjs::onevent(event = "dblclick", "items", expr = {
 
         if (!is_empty(struct())){
           mode("edit")
@@ -131,6 +131,7 @@ big_n_server <- function(id, data, tfrmt_app, mode_load){
         shinyjs::toggleState("delete", condition = (mode() %in% c("add", "edit")))
         shinyjs::toggleState("delete", condition = (mode()=="add" | mode()=="edit" |
                                                       (mode()=="done" & length(struct())==1)))
+        shinyjs::toggleClass(id = "sortable", class = "unclickable", condition = (mode() %in% c("add", "edit")))
 
       })
 

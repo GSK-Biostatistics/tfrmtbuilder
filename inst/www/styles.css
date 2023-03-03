@@ -269,3 +269,7 @@ span.btn.btn-default.btn-file:hover {
 .home_links {
  color: #CF4F15 !important;
 }
+
+.unclickable {
+  pointer-events:none;
+}

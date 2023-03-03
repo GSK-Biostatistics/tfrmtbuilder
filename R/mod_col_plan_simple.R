@@ -13,7 +13,11 @@ col_plan_simple_ui <- function(id){
     ),
     fluidRow(
       column(7,
-             uiOutput(ns("all_buckets"))),
+             div(
+               id = ns("sortable"),
+               uiOutput(ns("all_buckets"))
+             )
+             ),
       column(5,
              br(),
              br(),
@@ -138,7 +142,7 @@ col_plan_simple_server <- function(id, data, tfrmt_app, mode_load){
       selected <- reactiveVal(NULL)
       selected_num <- reactiveVal(NULL)
 
-      onclick("items", expr = {
+      shinyjs::onevent(event = "dblclick", "items", expr = {
         mode("edit")
         item_num <- as.numeric(input$`button-item`)
 
@@ -156,6 +160,9 @@ col_plan_simple_server <- function(id, data, tfrmt_app, mode_load){
       observeEvent(mode(),{
         shinyjs::toggle("rename_msg", condition = !mode()=="edit")
         shinyjs::toggle("rename_div", condition = mode()=="edit")
+
+        shinyjs::toggleClass(id = "sortable", class = "unclickable", condition = mode()=="edit")
+
       })
 
       observeEvent(req(mode()=="done"), {

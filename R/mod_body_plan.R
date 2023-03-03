@@ -14,7 +14,10 @@ body_plan_ui <- function(id){
         p(id = ns("none"),
           "None supplied.")
       ),
-      uiOutput(ns("tbl")),
+      div(
+        id = ns("sortable"),
+        uiOutput(ns("tbl"))
+      ),
       br(),
       fluidRow(
         column(3, div(actionButton(ns("add"), "New", icon = icon("plus")), class = "btn-new")),
@@ -100,7 +103,7 @@ body_plan_server <- function(id, data, tfrmt_app, mode_load){
 
 
       # when any are selected, switch to edit mode
-      onclick("items", expr = {
+      shinyjs::onevent(event = "dblclick", "items", expr = {
 
         last_struct <- pluck(struct_list(), length(struct_list()))
         if(!is_empty(last_struct)){
@@ -165,7 +168,9 @@ body_plan_server <- function(id, data, tfrmt_app, mode_load){
         shinyjs::toggleState("delete", condition = (mode()=="add" |
                                                       (mode()=="edit" & length(struct_list())>1)))
 
-      })
+        shinyjs::toggleClass(id = "sortable", class = "unclickable", condition = (mode() %in% c("add", "edit")))
+
+        })
 
 
       # toggle the "no formats" message"

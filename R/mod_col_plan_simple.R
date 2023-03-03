@@ -89,11 +89,6 @@ col_plan_simple_server <- function(id, data, tfrmt_app, mode_load){
         col_num <- ncol(cols_dat_out())
 
         new_name_col <- paste0("__tfrmt_new_name__", col_name())
-        cols_lbled <- cols_dat_out() %>%
-          mutate(!!new_name_col := ifelse(!.data[[col_name()]]==.data[[new_name_col]],
-                                          paste0(.data[[new_name_col]], " = ", .data[[col_name()]]),
-                                          .data[[new_name_col]]))
-
         col_levs <- cols_dat_out()[[new_name_col]] %>% as.character()
         col_levs_orig <- cols_dat_out()[[col_name]]
 
@@ -132,7 +127,8 @@ col_plan_simple_server <- function(id, data, tfrmt_app, mode_load){
         if (!all(sort(keep_ord)==keep_ord)){
           new_dat <- new_dat %>%
             mutate(!! col_name := factor(.data[[col_name]], levels = all_new_levs))  %>%
-            arrange(desc(`__col_plan_fixed_ord__`), .data[[col_name]])
+            arrange(desc(`__col_plan_fixed_ord__`), .data[[col_name]]) %>%
+            mutate(across(col_name, ~as.character(.x)))
         }
 
         cols_dat_out(new_dat)
@@ -152,8 +148,9 @@ col_plan_simple_server <- function(id, data, tfrmt_app, mode_load){
         new_name_col <- paste0("__tfrmt_new_name__", col_name())
         selected_col <- cols_dat_out() %>%
           filter(!`__col_plan_dropped__`) %>%
-          pull(.data[[new_name_col]]) %>%
-          .[item_num]
+          filter(row_number()==item_num) %>%
+          select(orig = .data[[col_name()]],
+                 new = .data[[new_name_col]])
 
         selected(selected_col)
       })
@@ -168,17 +165,10 @@ col_plan_simple_server <- function(id, data, tfrmt_app, mode_load){
       })
 
       observeEvent(req(mode()=="edit"),{
-        vars <- str_split(selected(), " = ") %>% unlist()
-        if(length(vars)==2){
-          label <- vars[2]
-          value <- vars[1]
-        } else {
-          label <- vars[1]
-          value <- NA
-        }
 
         updateTextInput(session, inputId = "rename",
-                        label = paste0("Edit ", label), value = value, placeholder = "Enter new name")
+                        label = paste0("Edit ", selected()$orig), value = selected()$new,
+                        placeholder = "Enter new name")
 
       })
 
@@ -187,10 +177,6 @@ col_plan_simple_server <- function(id, data, tfrmt_app, mode_load){
         mode("done")
 
         new_name_col <- paste0("__tfrmt_new_name__", col_name())
-        # row_to_rename <- cols_dat_out()[selected_num(),]
-        # renamed_col <- paste0(input$rename, " = ", row_to_rename[[col_name()]])
-
-
         new_cols <- cols_dat_out() %>%
           mutate(!!new_name_col := ifelse(row_number()==selected_num(),
                                           input$rename,

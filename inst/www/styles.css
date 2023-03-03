@@ -133,18 +133,18 @@
 ::-webkit-scrollbar-track {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 	border-radius: 10px;
-	background-color: #FFDFD1;
+	background-color: #F5F8FD;
 }
 
 ::-webkit-scrollbar-thumb {
 	border-radius: 10px;
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-	background-color: #F29A72;
+	background-color: #AAC0E8;
 }
 
 /* heading style */
 .heading_style {
-  color: #CF4F15;
+  color: #254988;
   font-weight: bold !important;
 }
 
@@ -187,36 +187,12 @@ pre.shiny-text-output {
 
 /* for refresh button */
 .btn-refresh {
-  color: #FFFFFF;
-  background: #CF4F15 !important;
-  border-color: #CF4F15 !important;
-}
-.btn-refresh:hover {
-  color: #FFFFFF;
-  background-color: #BD4813 !important;
-  border-color: #BD4813 !important;
-}
-
-/* for refresh button */
-.btn-refresh {
-  color: #FFFFFF !important;
-  background: #CF4F15 !important;
-  border-color: #CF4F15 !important;
-}
-.btn-refresh:hover {
-  color: #FFFFFF !important;
-  background-color: #BD4813 !important;
-  border-color: #BD4813 !important;
-}
-
-/* for save button */
-.btn-save > button {
   color: #FFFFFF !important;
   background: #254988 !important;
   border-color: #254988 !important;
 }
-.btn-save:hover > button {
-  color: #FFFFFF;
+.btn-refresh:hover {
+  color: #FFFFFF !important;
   background-color: #1D3A6D !important;
   border-color: #1D3A6D !important;
 }
@@ -225,41 +201,43 @@ pre.shiny-text-output {
 .btn-reset > button,
 .btn-new > button,
 .btn-delete > button,
-.btn-circle > button {
+.btn-circle > button,
+.btn-save > button {
   color: #FFFFFF !important;
-  background: #666666 !important;
-  border-color: #666666 !important;
+  background: #254988 !important;
+  border-color: #254988 !important;
 }
 .btn-reset:hover > button,
 .btn-new:hover > button,
 .btn-delete:hover > button,
-.btn-circle:hover > button {
+.btn-circle:hover > button,
+.btn-save:hover > button {
   color: #FFFFFF !important;
-  background-color: #575757 !important;
-  border-color: #575757 !important;
+  background-color: #1D3A6D !important;
+  border-color: #1D3A6D !important;
 }
 
 /* for export button */
 .btn-export > div > a {
   color: #FFFFFF !important;
-  background: #666666 !important;
-  border-color: #666666 !important;
+  background: #254988 !important;
+  border-color: #254988 !important;
 }
 .btn-export:hover > div > a {
   color: #FFFFFF;
-  background-color: #575757 !important;
-  border-color: #575757 !important;
+  background-color: #1D3A6D !important;
+  border-color: #1D3A6D !important;
 }
 
 /* for fileInput (browse) button */
 span.btn.btn-default.btn-file {
   color: #FFFFFF !important;
-  background: #666666 !important;
-  border-color: #666666 !important;
+  background: #254988 !important;
+  border-color: #254988 !important;
 }
 span.btn.btn-default.btn-file:hover {
   color: #FFFFFF;
-  background-color: #575757 !important;
-  border-color: #575757 !important;
+  background-color: #1D3A6D !important;
+  border-color: #1D3A6D !important;
 }
 

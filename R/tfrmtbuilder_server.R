@@ -9,10 +9,19 @@ tfrmtbuilder_server <- function(id) {
       # ui for loading
       settings_orig <- load_server("load")
 
-      # # collapse tfrmt view for column plan
-      # observe({
-      #   shinyjs::toggle("sidebar", condition = !input$tabs == "Column Plan")
-      # })
+      # if user adjust the inputs, direct them to Data Mapping tab (in Edit tab)
+      observe({
+        settings_orig$data()
+        settings_orig$tfrmt()
+        settings_orig$mode()
+
+        updateTabsetPanel(
+          session = session,
+          "tabs",
+          selected = "Data Mapping"
+        )
+
+      })
 
       # tfrmt data mapping - returns an updated tfrmt/data to be fed into the other modules
       settings <- datamapping_server("overview", settings_orig$data, settings_orig$tfrmt, settings_orig$mode)

@@ -75,11 +75,11 @@
 }
 
 .navbar-default .navbar-nav > li > a:hover {
-  color: #E85819 !important;
+  color: #CF4F15 !important;
 }
 
 .navbar-default .navbar-nav > li > a.active {
-  text-decoration: underline #E85819;
+  text-decoration: underline #CF4F15;
 }
 
 .navbar {
@@ -90,7 +90,7 @@
 .navbar-brand {
   font-size: 1.4rem !important;
   font-weight: bold !important;
-  text-shadow: 1px 1px #E85819;
+  text-shadow: 1px 1px #CF4F15;
 }
 
 .navheader_padding {
@@ -109,7 +109,7 @@
 }
 
 #tab_note {
-  color: #E85819;
+  color: #CF4F15;
   margin: 0px;
   font-style: italic;
   font-size: 14px;
@@ -144,21 +144,21 @@
 
 /* heading style */
 .heading_style {
-  color: #E85819;
+  color: #CF4F15;
   font-weight: bold !important;
 }
 
 /* tab panel title */
 .nav {
-  --bs-nav-link-color: #E85819;
-  --bs-nav-link-hover-color: #D14F15;
+  --bs-nav-link-color: #CF4F15;
+  --bs-nav-link-hover-color: #BD4813;
 }
 
 /* for tab content */
 #content_border {
  border-radius: 10px;
- border: 1px solid #F8C7B2; /*#83A3DD;*/
- background: #F2F6FC;
+ border: 1px solid #AAC0E8;
+ background: #F5F8FD;
  padding: 15px;
 }
 
@@ -171,13 +171,13 @@ a.nav-link > div.tab_names {
 /* for table refresh button */
 .btn-danger {
   background-color: #254988;
-  box-shadow: 0 0 15px #E85819;
+  box-shadow: 0 0 15px #CF4F15;
 }
 
 /* for wellPanel */
 div.well {
-  background: #F7F7F7;
-  border: 1px solid #F8C7B2;
+  background: #F9F9F9;
+  border: 1px solid #AAC0E8;
 }
 
 /* for code output */
@@ -188,25 +188,25 @@ pre.shiny-text-output {
 /* for refresh button */
 .btn-refresh {
   color: #FFFFFF;
-  background: #E85819 !important;
-  border-color: #E85819 !important;
+  background: #CF4F15 !important;
+  border-color: #CF4F15 !important;
 }
 .btn-refresh:hover {
   color: #FFFFFF;
-  background-color: #D14F15 !important;
-  border-color: #D14F15 !important;
+  background-color: #BD4813 !important;
+  border-color: #BD4813 !important;
 }
 
 /* for refresh button */
 .btn-refresh {
   color: #FFFFFF !important;
-  background: #E85819 !important;
-  border-color: #E85819 !important;
+  background: #CF4F15 !important;
+  border-color: #CF4F15 !important;
 }
 .btn-refresh:hover {
   color: #FFFFFF !important;
-  background-color: #D14F15 !important;
-  border-color: #D14F15 !important;
+  background-color: #BD4813 !important;
+  border-color: #BD4813 !important;
 }
 
 /* for save button */

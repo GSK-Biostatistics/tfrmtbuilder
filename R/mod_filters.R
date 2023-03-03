@@ -113,7 +113,7 @@ filters_server <- function(id, data, tfrmt_app, selected,
               selected_vars <- selected_vars %>% unlist() %>% unname()
             } else {
               # if a list and all .default, then condense
-              if (length(selected_vars)>0 && all(map_lgl(selected_vars, ~.x ==".default"))){
+              if (length(selected_vars)>0 && all(map_lgl(selected_vars, ~all(.x ==".default")))){
                 selected_vars <- ".default"
               }
             }

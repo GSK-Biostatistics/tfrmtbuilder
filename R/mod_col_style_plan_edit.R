@@ -42,6 +42,7 @@ col_style_plan_edit_server <- function(id, data, tfrmt_app, selected){
 
       ns <- session$ns
 
+
       # fill the text input with pre-selection
       # also reset back to default for new additions
       observe({
@@ -104,6 +105,8 @@ col_style_plan_edit_server <- function(id, data, tfrmt_app, selected){
         req(length(cols)>0)
 
         width <- if (input$width=="") "NULL" else input$width
+
+        cols <- paste0("\"", cols, "\"")
 
         eval(parse(text = paste0("col_style_structure(col = c(", paste0(cols, collapse = ", "), "),",
                                  "align = ", align(), ", width = ", width, ")")))

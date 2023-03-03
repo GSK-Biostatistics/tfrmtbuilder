@@ -173,8 +173,13 @@ col_style_plan_server <- function(id, data, tfrmt_app){
         shinyjs::toggle("none", condition = any_items)
       })
 
+      # ensure selected() is updated in case of 2 "adds" in a row (selected stays NULL)
+      selected2 <- reactive({
+        req(item_num_active())
+        selected()
+      })
       # customize server
-       plans <- col_style_plan_edit_server("customize_pane", data_bp, tfrmt_app, selected)
+       plans <- col_style_plan_edit_server("customize_pane", data_bp, tfrmt_app, selected2)
 
 
       # when user presses "save", collect the inputs

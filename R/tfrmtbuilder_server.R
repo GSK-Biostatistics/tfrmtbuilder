@@ -27,7 +27,7 @@ tfrmtbuilder_server <- function(id) {
       # col style plan creation
       cs_out <- col_style_plan_server("col_style_plan", reactive(settings()$data), reactive(settings()$tfrmt))
       # col plan creation
-      cp_out <- col_plan_new_server("col_plan",  reactive(settings()$data), reactive(settings()$tfrmt), settings_orig$mode)
+      cp_out <- col_plan_simple_server("col_plan",  reactive(settings()$data), reactive(settings()$tfrmt), settings_orig$mode)
       # big N creation
       bn_out <- big_n_server("big_n", reactive(settings()$data), reactive(settings()$tfrmt), settings_orig$mode)
 

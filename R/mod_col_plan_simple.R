@@ -2,7 +2,7 @@
 
 # returns column_plan
 
-col_plan_new_ui <- function(id){
+col_plan_simple_ui <- function(id){
 
   ns <- NS(id)
 
@@ -11,7 +11,6 @@ col_plan_new_ui <- function(id){
       h3("Column Plan", class = "heading_style")
     ),
     fluidRow(
-   #   column(5, radioGroupButtons(ns("distribute"),label = NULL, choices = c("Drop all", "Keep all"), selected = "Keep all")),
       column(3, actionButton(ns("reset"), "Reset", icon = icon("undo")))
     ),
     fluidRow(
@@ -36,7 +35,7 @@ col_plan_new_ui <- function(id){
 
 #'
 #' @noRd
-col_plan_new_server <- function(id, data, tfrmt_app, mode_load){
+col_plan_simple_server <- function(id, data, tfrmt_app, mode_load){
 
   moduleServer(
     id,
@@ -82,6 +81,7 @@ col_plan_new_server <- function(id, data, tfrmt_app, mode_load){
         names(cols_dat_out() %>%
                             select(-contains("__col_plan_"), -contains("__tfrmt_new_name_"))) %>% last()
       })
+
       # Create all bucket lists - lower level column only
       output$all_buckets <- renderUI({
 
@@ -95,12 +95,12 @@ col_plan_new_server <- function(id, data, tfrmt_app, mode_load){
                                           .data[[new_name_col]]))
 
         col_levs <- cols_dat_out()[[new_name_col]] %>% as.character()
-
+        col_levs_orig <- cols_dat_out()[[col_name]]
 
         col_fixed <- cols_dat_out()$`__col_plan_fixed__`
         col_dropped <- cols_dat_out()$`__col_plan_dropped__`
 
-        create_col_plan_sortable_simple(ns, col_levs, col_fixed, col_dropped, mode())
+        create_col_plan_sortable_simple(ns, col_levs, col_levs_orig, col_fixed, col_dropped, mode())
 
       })
 
@@ -187,13 +187,13 @@ col_plan_new_server <- function(id, data, tfrmt_app, mode_load){
         mode("done")
 
         new_name_col <- paste0("__tfrmt_new_name__", col_name())
-        row_to_rename <- cols_dat_out()[selected_num(),]
-        renamed_col <- paste0(input$rename, " = ", row_to_rename[[col_name()]])
+        # row_to_rename <- cols_dat_out()[selected_num(),]
+        # renamed_col <- paste0(input$rename, " = ", row_to_rename[[col_name()]])
 
 
         new_cols <- cols_dat_out() %>%
           mutate(!!new_name_col := ifelse(row_number()==selected_num(),
-                                          renamed_col,
+                                          input$rename,
                                           .data[[new_name_col]]))
         cols_dat_out(new_cols)
       })
@@ -204,15 +204,29 @@ col_plan_new_server <- function(id, data, tfrmt_app, mode_load){
          new_name_col <- paste0("__tfrmt_new_name__", col_name())
         col <- tfrmt_app()$column %>% map_chr(as_label)
         cols_to_keep <- cols_dat_out() %>%
-          filter(!`__col_plan_dropped__`) %>%
-          pull(.data[[new_name_col]]) %>%
-          as.character()
+          filter(!`__col_plan_dropped__`)
 
-        # args <- c(cols_to_keep,  list(.drop = TRUE))
-        # do.call("col_plan", args)
-        paste(cols_to_keep, collapse = ", ") %>%
-          {paste0("col_plan(", ., ", .drop = TRUE)")} %>%
-          {eval(parse(text = .))}
+        cols_to_keep_orig <- cols_to_keep[[col_name()]]
+        cols_to_keep_rnm <- cols_to_keep[[new_name_col]]
+
+
+        cols_out <- c()
+        for (i in seq_along(cols_to_keep_orig)){
+          orig <- cols_to_keep_orig[i]
+          new <- cols_to_keep_rnm[i]
+          new_el <- list(orig)
+
+          if (!orig==new){
+            names(new_el)<- new
+          }
+          cols_out <- c(cols_out, new_el)
+        }
+
+       args <- cols_out %>%
+         c(.,  list(.drop = TRUE))
+
+       do.call("col_plan", args)
+
       })
 
 

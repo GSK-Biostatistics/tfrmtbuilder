@@ -44,7 +44,7 @@ tfrmtbuilder_ui <- function(id){
                                 tabPanel(div( h6("Column Plan", class = "zero_margin"),
                                               div("(Optional)", id = "tab_note")),
                                          value = "Column Plan",
-                                         col_plan_new_ui(ns("col_plan"))),
+                                         col_plan_simple_ui(ns("col_plan"))),
                                 tabPanel(div( h6("Column Style Plan", class = "zero_margin"),
                                               div("(Optional)", id = "tab_note")),
                                          value = "Column Style Plan",

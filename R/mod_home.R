@@ -5,8 +5,8 @@ home_ui <- function(id){
   ns <- NS(id)
 
   fluidRow(
-    column(8, wellPanel(uiOutput(outputId = ns("about"))) ),
-    column(4, wellPanel(uiOutput(outputId = ns("hex"))) )
+    column(8, uiOutput(outputId = ns("about")) ),
+    column(4, uiOutput(outputId = ns("hex")) )
     )
   }
 

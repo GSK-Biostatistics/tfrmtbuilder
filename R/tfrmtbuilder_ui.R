@@ -18,6 +18,7 @@ tfrmtbuilder_ui <- function(id){
                          bg = "#ffffff",
                          fg = "#000000"
                          ),
+        tabPanel("Home", home_ui(ns("home"))),
         tabPanel("Load", load_ui(ns("load"))),
         tabPanel("Edit",
                  fluidPage(

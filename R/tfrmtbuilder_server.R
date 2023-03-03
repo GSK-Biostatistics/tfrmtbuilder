@@ -6,6 +6,9 @@ tfrmtbuilder_server <- function(id) {
     id,
     function(input, output, session) {
 
+      # ui for home
+      home_out <- home_server("home")
+
       # ui for loading
       settings_orig <- load_server("load")
 

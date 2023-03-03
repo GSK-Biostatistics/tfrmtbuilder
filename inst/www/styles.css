@@ -207,11 +207,12 @@ pre.shiny-text-output {
   border-color: #1D3A6D !important;
 }
 
-/* for reset/new/delete/circle button */
+/* for reset/new/delete/circle/save/frmt buttons */
 .btn-reset > button,
 .btn-new > button,
-.btn-delete > button,
+.btn-delete > div > button,
 .btn-circle > button,
+.btn-frmt > button,
 .btn-save > button {
   color: #FFFFFF !important;
   background: #254988 !important;
@@ -219,8 +220,9 @@ pre.shiny-text-output {
 }
 .btn-reset:hover > button,
 .btn-new:hover > button,
-.btn-delete:hover > button,
+.btn-delete:hover > div > button,
 .btn-circle:hover > button,
+.btn-frmt:hover > button,
 .btn-save:hover > button {
   color: #FFFFFF !important;
   background-color: #1D3A6D !important;

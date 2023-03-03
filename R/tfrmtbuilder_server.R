@@ -9,9 +9,18 @@ tfrmtbuilder_server <- function(id) {
       # ui for loading
       settings_orig <- load_server("load")
 
-      # collapse tfrmt view for column plan
+      # if user adjust the inputs, direct them to Data Mapping tab (in Edit tab)
       observe({
-        shinyjs::toggle("sidebar", condition = !input$tabs == "Column Plan")
+        settings_orig$data()
+        settings_orig$tfrmt()
+        settings_orig$mode()
+
+        updateTabsetPanel(
+          session = session,
+          "tabs",
+          selected = "Data Mapping"
+        )
+
       })
 
       # tfrmt data mapping - returns an updated tfrmt/data to be fed into the other modules
@@ -27,7 +36,7 @@ tfrmtbuilder_server <- function(id) {
       # col style plan creation
       cs_out <- col_style_plan_server("col_style_plan", reactive(settings()$data), reactive(settings()$tfrmt))
       # col plan creation
-      cp_out <- col_plan_server("col_plan",  reactive(settings()$data), reactive(settings()$tfrmt), settings_orig$mode)
+      cp_out <- col_plan_simple_server("col_plan",  reactive(settings()$data), reactive(settings()$tfrmt), settings_orig$mode)
       # big N creation
       bn_out <- big_n_server("big_n", reactive(settings()$data), reactive(settings()$tfrmt), settings_orig$mode)
 

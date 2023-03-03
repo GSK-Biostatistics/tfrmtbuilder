@@ -198,12 +198,11 @@ dummy_frmt_combine <- function(){
 }
 
 # convert string to frmt obj (for going from text -> R obj)
-string_to_tfrmtobj <- function(obj, class){
+string_to_tfrmtobj <- function(obj){
 
   tryCatch({
     obj_eval <- eval(parse(text = obj))
-    is_expected_class <- match.fun(paste0("is_", class))
-    if (is_expected_class(obj_eval)) obj_eval else NULL
+    if (is_frmt(obj_eval)) obj_eval else NULL
   },
   error = function(e){
     NULL
@@ -211,28 +210,84 @@ string_to_tfrmtobj <- function(obj, class){
 
 }
 
-# helper to get values for the col plan
-cols_to_dat <- function(data, tfrmt){
+# # helper to get values for the col plan
+# cols_to_dat <- function(data, tfrmt){
+#
+#   cols <- tfrmt$column %>% map_chr(as_label)
+#
+#   # establish order of all slots
+#   cols_dat <- data %>%
+#     ungroup() %>%
+#     select(any_of(cols)) %>%
+#     unique %>%
+#     mutate(across(everything(), function(x){
+#       ifelse(is.na(x), paste0("__span_empty_", cumsum(is.na(x))), x)
+#     })) %>%
+#     mutate(across(everything(), ~fct_inorder(.x))) %>%
+#     arrange(across(everything()))
+#
+#   # bind sorting cols
+#   if (!is.null(tfrmt$sorting_cols)){
+#     col_last <- last(cols)
+#     ord_cols <- map_chr(tfrmt$sorting_cols, as_label)
+#     cols_dat <- bind_rows(cols_dat, tibble(!!col_last:= ord_cols))
+#   }
+#
+#   cols_dat
+# }
 
-  cols <- tfrmt$column %>% map_chr(as_label)
+# function inspired by tfrmt column helpers to get the order of col levels/spans based on the data and col_plan
+cols_to_dat <- function(data, tfrmt, mock){
 
-  # establish order of all slots
-  cols_dat <- data %>%
-    ungroup() %>%
-    select(any_of(cols)) %>%
-    unique %>%
-    mutate(across(everything(), function(x){
-      ifelse(is.na(x), paste0("__span_empty_", cumsum(is.na(x))), x)
-    })) %>%
-    mutate(across(everything(), ~fct_inorder(.x))) %>%
-    arrange(across(everything()))
+  label <- tfrmt$label %>% as_label
+  groups <- tfrmt$group %>% map_chr(as_label)
+  groups_lowest <- groups %>% last()
+  columns <- tfrmt$column %>% map_chr(as_label)
+  columns_lowest <- columns %>% last() %>% sym()
 
-  # bind sorting cols
-  if (!is.null(tfrmt$sorting_cols)){
-    col_last <- last(cols)
-    ord_cols <- map_chr(tfrmt$sorting_cols, as_label)
-    cols_dat <- bind_rows(cols_dat, tibble(!!col_last:= ord_cols))
-  }
+  col_plan_vars <- tfrmt:::apply_tfrmt(data, tfrmt, mock) %>%
+    attr(., ".col_plan_vars")
 
-  cols_dat
+  allcols <- col_plan_vars %>%
+    map_chr(as_label) %>%
+    tfrmt:::split_data_names_to_df(data_names= c(), preselected_cols = .,
+                           column_names = columns)
+
+  # allcols <- col_plan_vars %>%
+  #   map_chr(as_label) %>%
+  #   tibble(`__tlang__col_name` = .,
+  #          !!columns_lowest := NA,
+  #          rename = names(col_plan_vars) %>% ifelse(.=="", NA_character_, .))
+  #
+  # spanning_cols <- allcols$`__tlang__col_name`[str_detect(allcols$`__tlang__col_name`, "___tlang_delim___")]
+  # if(length(spanning_cols) > 0){
+  #
+  #   spanning_cols_df<- spanning_cols %>%
+  #     keep(str_detect, "___tlang_delim___") %>%
+  #     str_split("___tlang_delim___", simplify = TRUE) %>%
+  #     as_tibble( .name_repair = ~columns) %>%
+  #     mutate(`__tlang__col_name` = spanning_cols)
+  #
+  #   allcols <- allcols %>% select(-all_of(columns_lowest)) %>%
+  #     left_join(spanning_cols_df, by = "__tlang__col_name")
+  # }
+#
+#   allcols_mrg <- allcols %>%
+#     mutate(!!columns_lowest := coalesce(!!columns_lowest, `__tlang__col_name`),
+#            rename = coalesce(rename, !!columns_lowest)) %>%
+#     select(-`__tlang__col_name`) %>%
+#     mutate(across(everything(), function(x){
+#       ifelse(is.na(x), paste0("__span_empty_", cumsum(is.na(x))), x)
+#     })) %>%
+#     mutate(across(everything(), ~fct_inorder(.x))) %>%
+#     arrange(across(everything()))
+
+  num_fix_ord <- c(groups, label) %>% length()
+  allcols %>%
+    mutate(`__col_plan_fixed__` = .data[[columns_lowest]] %in% label, #c(groups_lowest, label),
+           `__col_plan_fixed_ord__` = .data[[columns_lowest]] %in% c(groups, label),
+           `__col_plan_fixed_ord__` = ifelse(`__col_plan_fixed_ord__`, rev(seq_len(num_fix_ord)), 0)) %>%
+    rename(`__col_plan_dropped__` = subtraction_status) %>%
+    mutate(across(.data[[paste0("__tfrmt_new_name__", columns_lowest)]], ~str_remove(., '^-')))
 }
+

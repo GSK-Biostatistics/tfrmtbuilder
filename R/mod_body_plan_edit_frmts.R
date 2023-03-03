@@ -12,7 +12,10 @@ body_plan_edit_frmts_ui <- function(id){
         div(actionButton(ns("pst_frmt_when"), "frmt_when", icon = icon("plus")), class = "btn-frmt"),
         div(actionButton(ns("pst_frmt_combine"), "frmt_combine", icon = icon("plus")), class = "btn-frmt")
     ),
-    textAreaInput(ns("frmt"), label = "", value = "frmt('XXX.X')"))
+    div(id = ns("frmt_outer"),
+        textAreaInput(ns("frmt"), label = "", value = "frmt('XXX.X')")),
+    p(id = ns("invalid_txt"), style = "color: red;", "Invalid format entry")
+  )
 
 }
 
@@ -62,9 +65,20 @@ body_plan_edit_frmts_server <- function(id, selected){
         })
       })
 
-      reactive({
-         string_to_tfrmtobj(input$frmt, class = "frmt")
+
+      # text entered - evaluate and check
+      frmt_out <- reactive({
+        string_to_tfrmtobj(input$frmt)
+      }) %>%
+        debounce(500)
+
+      # validation indicators
+      observe({
+        shinyjs::toggleCssClass("frmt_outer", class = "invalid", condition = is.null(frmt_out()))
+        shinyjs::toggle("invalid_txt", condition = is.null(frmt_out()))
       })
+
+      return(frmt_out)
 
     }
   )

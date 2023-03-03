@@ -54,7 +54,7 @@ row_grp_plan_edit_server <- function(id, data, tfrmt_app, selected){
       # data filters module
       collected_filters <- filters_server("filters", data, tfrmt_app, selected,
                                           include = c("group"),
-                                          null_to_default = FALSE,
+                                          null_to_default = TRUE,
                                           allow_create = reactive(FALSE))
 
       # combine filters + post space into a row_grp_structure

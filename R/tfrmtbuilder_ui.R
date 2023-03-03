@@ -16,20 +16,20 @@ tfrmtbuilder_ui <- function(id){
                          base_font = font_collection(font_google("Lato", local = FALSE), "sans-serif"),
                          primary = "#254988",
                          bg = "#ffffff",
-                         fg = "#000000" #"#E64500"
+                         fg = "#000000"
                          ),
-        # selected = "Edit",
         tabPanel("Load", load_ui(ns("load"))),
         tabPanel("Edit",
                  fluidPage(
                    fluidRow(
-                     column(5,
+                     column(6,
                             tags$div(
                               class = "side_panel",
                               navlistPanel(
                                 id = ns("tabs"),
                                 tabPanel(div( h6("Data Mapping", class = "zero_margin"),
                                               div("(Required)", id = "tab_note")),
+                                         value = "Data Mapping",
                                          div( datamapping_ui(ns("overview")), id = "content_border")),
 
                                 tabPanel(div( h6("Body Plan", class = "zero_margin"),
@@ -62,7 +62,7 @@ tfrmtbuilder_ui <- function(id){
                                 )
                               )
                             ),
-                     column(7,
+                     column(6,
                             div(id = ns("sidebar"),
                                 tabsetPanel(
                                   tabPanel(title = div("Table", class = "tab_names"), br(),
@@ -70,9 +70,9 @@ tfrmtbuilder_ui <- function(id){
                                   tabPanel(title = div("Data", class = "tab_names"),
                                            DTOutput(ns("data_view")))
                                   )
+                            )
                      )
                    )
-                 )
                  )
         ) ,
         tabPanel("Export", export_ui(ns("export")))

@@ -203,14 +203,15 @@ pre.shiny-text-output {
 }
 
 /* for reset button */
-.btn-reset > button {
+.btn-reset > button,
+.btn-new > button {
   color: #FFFFFF;
   background: #666666 !important;
   border-color: #666666 !important;
 }
-.btn-reset:hover > button {
+.btn-reset:hover > button,
+.btn-new:hover > button {
   color: #FFFFFF;
   background-color: #575757 !important;
   border-color: #575757 !important;
 }
-

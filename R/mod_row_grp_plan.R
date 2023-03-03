@@ -24,7 +24,7 @@ row_grp_plan_ui <- function(id){
       uiOutput(ns("tbl")),
       br(),
       fluidRow(
-        column(3, actionButton(ns("add"), "New", icon = icon("plus"))),
+        column(3, div(actionButton(ns("add"), "New", icon = icon("plus")), class = "btn-new")),
         column(3, offset = 1,shinyjs::disabled(actionButton(ns("delete"), "Delete", icon = icon("trash"))))
       )
     ),

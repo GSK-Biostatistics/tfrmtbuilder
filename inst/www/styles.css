@@ -148,11 +148,6 @@
   font-weight: bold !important;
 }
 
-/* for text input labels under settings */
-label {
-  margin-bottom: 0.5rem !important;
-}
-
 /* tab panel title */
 .nav {
   --bs-nav-link-color: #E85819;
@@ -202,16 +197,69 @@ pre.shiny-text-output {
   border-color: #D14F15 !important;
 }
 
-/* for reset button */
-.btn-reset > button,
-.btn-new > button {
+/* for refresh button */
+.btn-refresh {
+  color: #FFFFFF !important;
+  background: #E85819 !important;
+  border-color: #E85819 !important;
+}
+.btn-refresh:hover {
+  color: #FFFFFF !important;
+  background-color: #D14F15 !important;
+  border-color: #D14F15 !important;
+}
+
+/* for save button */
+.btn-save > button {
+  color: #FFFFFF !important;
+  background: #254988 !important;
+  border-color: #254988 !important;
+}
+.btn-save:hover > button {
   color: #FFFFFF;
+  background-color: #1D3A6D !important;
+  border-color: #1D3A6D !important;
+}
+
+/* for reset/new/delete/circle button */
+.btn-reset > button,
+.btn-new > button,
+.btn-delete > button,
+.btn-circle > button {
+  color: #FFFFFF !important;
   background: #666666 !important;
   border-color: #666666 !important;
 }
 .btn-reset:hover > button,
-.btn-new:hover > button {
+.btn-new:hover > button,
+.btn-delete:hover > button,
+.btn-circle:hover > button {
+  color: #FFFFFF !important;
+  background-color: #575757 !important;
+  border-color: #575757 !important;
+}
+
+/* for export button */
+.btn-export > div > a {
+  color: #FFFFFF !important;
+  background: #666666 !important;
+  border-color: #666666 !important;
+}
+.btn-export:hover > div > a {
   color: #FFFFFF;
   background-color: #575757 !important;
   border-color: #575757 !important;
 }
+
+/* for fileInput (browse) button */
+span.btn.btn-default.btn-file {
+  color: #FFFFFF !important;
+  background: #666666 !important;
+  border-color: #666666 !important;
+}
+span.btn.btn-default.btn-file:hover {
+  color: #FFFFFF;
+  background-color: #575757 !important;
+  border-color: #575757 !important;
+}
+

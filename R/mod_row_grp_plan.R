@@ -9,7 +9,7 @@ row_grp_plan_ui <- function(id){
   tagList(
     fluidRow(
       h3("Row Group Plan", class = "heading_style",
-         actionButton(ns("reset"), "Reset", icon = icon("undo"))),
+         actionButton(ns("reset"), "Reset", icon = icon("undo")), class = "btn-reset"),
       h4("Label location"),
       shinyWidgets::radioGroupButtons(
         inputId = ns("label_loc"), label = NULL,
@@ -24,8 +24,8 @@ row_grp_plan_ui <- function(id){
       uiOutput(ns("tbl")),
       br(),
       fluidRow(
-        column(3, actionButton(ns("add"), "New", icon = icon("plus"))),
-        column(3, offset = 1,shinyjs::disabled(actionButton(ns("delete"), "Delete", icon = icon("trash"))))
+        column(3, div(actionButton(ns("add"), "New", icon = icon("plus")), class = "btn-new")),
+        column(3, offset = 1, div(shinyjs::disabled(actionButton(ns("delete"), "Delete", icon = icon("trash")))), class = "btn-delete")
       )
     ),
     br(),
@@ -35,7 +35,7 @@ row_grp_plan_ui <- function(id){
            row_grp_plan_edit_ui(ns("customize_pane"))
           ),
           fluidRow(
-            column(3,actionButton(ns("save"), "Save", icon = icon("save"))),
+            column(3, div(actionButton(ns("save"), "Save", icon = icon("save")), class = "btn-save")),
             column(4, shinyjs::hidden(div(id = ns("invalid"), "Invalid Entry", style = "color: red;")))
           )
       )

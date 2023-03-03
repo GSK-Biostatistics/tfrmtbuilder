@@ -60,8 +60,8 @@
 }
 
 .side_panel .nav-pills a:hover {
-  color: #ffffff;
-  background: #83A3DD;
+  color: #1D3A6D;
+  background: #AAC0E8;
 }
 
 .side_panel .nav-pills .nav-link.active {
@@ -79,11 +79,11 @@
 }
 
 .navbar-default .navbar-nav > li > a:hover {
-  color: #FF4D00 !important;
+  color: #CF4F15 !important;
 }
 
 .navbar-default .navbar-nav > li > a.active {
-  text-decoration: underline #FF4D00;
+  text-decoration: underline #CF4F15;
 }
 
 .navbar {
@@ -94,7 +94,7 @@
 .navbar-brand {
   font-size: 1.4rem !important;
   font-weight: bold !important;
-  text-shadow: 1px 1px #FF4D00;
+  text-shadow: 1px 1px #CF4F15;
 }
 
 .navheader_padding {
@@ -113,10 +113,11 @@
 }
 
 #tab_note {
-  color: #FF4D00;
+  color: #CF4F15;
   margin: 0px;
   font-style: italic;
   font-size: 14px;
+  font-weight:; normal !important;
 }
 
 .side_panel .nav-pills a:hover #tab_note {
@@ -136,17 +137,18 @@
 ::-webkit-scrollbar-track {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 	border-radius: 10px;
-	background-color: #FFDFD1;
+	background-color: #F5F8FD;
 }
 
 ::-webkit-scrollbar-thumb {
 	border-radius: 10px;
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-	background-color: #F08F66;
+	background-color: #AAC0E8;
 }
 
 /* heading style */
 .heading_style {
+  color: #254988;
   font-weight: bold !important;
 }
 
@@ -154,3 +156,98 @@
 .form-label {
   margin-bottom: 0.5rem !important;
 }
+
+
+/* tab panel title */
+.nav {
+  --bs-nav-link-color: #CF4F15;
+  --bs-nav-link-hover-color: #BD4813;
+}
+
+/* for tab content */
+#content_border {
+ border-radius: 10px;
+ border: 1px solid #AAC0E8;
+ background: #F5F8FD;
+ padding: 15px;
+}
+
+/* for table/data view tab names */
+a.nav-link > div.tab_names {
+  font-weight: bold !important;
+  font-size: 20px !important;
+}
+
+/* for table refresh button */
+.btn-danger {
+  background-color: #254988;
+  box-shadow: 0 0 15px #CF4F15;
+}
+
+/* for wellPanel */
+div.well {
+  background: #F9F9F9;
+  border: 1px solid #AAC0E8;
+}
+
+/* for code output */
+pre.shiny-text-output {
+  background: #FFFFFF;
+}
+
+/* for refresh button */
+.btn-refresh {
+  color: #FFFFFF !important;
+  background: #254988 !important;
+  border-color: #254988 !important;
+}
+.btn-refresh:hover {
+  color: #FFFFFF !important;
+  background-color: #1D3A6D !important;
+  border-color: #1D3A6D !important;
+}
+
+/* for reset/new/delete/circle button */
+.btn-reset > button,
+.btn-new > button,
+.btn-delete > button,
+.btn-circle > button,
+.btn-save > button {
+  color: #FFFFFF !important;
+  background: #254988 !important;
+  border-color: #254988 !important;
+}
+.btn-reset:hover > button,
+.btn-new:hover > button,
+.btn-delete:hover > button,
+.btn-circle:hover > button,
+.btn-save:hover > button {
+  color: #FFFFFF !important;
+  background-color: #1D3A6D !important;
+  border-color: #1D3A6D !important;
+}
+
+/* for export button */
+.btn-export > div > a {
+  color: #FFFFFF !important;
+  background: #254988 !important;
+  border-color: #254988 !important;
+}
+.btn-export:hover > div > a {
+  color: #FFFFFF;
+  background-color: #1D3A6D !important;
+  border-color: #1D3A6D !important;
+}
+
+/* for fileInput (browse) button */
+span.btn.btn-default.btn-file {
+  color: #FFFFFF !important;
+  background: #254988 !important;
+  border-color: #254988 !important;
+}
+span.btn.btn-default.btn-file:hover {
+  color: #FFFFFF;
+  background-color: #1D3A6D !important;
+  border-color: #1D3A6D !important;
+}
+

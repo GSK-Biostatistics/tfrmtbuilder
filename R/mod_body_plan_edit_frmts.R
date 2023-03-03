@@ -8,9 +8,9 @@ body_plan_edit_frmts_ui <- function(id){
 
   tagList(
     div(style="display: inline-block; vertical-align:center; horizontal-align:center", class = "row-fluid",
-        actionButton(ns("pst_frmt"), "frmt", icon = icon("plus")),
-        actionButton(ns("pst_frmt_when"), "frmt_when", icon = icon("plus")),
-        actionButton(ns("pst_frmt_combine"), "frmt_combine", icon = icon("plus"))
+        div(actionButton(ns("pst_frmt"), "frmt", icon = icon("plus")), class = "btn-frmt"),
+        div(actionButton(ns("pst_frmt_when"), "frmt_when", icon = icon("plus")), class = "btn-frmt"),
+        div(actionButton(ns("pst_frmt_combine"), "frmt_combine", icon = icon("plus")), class = "btn-frmt")
     ),
     div(id = ns("frmt_outer"),
         textAreaInput(ns("frmt"), label = "", value = "frmt('XXX.X')")),

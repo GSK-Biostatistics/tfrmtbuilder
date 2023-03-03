@@ -9,7 +9,7 @@ col_style_plan_ui <- function(id){
   tagList(
     fluidRow(
       h3("Col Style Plan", class = "heading_style",
-         actionButton(ns("reset"), "Reset", icon = icon("undo"))),
+         actionButton(ns("reset"), "Reset", icon = icon("undo")), class = "btn-reset"),
       h4("Col Style Structures"),
       shinyjs::hidden(
         p(id = ns("none"),
@@ -18,8 +18,8 @@ col_style_plan_ui <- function(id){
       uiOutput(ns("tbl")),
       br(),
       fluidRow(
-        column(3, actionButton(ns("add"), "New", icon = icon("plus"))),
-        column(3, offset = 1,shinyjs::disabled(actionButton(ns("delete"), "Delete", icon = icon("trash"))))
+        column(3, div(actionButton(ns("add"), "New", icon = icon("plus")), class = "btn-new")),
+        column(3, offset = 1, div(shinyjs::disabled(actionButton(ns("delete"), "Delete", icon = icon("trash")))), class = "btn-delete")
       )
     ),
     br(),
@@ -29,7 +29,7 @@ col_style_plan_ui <- function(id){
             col_style_plan_edit_ui(ns("customize_pane"))
           ),
           fluidRow(
-            column(3,actionButton(ns("save"), "Save", icon = icon("save"))),
+            column(3, div(actionButton(ns("save"), "Save", icon = icon("save")), class = "btn-save")),
             column(4, shinyjs::hidden(div(id = ns("invalid"), "Invalid Entry", style = "color: red;")))
           )
       )

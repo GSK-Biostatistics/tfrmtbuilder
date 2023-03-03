@@ -9,24 +9,33 @@ datamapping_ui <- function(id){
     h3("Settings", class = "heading_style",
        div(style = "display: inline-block;",
           # actionButton(ns("save"), "Save", icon = icon("save")),
-           actionButton(ns("reset"), "Reset", icon = icon("undo")))),
+           actionButton(ns("reset"), "Reset", icon = icon("undo")), class = "btn-reset")),
     div(class = "form-group shiny-input-container",
         tags$label("Groups"),
-        circleButton(ns("addgrp"), icon = icon("plus"), size = "xs"),
-        circleButton(ns("dropgrp"), icon = icon("minus"), size = "xs"),
+        span(
+          div(circleButton(ns("addgrp"), icon = icon("plus"), size = "xs"), class = "btn-circle"),
+          div(circleButton(ns("dropgrp"), icon = icon("minus"), size = "xs"), class = "btn-circle"),
+          style = "display: flex; gap: 5px;"
+        ),
         uiOutput(ns("grps"))),
     uiOutput(ns("single_settings")),
     div(class = "form-group shiny-input-container",
         tags$label("Columns"),
-        circleButton(ns("addcol"), icon = icon("plus"), size = "xs"),
-        circleButton(ns("dropcol"), icon = icon("minus"), size = "xs"),
+        span(
+          div(circleButton(ns("addcol"), icon = icon("plus"), size = "xs"), class = "btn-circle"),
+          div(circleButton(ns("dropcol"), icon = icon("minus"), size = "xs"), class = "btn-circle"),
+          style = "display: flex; gap: 5px;"
+        ),
         uiOutput(ns("cols"))) ,
     div(class = "form-group shiny-input-container",
         tags$label("Sorting Columns"),
-        circleButton(ns("addsortcol"), icon = icon("plus"), size = "xs"),
-        circleButton(ns("dropsortcol"), icon = icon("minus"), size = "xs"),
+        span(
+          div(circleButton(ns("addsortcol"), icon = icon("plus"), size = "xs"), class = "btn-circle"),
+          div(circleButton(ns("dropsortcol"), icon = icon("minus"), size = "xs"), class = "btn-circle"),
+          style = "display: flex; gap: 5px;"
+        ),
         uiOutput(ns("sortcols"))),
-    actionButton(ns("save"), "Save", icon = icon("save"), class = "btn-primary")
+    div(actionButton(ns("save"), "Save", icon = icon("save")), class = "btn-save")
   )
 }
 

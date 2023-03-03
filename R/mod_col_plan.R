@@ -8,16 +8,16 @@ col_plan_ui <- function(id){
 
   tagList(
     fluidRow(
-      h3("Col Plan", class = "heading_style")
+      h3("Col Plan", class = "heading_style",
+      actionButton(ns("reset"), "Reset", icon = icon("undo")), class = "btn-reset")
     ),
     fluidRow(
-      column(5, radioGroupButtons(ns("distribute"),label = NULL, choices = c("Drop all", "Keep all"), selected = "Keep all")),
-      column(3, actionButton(ns("reset"), "Reset all", icon = icon("undo")))
+      column(5, radioGroupButtons(ns("distribute"),label = NULL, choices = c("Drop all", "Keep all"), selected = "Keep all"))
     ),
     col_plan_edit_ui(ns("col_plan_edit")),
     br(),
     fluidRow(
-      column(2,  actionButton(ns("save"), "Save", icon = icon("save"), class = "btn-primary"))
+      column(2, div(actionButton(ns("save"), "Save", icon = icon("save")), class = "btn-save"))
     )
   )
 }

@@ -8,10 +8,8 @@ col_plan_simple_ui <- function(id){
 
   tagList(
     fluidRow(
-      h3("Column Plan", class = "heading_style")
-    ),
-    fluidRow(
-      column(3, actionButton(ns("reset"), "Reset", icon = icon("undo")))
+      h3("Column Plan", class = "heading_style",
+      actionButton(ns("reset"), "Reset", icon = icon("undo")), class = "btn-reset")
     ),
     fluidRow(
       column(7,

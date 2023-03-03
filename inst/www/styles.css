@@ -207,11 +207,25 @@ pre.shiny-text-output {
   border-color: #1D3A6D !important;
 }
 
-/* for reset/new/delete/circle button */
+/* for circle button */
+.btn-circle > button {
+  color: #FFFFFF !important;
+  background: #254988 !important;
+  border-color: #254988 !important;
+  margin-bottom: 5px !important;
+}
+.btn-circle:hover > button {
+  color: #FFFFFF !important;
+  background-color: #1D3A6D !important;
+  border-color: #1D3A6D !important;
+  margin-bottom: 5px !important;
+}
+
+/* for reset/new/delete/circle/save/frmt buttons */
 .btn-reset > button,
 .btn-new > button,
-.btn-delete > button,
-.btn-circle > button,
+.btn-delete > div > button,
+.btn-frmt > button,
 .btn-save > button {
   color: #FFFFFF !important;
   background: #254988 !important;
@@ -219,8 +233,8 @@ pre.shiny-text-output {
 }
 .btn-reset:hover > button,
 .btn-new:hover > button,
-.btn-delete:hover > button,
-.btn-circle:hover > button,
+.btn-delete:hover > div > button,
+.btn-frmt:hover > button,
 .btn-save:hover > button {
   color: #FFFFFF !important;
   background-color: #1D3A6D !important;

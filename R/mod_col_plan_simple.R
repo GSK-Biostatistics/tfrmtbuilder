@@ -11,6 +11,7 @@ col_plan_simple_ui <- function(id){
       h3("Column Plan", class = "heading_style",
       actionButton(ns("reset"), "Reset", icon = icon("undo")), class = "btn-reset")
     ),
+    p(id = ns("some"), "Click column name to edit"),
     fluidRow(
       column(7,
              div(
@@ -142,7 +143,7 @@ col_plan_simple_server <- function(id, data, tfrmt_app, mode_load){
       selected <- reactiveVal(NULL)
       selected_num <- reactiveVal(NULL)
 
-      shinyjs::onevent(event = "dblclick", "items", expr = {
+      onclick("items", expr = {
         mode("edit")
         item_num <- as.numeric(input$`button-item`)
 

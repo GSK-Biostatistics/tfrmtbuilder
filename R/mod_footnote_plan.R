@@ -21,6 +21,7 @@ footnote_plan_ui <- function(id){
         p(id = ns("none"),
           "None supplied.")
       ),
+      p(id = ns("some"), "Click table entry to edit"),
       div(
         id = ns("sortable"),
         uiOutput(ns("tbl"))
@@ -114,7 +115,7 @@ footnote_plan_server <- function(id, data, tfrmt_app){
 
 
       # when any are selected, switch to edit mode
-      shinyjs::onevent(event = "dblclick", "items", expr = {
+      onclick("items", expr = {
 
         last_struct <- pluck(struct_list(), length(struct_list()))
         if(!is_empty(last_struct)){
@@ -187,6 +188,8 @@ footnote_plan_server <- function(id, data, tfrmt_app){
       observe({
         any_items <- length(struct_list())==0
         shinyjs::toggle("none", condition = any_items)
+        shinyjs::toggle("some", condition = !any_items)
+
       })
 
       # ensure selected() is updated in case of 2 "adds" in a row (selected stays NULL)

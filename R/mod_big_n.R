@@ -14,6 +14,7 @@ big_n_ui <- function(id){
         p(id = ns("none"),
           "None supplied.")
       ),
+      p(id = ns("some"), "Click table to edit. Only 1 entry possible"),
       uiOutput(ns("tbl")),
       br(),
       fluidRow(
@@ -81,7 +82,7 @@ big_n_server <- function(id, data, tfrmt_app, mode_load){
       })
 
       # when any are selected, switch to edit mode
-      shinyjs::onevent(event = "dblclick", "items", expr = {
+      onclick("items", expr = {
 
         if (!is_empty(struct())){
           mode("edit")
@@ -140,6 +141,7 @@ big_n_server <- function(id, data, tfrmt_app, mode_load){
       observe({
         any_items <- length(struct())==0
         shinyjs::toggle("none", condition = any_items)
+        shinyjs::toggle("some", condition = !any_items)
       })
 
       # customize server

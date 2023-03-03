@@ -20,7 +20,8 @@ table_view_ui <- function(id){
     shinyjs::hidden(
       p(id = ns("tbl_div_msg"), style="color:red;",
         "Incomplete settings configuration")
-    )
+    ),
+    htmlOutput(ns("error_msg"))
   )
 }
 
@@ -113,8 +114,8 @@ table_view_server <- function(id, tab_selected, data, tfrmt_app_out, settings){
         tbl_invalid(FALSE)
       })
 
-      # view table
-      output$tbl_view <- renderUI({
+      # table as reactive
+      tab <- reactive({
 
         req(retbl()>0)
 
@@ -123,18 +124,26 @@ table_view_server <- function(id, tab_selected, data, tfrmt_app_out, settings){
         data <- isolate(data())
 
         if (mode=="reporting"){
-          tab <- tfrmt_app_out %>% print_to_gt(.data = data)
+          tab <- tfrmt_app_out %>% safely(print_to_gt)(.data = data)
 
         } else if (mode=="mock_no_data"){
-          tab <- tfrmt_app_out %>% print_mock_gt()
+
+          tab <- tfrmt_app_out %>% safely(print_mock_gt)()
 
         } else {
-          tab <- tfrmt_app_out %>% print_mock_gt(.data = data)
+          tab <- tfrmt_app_out %>% safely(print_mock_gt)(.data = data)
         }
+
+      })
+
+      # view table
+      output$tbl_view <- renderUI({
+
+        req(!is.null(tab()$result))
 
         div(style = "height:100%; overflow-x: auto; overflow-y: auto; width: 100%",
             as_raw_html(
-              tab %>%
+              tab()$result %>%
                 tab_style(style = cell_text(whitespace = "pre"),
                           locations = list(cells_stub(), cells_body(), cells_row_groups()))  %>%
                 tab_options(
@@ -142,6 +151,13 @@ table_view_server <- function(id, tab_selected, data, tfrmt_app_out, settings){
                 )
             ))
 
+      })
+
+
+      # error msgs print
+      output$error_msg <- renderUI({
+        req(!is.null(tab()$error))
+        HTML(p(paste(tab()$error)))
       })
     }
   )

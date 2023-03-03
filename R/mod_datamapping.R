@@ -26,7 +26,7 @@ datamapping_ui <- function(id){
         circleButton(ns("addsortcol"), icon = icon("plus"), size = "xs"),
         circleButton(ns("dropsortcol"), icon = icon("minus"), size = "xs"),
         uiOutput(ns("sortcols"))),
-    actionButton(ns("save"), "Save", icon = icon("save"), class = "btn-primary")
+    div(actionButton(ns("save"), "Save", icon = icon("save")), class = "btn-save")
   )
 }
 

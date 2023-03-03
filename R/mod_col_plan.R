@@ -17,7 +17,7 @@ col_plan_ui <- function(id){
     col_plan_edit_ui(ns("col_plan_edit")),
     br(),
     fluidRow(
-      column(2,  actionButton(ns("save"), "Save", icon = icon("save"), class = "btn-primary"))
+      column(2, div(actionButton(ns("save"), "Save", icon = icon("save")), class = "btn-save"))
     )
   )
 }

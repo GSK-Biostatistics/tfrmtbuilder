@@ -35,7 +35,7 @@ footnote_plan_ui <- function(id){
             footnote_plan_edit_ui(ns("customize_pane"))
           ),
           fluidRow(
-            column(3,actionButton(ns("save"), "Save", icon = icon("save"))),
+            column(3, div(actionButton(ns("save"), "Save", icon = icon("save")), class = "btn-save")),
             column(4, shinyjs::hidden(div(id = ns("invalid"), "Invalid Entry", style = "color: red;")))
           )
       )

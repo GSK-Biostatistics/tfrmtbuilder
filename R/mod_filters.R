@@ -17,7 +17,7 @@ filters_ui <- function(id){
 #' @param tfrmt_app tfrmt object
 #' @param selected *_plan that is selected in (or being added to) the table
 #' @param include Character vector of parameters (group, label, param, column) to include in the filter creation
-#' @param null_to_default Set any variables without values selected to ".default" (required for body_plan)
+#' @param null_to_default Set any variables without values selected to ".default" (required for body_plan, row_grp_plan)
 #' @param allow_create Allow for the creation of new values in the selectInputs (for tfrmt-driven mock creation)
 #'
 #'
@@ -70,7 +70,9 @@ filters_server <- function(id, data, tfrmt_app, selected,
             }
 
             all_vars <- var_shell()[[var]]
-             ui_list[[i]] <- create_filter_select(ns, paste0(var, "_val"), data, selected_vars, all_vars, allow_create())
+             ui_list[[i]] <- create_filter_select(ns, paste0(var, "_val"), data,
+                                                  selected_vars, all_vars,
+                                                  allow_create(), null_to_default)
 
           }
 
@@ -109,6 +111,11 @@ filters_server <- function(id, data, tfrmt_app, selected,
             ## unlist if not a list to begin with
             if (! is.list(isolate(tfrmt_app()[[var]]))){
               selected_vars <- selected_vars %>% unlist() %>% unname()
+            } else {
+              # if a list and all .default, then condense
+              if (length(selected_vars)>0 && all(map_lgl(selected_vars, ~.x ==".default"))){
+                selected_vars <- ".default"
+              }
             }
 
             vars_list[[paste0(var, "_val")]] <- selected_vars

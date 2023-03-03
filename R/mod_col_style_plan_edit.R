@@ -73,7 +73,7 @@ col_style_plan_edit_server <- function(id, data, tfrmt_app, selected){
       # data filters module
       collected_filters <- filters_server("filters", data, tfrmt_app, selected,
                                           include = c("column"),
-                                          null_to_default = TRUE,
+                                          null_to_default = FALSE,
                                           allow_create = reactive(FALSE))
 
 

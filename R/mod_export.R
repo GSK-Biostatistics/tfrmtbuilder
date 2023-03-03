@@ -62,12 +62,17 @@ export_server <- function(id, data, tfrmt_app_out, mode){
 
       tbl_out <- reactive({
         req(tfrmt_app_out())
+        mode <- isolate(mode())
 
-        if (isolate(mode())=="reporting"){
+        if (mode=="reporting"){
           tfrmt_app_out() %>% print_to_gt(.data = data())
+
+        } else if (mode=="mock_no_data"){
+          tfrmt_app_out() %>% print_mock_gt()
+
         } else {
           tfrmt_app_out() %>% print_mock_gt(.data = data())
-          }
+        }
       })
 
       output$tbl <- render_gt({

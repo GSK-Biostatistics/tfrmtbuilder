@@ -15,12 +15,12 @@ Authors@R:
                     family = "Ahmad",
                     role = c("aut"),
                     email = "karima.j.ahmad@gsk.com",
-                    comment = c(ORCID = "0000-0002-8784-1712"))
+                    comment = c(ORCID = "0000-0002-8784-1712")),
              person(given = "Ellis",
                     family = "Hughes",
                     role = c("aut"),
                     email = "ellis.h.hughes@gsk.com",
-                    comment = c(ORCID = "0000-0003-0637-4436"))
+                    comment = c(ORCID = "0000-0003-0637-4436")),
              person("GlaxoSmithKline Research & Development Limited", 
              role = c("cph", "fnd"))
              )

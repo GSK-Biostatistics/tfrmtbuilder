@@ -17,6 +17,22 @@ The {tfrmt} package provides a language for defining display-related metadata, w
 - Export tab
   - Download tfrmt metadata (json file) 
   - Download tfrmt table (HTML) 
+  
+### Usage
+
+{tfrmtbuilder} can be installed and used with the following code:
+
+```r
+# install development version of {tfrmt}
+devtools::install_github("GSK-Biostatistics/tfrmt")
+
+# install {tfrmtbuilder}
+devtools::install_github("GSK-Biostatistics/tfrmtbuilder")
+
+# Load app
+library(tfrmtbuilder)
+tfrmtbuilder()
+```
 
 ### Useful Links 
 

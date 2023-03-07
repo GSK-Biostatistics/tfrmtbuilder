@@ -6,6 +6,10 @@
   padding: 0px 0px !important;
 }
 
+.rank-list-item-stub {
+  border: 1px solid black;
+}
+
 .rank-list-title {
  font-weight: bold;
 }
@@ -180,7 +184,7 @@ a.nav-link > div.tab_names {
 
 /* for table refresh button */
 .btn-danger {
-  background-color: #254988;
+  background-color: #CF4F15;
   box-shadow: 0 0 15px #CF4F15;
 }
 

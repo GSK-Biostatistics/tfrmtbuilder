@@ -141,7 +141,7 @@ create_struct_list_sortable <- function(ns, struct_list_txt, mode){
 
 
 # create sortable list of *structure objects
-create_col_plan_sortable_simple <- function(ns, col_levs, col_levs_orig, col_fixed, col_dropped, mode){
+create_col_plan_sortable_simple <- function(ns, col_levs, col_levs_orig, col_stub, col_fixed, col_dropped, mode){
 
   ind <- 1:length(col_levs)
 
@@ -156,6 +156,9 @@ create_col_plan_sortable_simple <- function(ns, col_levs, col_levs_orig, col_fix
                    }
                    if (col_fixed[i]){
                      class <- paste(class, "no-move")
+                   }
+                   if (col_stub[i]){
+                     class <- paste(class, "rank-list-item-stub")
                    }
 
                    # item HTML

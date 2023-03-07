@@ -6,7 +6,10 @@ home_ui <- function(id){
 
   fluidRow(
     column(8, uiOutput(outputId = ns("about")) ),
-    column(4, uiOutput(outputId = ns("hex")) )
+    column(4,
+           fluidRow(uiOutput(outputId = ns("hex")) ),
+           fluidRow(uiOutput(outputId = ns("links")))
+    )
     )
   }
 
@@ -60,7 +63,18 @@ home_server <- function(id){
              </ol>
              </p>
 
-             <h4 class=heading_style><i> Useful Links </i></h4>
+             ")
+      })
+
+      output$hex <- renderUI({
+        HTML(" <left> <img src=https://github.com/GSK-Biostatistics/tfrmt/blob/main/man/figures/tfrmt.png?raw=true
+                alt=hex width=75% > </left> ")
+
+      })
+
+      output$links <- renderUI({
+
+        HTML("<h4 class=heading_style><i> Useful Links </i></h4>
 
              <ul>
              <li> <a target=_blank class=home_links href=https://gsk-biostatistics.github.io/tfrmt/>
@@ -70,14 +84,7 @@ home_server <- function(id){
              <li> <a target=_blank class=home_links href=https://github.com/GSK-Biostatistics/tfrmt>
              {tfrmt} GitHub Repository</a> </li>
              </ul>
-
-             ")
-      })
-
-      output$hex <- renderUI({
-        HTML(" <center> <img src=https://github.com/GSK-Biostatistics/tfrmt/blob/main/man/figures/tfrmt.png?raw=true
-                alt=hex width=75% > </center> ")
-
+        ")
       })
 
     }

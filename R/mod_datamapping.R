@@ -306,9 +306,37 @@ datamapping_server <- function(id, data, tfrmt_orig, mode){
          }
       })
 
+
+     # save_count <- reactiveVal(0)
+#
       observe({
         shinyjs::toggleState("save", condition = settings_complete())
+
+        # if (is.null(settings_complete()) || settings_complete()==FALSE){
+        #   save_count(0)
+        # }
+
       })
+
+      # turn the button orange if needs saving
+      # observe({
+      #   req(save_count()>0)
+      #   req(settings_complete()==TRUE)
+      #   reactiveValuesToList(input)   # if all are valid yet something updates
+      #   shinyjs::addClass("save", class = "btn-danger")
+      #   shinyjs::removeClass("save", class = "btn-refresh")
+      # })
+      # observe({
+      #   req(settings_complete())
+      #   if(settings_complete() & save_count()==0){
+      #     shinyjs::addClass("save", class = "btn-danger")
+      #     shinyjs::removeClass("save", class = "btn-refresh")
+      #   } else if ((settings_complete() & save_count()>0) | ! settings_complete()){
+      #     shinyjs::removeClass("save", class = "btn-danger")
+      #     shinyjs::addClass("save", class = "btn-refresh")
+      #   }
+      # })
+
 
       # collect all settings when "save" pressed or if all complete on initialization
       # - on initialization:
@@ -317,7 +345,11 @@ datamapping_server <- function(id, data, tfrmt_orig, mode){
               req(settings_default_complete())
 
               isolate({
-                data <- data() %||% tfrmt:::make_mock_data(tfrmt_orig())
+                 if (mode()=="mock_with_data"){
+                  data <- data() %>% select(-as_label(tfrmt_orig()$value))
+                } else {
+                  data <- data() %||% (tfrmt:::make_mock_data(tfrmt_orig()))
+                }
 
                 settings_out(
                   list(tfrmt = tfrmt_orig(),
@@ -325,6 +357,8 @@ datamapping_server <- function(id, data, tfrmt_orig, mode){
                        mode = mode(),
                        original = TRUE)
                 )
+
+              #  save_count(save_count() + 1)
                 }
               )
       })
@@ -398,7 +432,13 @@ datamapping_server <- function(id, data, tfrmt_orig, mode){
           }
 
           tfrmt_out <- layer_tfrmt(tf, tfrmt_new)
-          data <- data() %||% tfrmt:::make_mock_data(tfrmt_out)
+
+          if (mode()=="mock_with_data"){
+            data <- data() %>% select(-as_label(tfrmt_out$value))
+          } else {
+            data <- data() %||% (tfrmt:::make_mock_data(tfrmt_out))
+          }
+
 
           # layer for return
           settings_out(
@@ -409,6 +449,8 @@ datamapping_server <- function(id, data, tfrmt_orig, mode){
             original= FALSE
             )
           )
+
+         # save_count(save_count() + 1)
         } else {
           settings_out(NULL)
         }

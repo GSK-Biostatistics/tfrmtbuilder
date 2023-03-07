@@ -39,7 +39,7 @@ home_server <- function(id){
              <li> Specify whether you are generating a mock (no data values) or a table with data values </li>
              <li> Define your data source:
              <ul>
-             <li> None [mock only]: Use generated mock data</li>
+             <li> Auto [mock only]: Use auto-generated mock data</li>
              <li> Upload: Upload an existing dataset (most file formats)
              <ul>
              <li> <i> Note: If in 'mock' mode, this will serve as a shell with any data values ignored </i> </li>

@@ -29,17 +29,26 @@ home_server <- function(id){
              <h4 class=heading_style><i> Features and Workflow </i></h4>
 
              <p>
-             <ul>
+             <ol>
              <li> Initialize tab
              <ul>
              <li> Load an existing tfrmt (JSON) or start fresh </li>
-             <li> Load an existing dataset (most file formats) or use generated mock data </li>
+             <li> Specify whether you are generating a mock (no data values) or a table with data values </li>
+             <li> Define your data source:
+             <ul>
+             <li> None [mock only]: Use generated mock data</li>
+             <li> Upload: Upload an existing dataset (most file formats)
+             <ul>
+             <li> <i> Note: If in 'mock' mode, this will serve as a shell with any data values ignored </i> </li>
+             </ul>
+             <li> Example [mock only]: Use a pre-loaded example dataset </li>
+             </ul>
              </ul>
              <li> Edit tab
              <ul>
              <li> Select ARD column mappings </li>
              <li> Format table via the 'plans' </li>
-             <li> View the table as you modify </li>
+             <li> View the table and underlying data as you modify </li>
              </ul>
              </li>
              <li> Export tab
@@ -48,7 +57,7 @@ home_server <- function(id){
              <li> Download tfrmt table (HTML, PNG) </li>
              </ul>
              </li>
-             </ul>
+             </ol>
              </p>
 
              <h4 class=heading_style><i> Useful Links </i></h4>

@@ -7,7 +7,12 @@ The {tfrmt} package provides a language for defining display-related metadata, w
 
 - Initialize tab
   - Load an existing tfrmt (JSON) or start fresh 
-  - Load an existing dataset (most file formats) or use generated mock data 
+  - Specify whether you are generating a mock (no data values) or a table with data values
+  - Define your data source:
+    - Auto [mock only]: Use auto-generated mock data
+    - Upload: Upload an existing dataset (most file formats)
+      - Note: If in 'mock' mode, this will serve as a shell with any data values ignored
+    - Example [mock only]: Use a pre-loaded example dataset 
 
 - Edit tab
   - Select ARD column mappings

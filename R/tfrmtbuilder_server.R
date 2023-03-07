@@ -42,6 +42,8 @@ tfrmtbuilder_server <- function(id) {
       cp_out <- col_plan_simple_server("col_plan",  reactive(settings()$data), reactive(settings()$tfrmt), settings_orig$mode)
       # big N creation
       bn_out <- big_n_server("big_n", reactive(settings()$data), reactive(settings()$tfrmt), settings_orig$mode)
+      # titles
+      ti_out <- titles_server("titles", reactive(settings()$tfrmt))
 
       # final tfrmt to combine results of all modules
       tfrmt_app_out <- reactiveVal(NULL)
@@ -58,8 +60,11 @@ tfrmtbuilder_server <- function(id) {
         req(cs_out())
         req(cp_out())
         req(bn_out())
+        req(ti_out())
 
         tfrmt_app <-  settings()$tfrmt
+        tfrmt_app$title <- ti_out()$title
+        tfrmt_app$subtitle <- ti_out()$subtitle
         tfrmt_app$body_plan <- bp_out()
         tfrmt_app$row_grp_plan <- rg_out()
         tfrmt_app$col_style_plan <- cs_out()

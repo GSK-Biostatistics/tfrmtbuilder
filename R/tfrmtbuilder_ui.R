@@ -58,6 +58,10 @@ tfrmtbuilder_ui <- function(id){
                                               div("(Optional)", id = "tab_note")),
                                          div( big_n_ui(ns("big_n")), id = "content_border")),
 
+                                tabPanel(div( h6("Titles", class = "zero_margin"),
+                                              div("(Optional)", id = "tab_note")),
+                                         div( titles_ui(ns("titles")), id = "content_border")),
+
                                 widths = c(3, 9),
                                 well = FALSE
                                 )

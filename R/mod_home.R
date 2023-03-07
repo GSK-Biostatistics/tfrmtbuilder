@@ -21,8 +21,8 @@ home_server <- function(id){
 
              <p>
              The {tfrmt} package provides a language for defining display-related
-             metadata, which can then be used to automate and easily update output formats.
-             {tfrmtbuilder} serves as an interface to the package, allowing users
+             metadata. This metadata can then be used to automate and easily update output formats.
+             {tfrmtbuilder} serves as point-and-click interface to the package, allowing users
              to quickly and easily modify existing or new table templates.
              </p>
 
@@ -30,9 +30,9 @@ home_server <- function(id){
 
              <p>
              <ul>
-             <li> Load tab
+             <li> Initialize tab
              <ul>
-             <li> Load an existing tfrmt (json file) or start fresh </li>
+             <li> Load an existing tfrmt (JSON) or start fresh </li>
              <li> Load an existing dataset (most file formats) or use generated mock data </li>
              </ul>
              <li> Edit tab
@@ -44,8 +44,8 @@ home_server <- function(id){
              </li>
              <li> Export tab
              <ul>
-             <li> Download tfrmt metadata (json file) </li>
-             <li> Download tfrmt table (HTML) </li>
+             <li> Download tfrmt metadata (JSON) </li>
+             <li> Download tfrmt table (HTML, PNG) </li>
              </ul>
              </li>
              </ul>

@@ -5,8 +5,8 @@ The {tfrmt} package provides a language for defining display-related metadata, w
 
 ### App Features and Workflow
 
-- Load tab
-  - Load an existing tfrmt (json file) or start fresh 
+- Initialize tab
+  - Load an existing tfrmt (JSON) or start fresh 
   - Load an existing dataset (most file formats) or use generated mock data 
 
 - Edit tab
@@ -15,8 +15,8 @@ The {tfrmt} package provides a language for defining display-related metadata, w
   - View the table as you modify
   
 - Export tab
-  - Download tfrmt metadata (json file) 
-  - Download tfrmt table (HTML) 
+  - Download tfrmt metadata (JSON) 
+  - Download tfrmt table (HTML, PNG) 
   
 ### Usage
 

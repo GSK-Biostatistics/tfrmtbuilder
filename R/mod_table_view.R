@@ -105,12 +105,16 @@ table_view_server <- function(id, tab_selected, data, tfrmt_app_out, settings){
       # when the final tfrmt is changed, indicate refresh is needed
       observeEvent(tfrmt_app_out(),{
         shinyjs::addClass("refresh", class = "btn-danger")
+        shinyjs::removeClass("refresh", class = "btn-refresh")
+
         tbl_invalid(TRUE)
       })
 
       # when display update is triggered, remove the indication
       observeEvent(req(retbl()>0),{
         shinyjs::removeClass("refresh", class = "btn-danger")
+        shinyjs::addClass("refresh", class = "btn-refresh")
+
         tbl_invalid(FALSE)
       })
 

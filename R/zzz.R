@@ -14,5 +14,6 @@
 #' @import forcats
 #' @importFrom rio import
 #' @importFrom shinycssloaders withSpinner
+#' @import webshot2
 
 NULL

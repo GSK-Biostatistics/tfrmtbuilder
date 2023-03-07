@@ -10,8 +10,8 @@ export_ui <- function(id){
       column(4,
              wellPanel(
                div(style = "height: 650px;",
-                     h3("JSON", class = "heading_style",
-                        div(downloadButton(ns("json_save"), label = "Export", icon = icon("download"))), class = "btn-export"),
+                     h3("Table Metadata", class = "heading_style",
+                        div(downloadButton(ns("json_save"), label = "JSON", icon = icon("download"))), class = "btn-export"),
                    div(style = "height: 550px; overflow-y:auto; ",
                        shinycssloaders::withSpinner(
                          color = getOption("spinner.color", default = "#254988"),
@@ -27,7 +27,10 @@ export_ui <- function(id){
              wellPanel(
                div(style = "height: 650px;",
                    h3("Table", class = "heading_style",
-                      div(downloadButton(ns("tbl_save"), label = "Export", icon = icon("download"))), class = "btn-export"),
+                      span(class = "btn-export", style = "display: flex; gap: 5px;",
+                        div(downloadButton(ns("tbl_save_html"), label = "HTML", icon = icon("download"))),
+                      div(downloadButton(ns("tbl_save_png"), label = "PNG", icon = icon("download")))),
+                      ),
                    div(style = "height: 550px; overflow-y:auto; ",
                        shinycssloaders::withSpinner(
                          color = getOption("spinner.color", default = "#254988"),
@@ -88,9 +91,19 @@ export_server <- function(id, data, tfrmt_app_out, mode){
           }
         )
 
-      output$tbl_save <- downloadHandler(
+      output$tbl_save_html <- downloadHandler(
         filename = function() {
           paste('tfrmt-', Sys.Date(), '.html', sep='')
+        },
+        content = function(con) {
+          gtobj <- tbl_out()
+          gtsave(gtobj, con)
+        }
+      )
+
+      output$tbl_save_png <- downloadHandler(
+        filename = function() {
+          paste('tfrmt-', Sys.Date(), '.png', sep='')
         },
         content = function(con) {
           gtobj <- tbl_out()

@@ -11,11 +11,11 @@ load_ui <- function(id){
       column(4,
              wellPanel(
                div(style = "height: 650px",
-                   h3("tfrmt", class = "heading_style"),
+                   h3("Table Metadata", class = "heading_style"),
                    fluidRow(
-                     column(4, radioGroupButtons(ns("tfrmt_source"), label = "Source", choices = c("none", "custom"))),
-                     column(6, conditionalPanel( "input.tfrmt_source=='custom'",
-                                                 fileInput(ns("tfrmt_load"), "Load json file", accept = c(".json")),
+                     column(4, radioGroupButtons(ns("tfrmt_source"), label = NULL, choices = c("None", "Upload"))),
+                     column(8, conditionalPanel( "input.tfrmt_source=='Upload'",
+                                                 fileInput(ns("tfrmt_load"), buttonLabel = "Load JSON", label = NULL, accept = c(".json")),
                                                  ns = ns)
                      )
                    ),
@@ -36,15 +36,16 @@ load_ui <- function(id){
                div(style = "height: 650px",
                    h3("Data", class = "heading_style"),
                    fluidRow(
-                     column(2, radioGroupButtons(ns("mode"), "Select mode", choices = c("mock", "reporting"), selected = "mock")),
-                     column(3, conditionalPanel("input.mode=='mock'",
-                                                radioGroupButtons(ns("data_source"), label = "Source", choices = c("none", "example", "custom")),
+                     column(2, materialSwitch(inputId = ns("mockmode"), label = "Mock mode", status = "primary", value = TRUE, right = TRUE)),
+                     column(3, conditionalPanel("input.mockmode==true",
+                                                radioGroupButtons(ns("data_source"), label = NULL,
+                                                                  choices = c("Auto", "Upload", "Example"), selected = "Auto"),
                                                 ns = ns)),
-                     column(3, conditionalPanel("input.mode=='reporting' || input.data_source=='custom'",
-                                                fileInput(ns("data_load"), "Load data file", accept = c(".csv",".sas7bdat",".rds")),
+                     column(3, conditionalPanel("input.mockmode==false || input.data_source=='Upload'",
+                                                fileInput(ns("data_load"), buttonLabel = "Load Data", label = NULL, accept = c(".csv",".sas7bdat",".rds")),
                                                 ns = ns),
-                            conditionalPanel("input.data_source=='example' && input.mode=='mock'",
-                                             radioGroupButtons(ns("example_data"), label = "Dataset", choices = c("demog","ae","labs","efficacy")),
+                            conditionalPanel("input.data_source=='Example' && input.mockmode==true",
+                                             radioGroupButtons(ns("example_data"), label = NULL, choices = c("demog","ae","labs","efficacy")),
                                              ns = ns))
                    ),
                    fluidRow(
@@ -69,6 +70,11 @@ load_server <- function(id){
       id,
       function(input, output, session) {
 
+
+        # disable/enable buttons
+        observe({
+          shinyjs::toggleState("tfrmt_load", condition = input$tfrmt_source == "Upload")
+        })
 
         # uploaded data (if applicable)
         loaded_data <- eventReactive(input$data_load,{
@@ -96,7 +102,7 @@ load_server <- function(id){
         # tfrmt to be used in the app
         tfrmt_out <- reactive({
 
-          if (input$tfrmt_source=="none"){
+          if (input$tfrmt_source=="None"){
             prep_tfrmt_app(tfrmt())
           } else {
             req(loaded_tfrmt())
@@ -107,13 +113,13 @@ load_server <- function(id){
 
         # keep track of mode for downstream functionality
         mode <- reactive({
-          if (input$mode == "mock"){
-            if (input$data_source=="none"){
+          if (input$mockmode == TRUE){
+            if (input$data_source=="Auto"){
               "mock_no_data"
             } else {
               "mock_with_data"
             }
-          } else if (input$mode == "reporting"){
+          } else if (input$mockmode == FALSE){
             "reporting"
           }
         })
@@ -121,9 +127,9 @@ load_server <- function(id){
         # data to be used in the app
         data_out <- reactive({
 
-          if (input$mode=="mock" && input$data_source=="none"){
+          if (input$mockmode==TRUE && input$data_source=="Auto"){
             NULL
-          } else if (input$mode=="mock" && input$data_source=="example"){
+          } else if (input$mockmode==TRUE && input$data_source=="Example"){
             example_data()
           } else {
             loaded_data()

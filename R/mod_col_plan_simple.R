@@ -11,7 +11,7 @@ col_plan_simple_ui <- function(id){
       h3("Column Plan", class = "heading_style",
       actionButton(ns("reset"), "Reset", icon = icon("undo")), class = "btn-reset")
     ),
-    p(id = ns("some"), "Click column name to edit"),
+    p(id = ns("some"), "Click column name to edit. Note: Group/label columns have a black border and cannot be moved. Only groups may be dropped."),
     fluidRow(
       column(7,
              div(
@@ -97,8 +97,9 @@ col_plan_simple_server <- function(id, data, tfrmt_app, mode_load){
 
         col_fixed <- cols_dat_out()$`__col_plan_fixed__`
         col_dropped <- cols_dat_out()$`__col_plan_dropped__`
+        col_stub <- cols_dat_out()$`__col_plan_fixed_ord__`>0
 
-        create_col_plan_sortable_simple(ns, col_levs, col_levs_orig, col_fixed, col_dropped, mode())
+        create_col_plan_sortable_simple(ns, col_levs, col_levs_orig, col_stub, col_fixed, col_dropped, mode())
 
       })
 
@@ -130,8 +131,7 @@ col_plan_simple_server <- function(id, data, tfrmt_app, mode_load){
         if (!all(sort(keep_ord)==keep_ord)){
           new_dat <- new_dat %>%
             mutate(!! col_name := factor(.data[[col_name]], levels = all_new_levs))  %>%
-            arrange(desc(`__col_plan_fixed_ord__`), .data[[col_name]]) %>%
-            mutate(across(col_name, ~as.character(.x)))
+            arrange(desc(`__col_plan_fixed_ord__`), .data[[col_name]])
         }
 
         cols_dat_out(new_dat)
@@ -149,8 +149,9 @@ col_plan_simple_server <- function(id, data, tfrmt_app, mode_load){
 
         selected_num(item_num)
         new_name_col <- paste0("__tfrmt_new_name__", col_name())
+
         selected_col <- cols_dat_out() %>%
-          filter(!`__col_plan_dropped__`) %>%
+       #   filter(!`__col_plan_dropped__`) %>%
           filter(row_number()==item_num) %>%
           select(orig = .data[[col_name()]],
                  new = .data[[new_name_col]])
@@ -183,7 +184,9 @@ col_plan_simple_server <- function(id, data, tfrmt_app, mode_load){
         mode("done")
 
         new_name_col <- paste0("__tfrmt_new_name__", col_name())
+
         new_cols <- cols_dat_out() %>%
+          mutate(across(all_of(c(col_name(), new_name_col)), ~ as.character(.x))) %>%
           mutate(!!new_name_col := ifelse(row_number()==selected_num(),
                                           input$rename,
                                           .data[[new_name_col]]))

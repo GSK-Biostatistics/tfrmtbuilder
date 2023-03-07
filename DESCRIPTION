@@ -46,4 +46,6 @@ Imports:
     bslib,
     shinyWidgets,
     rio,
-    shinycssloaders
+    shinycssloaders,
+    webshot2
+    

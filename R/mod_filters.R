@@ -62,7 +62,10 @@ filters_server <- function(id, data, tfrmt_app, selected,
             i <- which(var==names(var_shell()))
 
             if (tfrmt:::is_col_style_structure(selected())){
-              selected_vars <- selected()$cols[[1]] %>% as_label %>%
+
+              selected_vars <- selected()$cols %>% map_chr(as_label) %>%
+                list() %>%
+                set_names(var_shell()[[var]]) %>%
                 list(column_val = .)
             } else{
               selected_vars <- selected() %>%

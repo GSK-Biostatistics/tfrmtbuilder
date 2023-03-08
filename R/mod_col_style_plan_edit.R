@@ -53,13 +53,18 @@ col_style_plan_edit_server <- function(id, data, tfrmt_app, selected){
        } else {
          existing_align <- "left"
          existing_width <- NULL
-        }
+       }
 
-        if (existing_align %in% c("left","right")){
+        if (existing_align[[1]] %in% c("left","right")){
           updateRadioButtons(session, inputId = "align_opts", selected = existing_align)
         } else {
-          updateRadioButtons(session, inputId = "align_opts", selected = custom)
-          updateTextInput(session, inputId = "align_custom", existing_align)
+
+          existing_align_txt <- paste0("\"", existing_align, "\"")
+          if (length(existing_align_txt)>1){
+            existing_align_txt <- paste0("c(", paste(existing_align_txt, collapse = ", "), ")")
+          }
+          updateRadioButtons(session, inputId = "align_opts", selected = "custom")
+          updateTextInput(session, inputId = "align_custom", value = existing_align_txt)
         }
 
 
@@ -96,6 +101,7 @@ col_style_plan_edit_server <- function(id, data, tfrmt_app, selected){
         req(length(collected_filters())>0)
 
         req(align())
+        req(length(align())>0)
 
                 # TODO - accommodate spanning alignment
 

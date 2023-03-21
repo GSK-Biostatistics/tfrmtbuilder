@@ -7,16 +7,10 @@ body_plan_edit_ui <- function(id){
   ns <- NS(id)
 
   tagList(
-    fluidRow(
-      column(6,
-             h3("Filter conditions"),
-             filters_ui(ns("filters"))
-      ),
-      column(6,
-             h3("Formats"),
-             body_plan_edit_frmts_ui(ns("formats"))
-      )
-    )
+    h3("Filter conditions"),
+    filters_ui(ns("filters")),
+    h3("Format"),
+    body_plan_edit_frmts_ui(ns("formats"))
   )
 }
 

@@ -7,20 +7,13 @@ big_n_edit_ui <- function(id){
   ns <- NS(id)
 
   tagList(
-    fluidRow(
-      column(6,
-             h3("Filter conditions"),
-             filters_ui(ns("filters"))
-      ),
-      column(6,
-             h3("Format"),
-             div(id = ns("frmt_outer"),
-                 textAreaInput(ns("frmt"), label = "", value = "frmt(\"\\nN = xx\")")),
-             p(id = ns("invalid_txt"), style = "color: red;", "Invalid format entry")
+    h3("Filter conditions"),
+    filters_ui(ns("filters")),
+    h3("Format"),
+    div(id = ns("frmt_outer"),
+        textAreaInput(ns("frmt"), label = NULL, value = "frmt(\"\\nN = xx\")"), width = "100%", rows = 3),
+    p(id = ns("invalid_txt"), style = "color: red;", "Invalid format entry")
       )
-
-    )
-  )
 
 }
 

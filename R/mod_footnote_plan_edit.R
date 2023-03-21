@@ -7,16 +7,11 @@ footnote_plan_edit_ui <- function(id){
   ns <- NS(id)
 
   tagList(
-    fluidRow(
-      column(6,
-             h3("Filter conditions"),
-             filters_ui(ns("filters"))
-      ),
-      column(6,
-             h3("Footnote"),
-             textInput(ns("footnote"), label = NULL, value = "")
-      )
-    )
+    h3("Filter conditions"),
+    filters_ui(ns("filters")),
+    h3("Footnote"),
+    textInput(ns("footnote"), label = NULL, value = "", width = "100%",
+              placeholder = "Enter footnote text")
   )
 
 }
@@ -44,7 +39,7 @@ footnote_plan_edit_server <- function(id, data, tfrmt_app, selected){
        if (!is.null(selected())){
           existing_footnote <- selected()$footnote
        } else {
-          existing_footnote <- "  "
+          existing_footnote <- NULL
         }
 
         updateTextAreaInput(session,

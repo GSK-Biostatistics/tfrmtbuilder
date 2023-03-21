@@ -7,14 +7,19 @@ body_plan_edit_frmts_ui <- function(id){
   ns <- NS(id)
 
   tagList(
-    div(style="display: inline-block; vertical-align:center; horizontal-align:center", class = "row-fluid",
+    fluidRow(
+      span(style = "display: flex; gap: 5px;",
         div(actionButton(ns("pst_frmt"), "frmt", icon = icon("plus")), class = "btn-frmt"),
         div(actionButton(ns("pst_frmt_when"), "frmt_when", icon = icon("plus")), class = "btn-frmt"),
         div(actionButton(ns("pst_frmt_combine"), "frmt_combine", icon = icon("plus")), class = "btn-frmt")
+    )
     ),
+    fluidRow(
     div(id = ns("frmt_outer"),
-        textAreaInput(ns("frmt"), label = "", value = "frmt('XXX.X')")),
+        textAreaInput(ns("frmt"), label = "", value = "frmt('XXX.X')", width = "100%", rows = 3),
+    ),
     p(id = ns("invalid_txt"), style = "color: red;", "Invalid format entry")
+  )
   )
 
 }

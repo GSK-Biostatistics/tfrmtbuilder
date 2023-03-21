@@ -7,16 +7,10 @@ row_grp_plan_edit_ui <- function(id){
   ns <- NS(id)
 
   tagList(
-    fluidRow(
-      column(6,
-             h3("Filter conditions"),
-            filters_ui(ns("filters"))
-      ),
-      column(6,
-             h3("Post Space"),
-             textInput(ns("post_space"), label = NULL, value = "\"  \"")
-      )
-    )
+    h3("Filter conditions"),
+    filters_ui(ns("filters")),
+    h3("Post Space"),
+    textInput(ns("post_space"), label = NULL, value = "\"  \"")
   )
 
 }

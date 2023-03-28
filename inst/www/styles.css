@@ -25,6 +25,10 @@
   border: 2px solid red;
 }
 
+.invalid .shiny-ace{
+  border: 2px solid red;
+}
+
 .itemlist-start {
   flex: 1 0 200px;
   background-color: transparent;

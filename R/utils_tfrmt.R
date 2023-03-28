@@ -180,7 +180,10 @@ format_big_n_struct <- function(x){
 
 # template frmt objects
 dummy_frmt <- function(){
-  "frmt(\"xx.x\", missing = NULL, scientific = NULL, transform = NULL)"
+  "frmt(\"xx.x\",
+  missing = NULL,
+  scientific = NULL,
+  transform = NULL)"
 }
 dummy_frmt_when <- function(){
   "frmt_when(

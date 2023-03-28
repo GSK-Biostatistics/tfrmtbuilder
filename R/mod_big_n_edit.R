@@ -10,8 +10,20 @@ big_n_edit_ui <- function(id){
     h3("Filter conditions"),
     filters_ui(ns("filters")),
     h3("Format"),
-    div(id = ns("frmt_outer"),
-        textAreaInput(ns("frmt"), label = NULL, value = "frmt(\"\\nN = xx\")"), width = "100%", rows = 3),
+    fluidRow(
+      div(style = " width: 50%;",
+          div(id = ns("frmt_outer"),
+              aceEditor(ns("frmt"), mode = "r", fontSize = 16, value = "frmt(\"\\nN = xx\")",
+                        wordWrap = TRUE,
+                        minLines = 2,
+                        maxLines = 2,
+                        debounce = 500,
+                        showLineNumbers = FALSE,
+                        highlightActiveLine = FALSE,
+                        autoScrollEditorIntoView = TRUE)
+          )
+      )
+    ),
     p(id = ns("invalid_txt"), style = "color: red;", "Invalid format entry")
       )
 
@@ -48,16 +60,15 @@ big_n_edit_server <- function(id, data, tfrmt_app, selected, mode_load){
 
         }
 
-        updateTextAreaInput(session,
-                            inputId = "frmt",
+        updateAceEditor(session,
+                            editorId = "frmt",
                             value = existing_frmt)
       })
 
       # text entered - evaluate and check
       frmt_out <- reactive({
         string_to_tfrmtobj(input$frmt)
-      }) %>%
-        debounce(500)
+      })
 
       # validation indicators
       observe({

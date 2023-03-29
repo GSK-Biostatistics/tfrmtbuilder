@@ -75,7 +75,7 @@ big_n_server <- function(id, data, tfrmt_app, mode_load){
 
         req(length(struct())>0)
 
-        struct_txt <-  format_big_n_struct(struct()) %>% {paste0(., collapse = "<br>")} %>% list()
+        struct_txt <-  paste0(format_big_n_struct(struct()), collapse = "<br>") %>% list()
 
         create_struct_list_sortable(ns, struct_txt, mode())
 

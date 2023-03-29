@@ -16,5 +16,7 @@
 #' @importFrom shinycssloaders withSpinner
 #' @import webshot2
 #' @import shinyAce
+#' @importFrom stats setNames
+#' @importFrom rlang `:=` `!!`
 
 NULL

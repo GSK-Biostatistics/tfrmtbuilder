@@ -1,4 +1,5 @@
 #' Main UI function
+#' @noRd
 
 tfrmtbuilder_ui <- function(id){
 

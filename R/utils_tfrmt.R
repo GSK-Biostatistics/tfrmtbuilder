@@ -138,13 +138,11 @@ format_col_style_struct <- function(x){
     return(c("<b>Column Values:", "Align:", "Width:</b>"))
   }
 
-  col_string <- map_chr(x$cols, as_label) %>%
-    paste0("\"", ., "\"") %>%
-    paste(., collapse = ", ")
+  col_string <- map_chr(x$cols, as_label)
+  col_string <-  paste(paste0("\"", col_string, "\""), collapse = ", ")
 
-  align <- x$align  %>%
-    paste0("\"", ., "\"") %>%
-    paste(., collapse = ", ")
+  align <- x$align
+  align <-  paste(paste0("\"", align, "\""), collapse = ", ")
   width <- x$width %||% "default"
 
 
@@ -248,12 +246,10 @@ cols_to_dat <- function(data, tfrmt, mock){
   columns <- tfrmt$column %>% map_chr(as_label)
   columns_lowest <- columns %>% last() %>% sym()
 
-  col_plan_vars <- tfrmt:::apply_tfrmt(data, tfrmt, mock) %>%
-    attr(., ".col_plan_vars")
+  col_plan_vars <- attr(tfrmt:::apply_tfrmt(data, tfrmt, mock), ".col_plan_vars")
 
-  allcols <- col_plan_vars %>%
-    map_chr(as_label) %>%
-    tfrmt:::split_data_names_to_df(data_names= c(), preselected_cols = .,
+  allcols <- col_plan_vars %>% map_chr(as_label)
+  allcols <- tfrmt:::split_data_names_to_df(data_names= c(), preselected_cols = allcols,
                            column_names = columns)
 
   # allcols <- col_plan_vars %>%
@@ -289,8 +285,8 @@ cols_to_dat <- function(data, tfrmt, mock){
   allcols %>%
     mutate(`__col_plan_fixed__` = .data[[columns_lowest]] %in% label, #c(groups_lowest, label),
            `__col_plan_fixed_ord__` = .data[[columns_lowest]] %in% c(groups, label),
-           `__col_plan_fixed_ord__` = ifelse(`__col_plan_fixed_ord__`, rev(seq_len(num_fix_ord)), 0)) %>%
-    rename(`__col_plan_dropped__` = subtraction_status) %>%
-    mutate(across(.data[[paste0("__tfrmt_new_name__", columns_lowest)]], ~str_remove(., '^-')))
+           `__col_plan_fixed_ord__` = ifelse(.data$`__col_plan_fixed_ord__`, rev(seq_len(num_fix_ord)), 0)) %>%
+    rename(`__col_plan_dropped__` = "subtraction_status") %>%
+    mutate(across(.data[[paste0("__tfrmt_new_name__", columns_lowest)]], function(x)str_remove(x, '^-')))
 }
 

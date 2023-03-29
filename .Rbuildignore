@@ -1,2 +1,5 @@
 ^tfrmtbuilder\.Rproj$
 ^\.Rproj\.user$
+^LICENSE\.md$
+^rsconnect$
+^inst/deploy$

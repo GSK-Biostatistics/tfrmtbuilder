@@ -131,7 +131,7 @@ col_plan_simple_server <- function(id, data, tfrmt_app, mode_load){
         if (!all(sort(keep_ord)==keep_ord)){
           new_dat <- new_dat %>%
             mutate(!! col_name := factor(.data[[col_name]], levels = all_new_levs))  %>%
-            arrange(desc(`__col_plan_fixed_ord__`), .data[[col_name]])
+            arrange(desc(.data$`__col_plan_fixed_ord__`), .data[[col_name]])
         }
 
         cols_dat_out(new_dat)
@@ -151,7 +151,6 @@ col_plan_simple_server <- function(id, data, tfrmt_app, mode_load){
         new_name_col <- paste0("__tfrmt_new_name__", col_name())
 
         selected_col <- cols_dat_out() %>%
-       #   filter(!`__col_plan_dropped__`) %>%
           filter(row_number()==item_num) %>%
           select(orig = .data[[col_name()]],
                  new = .data[[new_name_col]])
@@ -199,7 +198,7 @@ col_plan_simple_server <- function(id, data, tfrmt_app, mode_load){
          new_name_col <- paste0("__tfrmt_new_name__", col_name())
         col <- tfrmt_app()$column %>% map_chr(as_label)
         cols_to_keep <- cols_dat_out() %>%
-          filter(!`__col_plan_dropped__`)
+          filter(!.data$`__col_plan_dropped__`)
 
         cols_to_keep_orig <- cols_to_keep[[col_name()]]
         cols_to_keep_rnm <- cols_to_keep[[new_name_col]]
@@ -217,8 +216,7 @@ col_plan_simple_server <- function(id, data, tfrmt_app, mode_load){
           cols_out <- c(cols_out, new_el)
         }
 
-       args <- cols_out %>%
-         c(.,  list(.drop = TRUE))
+       args <- c(cols_out, list(.drop = TRUE))
 
        do.call("col_plan", args)
 

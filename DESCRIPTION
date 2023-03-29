@@ -48,5 +48,6 @@ Imports:
     rio,
     shinycssloaders,
     webshot2,
-    shinyAce 
+    shinyAce,
+    pkgload
     

@@ -1,7 +1,8 @@
 #' Run tfrmt Builder Shiny App
 #'
+#' @param run Boolean for whether the app should be run immediately. Set to `FALSE` for deployment
 #' @export
-tfrmtbuilder <- function(){
+tfrmtbuilder <- function(run = TRUE){
   app <- shinyApp(
     ui =  tfrmtbuilder_ui("tb"),
     server = function(input,output,session){
@@ -11,5 +12,10 @@ tfrmtbuilder <- function(){
       })
     }
   )
-  runApp(app, launch.browser = TRUE)
+
+  if (run){
+    runApp(app, launch.browser = TRUE)
+  }
+
+  app
 }

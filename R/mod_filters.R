@@ -79,7 +79,7 @@ filters_server <- function(id, data, tfrmt_app, selected,
 
           }
 
-          ui_list
+          arrange_ui_grid(list_flatten(ui_list), el_width = 4)
 
         })
 

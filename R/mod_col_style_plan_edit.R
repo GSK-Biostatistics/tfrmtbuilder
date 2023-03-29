@@ -7,22 +7,27 @@ col_style_plan_edit_ui <- function(id){
   ns <- NS(id)
 
   tagList(
+    h3("Filter conditions"),
+    filters_ui(ns("filters")),
     fluidRow(
       column(6,
-             h3("Filter conditions"),
-             filters_ui(ns("filters"))
-      ),
-      column(6,
              h3("Align"),
-             radioButtons(ns("align_opts"), label = NULL,
-                          choices = list("left", "right", "custom"), selected = character(0)),
+             awesomeRadio(ns("align_opts"), label = NULL,
+                          choices = list("left", "right", "custom"),
+                          inline = TRUE,
+                          selected = "left"),
+
              conditionalPanel("input.align_opts=='custom'",
-                              textInput(ns("align_custom"), label = NULL, placeholder = "Enter character(s) to align on"),
-                              ns = ns),
-             h3("Width"),
-             textInput(ns("width"), label = NULL, value = "")
+                              textInput(ns("align_custom"), label = NULL,
+                                        placeholder = "Enter character(s) to align on",
+                                        width = "85%"),
+                              ns = ns)),
+    column(6,
+       h3("Width"),
+       textInput(ns("width"), label = NULL, value = "", width = "65%",
+                 placeholder = "Enter width as CSS unit")
       )
-    )
+  )
   )
 
 }
@@ -56,14 +61,14 @@ col_style_plan_edit_server <- function(id, data, tfrmt_app, selected){
        }
 
         if (existing_align[[1]] %in% c("left","right")){
-          updateRadioButtons(session, inputId = "align_opts", selected = existing_align)
+          updateAwesomeRadio(session, inputId = "align_opts", selected = existing_align)
         } else {
 
           existing_align_txt <- paste0("\"", existing_align, "\"")
           if (length(existing_align_txt)>1){
             existing_align_txt <- paste0("c(", paste(existing_align_txt, collapse = ", "), ")")
           }
-          updateRadioButtons(session, inputId = "align_opts", selected = "custom")
+          updateAwesomeRadio(session, inputId = "align_opts", selected = "custom")
           updateTextInput(session, inputId = "align_custom", value = existing_align_txt)
         }
 

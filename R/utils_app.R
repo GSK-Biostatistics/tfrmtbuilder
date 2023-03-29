@@ -274,3 +274,32 @@ create_col_plan_sortable <- function(ns, col_num, col_name, col_levs, col_confir
 
 }
 
+
+
+# arrange UI elements (like filters) in a grid
+
+arrange_ui_grid <- function(el_list, el_width = 6){
+
+  num_cols <- floor(12/el_width)
+  num_rows <- ceiling(length(el_list)/num_cols)
+
+  # for each element, determine the col row # and arrange
+  row_num <- map_dbl(seq_along(el_list), function(i){ ceiling(i/num_cols)})
+
+  el_list_cols <- lapply(el_list, function(el){
+    column(width = el_width, el)
+  })
+
+  # assign the column elements to each row in a different list
+  row_list <- vector(mode = "list", length = num_rows)
+  for (i in seq_along(el_list_cols)){
+
+    row <- row_num[i]
+    row_list[[row]] <- c(row_list[[row]], el_list_cols[i])
+  }
+
+  # arrange in fluidRows
+  lapply(row_list, function(row){fluidRow(row)})
+
+}
+

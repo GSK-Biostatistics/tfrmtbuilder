@@ -47,5 +47,6 @@ Imports:
     shinyWidgets,
     rio,
     shinycssloaders,
-    webshot2
+    webshot2,
+    shinyAce
     

@@ -7,16 +7,22 @@ row_grp_plan_edit_ui <- function(id){
   ns <- NS(id)
 
   tagList(
+    h3("Filter conditions"),
+    filters_ui(ns("filters")),
+    h3("Post Space"),
     fluidRow(
-      column(6,
-             h3("Filter conditions"),
-            filters_ui(ns("filters"))
-      ),
-      column(6,
-             h3("Post Space"),
-             textInput(ns("post_space"), label = NULL, value = "\"  \"")
+      div(style = "width: 50%;",
+      aceEditor(ns("post_space"), value = "\"  \"", mode = "r", debounce = 0,
+                fontSize = 16,
+                wordWrap = TRUE,
+                minLines = 2,
+                maxLines = 2,
+                showLineNumbers = FALSE,
+                highlightActiveLine = FALSE,
+                autoScrollEditorIntoView = TRUE)
       )
     )
+
   )
 
 }
@@ -45,8 +51,8 @@ row_grp_plan_edit_server <- function(id, data, tfrmt_app, selected){
           existing_post_space <- "  "
         }
 
-        updateTextAreaInput(session,
-                            inputId = "post_space",
+        updateAceEditor(session,
+                            editorId = "post_space",
                             value = paste0("\"", existing_post_space, "\""))
       })
 

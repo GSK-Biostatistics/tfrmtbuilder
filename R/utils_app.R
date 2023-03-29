@@ -13,8 +13,8 @@ create_filter_select <- function(ns, type, data, existing_filters, var_vec,
                                  null_to_default = TRUE){
 
   existing_vars <- existing_filters %>%
-    keep_at(type) %>%
-    map2(., names(.), function(x, y ){
+    keep_at(type)
+  existing_vars <- map2(existing_vars, names(existing_vars), function(x, y ){
 
       if (is.list(x)){
         x

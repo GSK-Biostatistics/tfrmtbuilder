@@ -1,5 +1,5 @@
 #' Main server function
-
+#' @noRd
 tfrmtbuilder_server <- function(id) {
 
   moduleServer(

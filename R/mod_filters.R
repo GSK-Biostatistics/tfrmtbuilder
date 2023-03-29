@@ -38,13 +38,14 @@ filters_server <- function(id, data, tfrmt_app, selected,
         var_shell <- reactive({
           req(tfrmt_app())
 
-          include %>% map(~tfrmt_app()[[.x]] %>%
-                            {if (is.list(.)){
-                                map_chr(., as_label)
-                              } else {
-                                as_label(.)
-                              }
-                            }) %>%
+          include %>% map(function(x){
+                          ind <- tfrmt_app()[[x]]
+                          if (is.list(ind)){
+                            map_chr(ind, as_label)
+                          } else {
+                            as_label(ind)
+                          }
+          }) %>%
             setNames(include)
 
         })
@@ -63,10 +64,12 @@ filters_server <- function(id, data, tfrmt_app, selected,
 
             if (tfrmt:::is_col_style_structure(selected())){
 
-              selected_vars <- selected()$cols %>% map_chr(as_label) %>%
+              selected_vars_nms <- selected()$cols %>% map_chr(as_label) %>%
                 list() %>%
-                set_names(var_shell()[[var]]) %>%
-                list(column_val = .)
+                set_names(var_shell()[[var]])
+
+              selected_vars <- list(column_val = selected_vars_nms)
+
             } else{
               selected_vars <- selected() %>%
                 keep_at(paste0(var, "_val"))

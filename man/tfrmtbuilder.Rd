@@ -4,7 +4,10 @@
 \alias{tfrmtbuilder}
 \title{Run tfrmt Builder Shiny App}
 \usage{
-tfrmtbuilder()
+tfrmtbuilder(run = TRUE)
+}
+\arguments{
+\item{run}{Boolean for whether the created object should be run directly. Set to \code{FALSE} for deployment}
 }
 \description{
 Run tfrmt Builder Shiny App

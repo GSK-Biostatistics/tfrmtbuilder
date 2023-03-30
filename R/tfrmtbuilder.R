@@ -1,6 +1,6 @@
 #' Run tfrmt Builder Shiny App
 #'
-#' @param run Boolean for whether the app should be run immediately. Set to `FALSE` for deployment
+#' @param run Boolean for whether the created object should be run directly. Set to `FALSE` for deployment
 #' @export
 tfrmtbuilder <- function(run = TRUE){
   app <- shinyApp(

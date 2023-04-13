@@ -38,8 +38,6 @@ load_ui <- function(id){
                    fluidRow(
                      column(3, radioGroupButtons(ns("data_source"), label = NULL,
                                                                   choices = c("Auto", "Upload", "Example"), selected = "Auto")),
-
-                     # make this a dynamic UI instead so it's always in the same place
                      column(3, conditionalPanel("input.data_source=='Upload'",
                                                 fileInput(ns("data_load"), buttonLabel = "Load Data", label = NULL, accept = c(".csv",".sas7bdat",".rds")),
                                                 ns = ns),

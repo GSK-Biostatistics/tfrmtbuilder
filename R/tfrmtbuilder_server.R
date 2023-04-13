@@ -10,7 +10,7 @@ tfrmtbuilder_server <- function(id) {
       home_out <- home_server("home")
 
       # ui for loading
-      settings_orig <- load_server("load")
+      settings_orig <- load_server("load", reactive(input$mockmode))
 
       # if user adjust the inputs, direct them to Data Mapping tab (in Edit tab)
       observe({

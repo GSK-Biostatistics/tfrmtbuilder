@@ -36,15 +36,14 @@ load_ui <- function(id){
                div(style = "height: 650px",
                    h3("Data", class = "heading_style"),
                    fluidRow(
-                     column(2, materialSwitch(inputId = ns("mockmode"), label = "Mock mode", status = "primary", value = TRUE, right = TRUE)),
-                     column(3, conditionalPanel("input.mockmode==true",
-                                                radioGroupButtons(ns("data_source"), label = NULL,
-                                                                  choices = c("Auto", "Upload", "Example"), selected = "Auto"),
-                                                ns = ns)),
-                     column(3, conditionalPanel("input.mockmode==false || input.data_source=='Upload'",
+                     column(3, radioGroupButtons(ns("data_source"), label = NULL,
+                                                                  choices = c("Auto", "Upload", "Example"), selected = "Auto")),
+
+                     # make this a dynamic UI instead so it's always in the same place
+                     column(3, conditionalPanel("input.data_source=='Upload'",
                                                 fileInput(ns("data_load"), buttonLabel = "Load Data", label = NULL, accept = c(".csv",".sas7bdat",".rds")),
                                                 ns = ns),
-                            conditionalPanel("input.data_source=='Example' && input.mockmode==true",
+                            conditionalPanel("input.data_source=='Example'",
                                              radioGroupButtons(ns("example_data"), label = NULL, choices = c("demog","ae","labs","efficacy")),
                                              ns = ns))
                    ),
@@ -64,16 +63,24 @@ load_ui <- function(id){
   )
 }
 
-load_server <- function(id){
+load_server <- function(id, mockmode){
 
     moduleServer(
       id,
       function(input, output, session) {
 
+        ns <- session$ns
 
-        # disable/enable buttons
+        # disable/enable selection
         observe({
-          shinyjs::toggleState("tfrmt_load", condition = input$tfrmt_source == "Upload")
+
+          if (mockmode()){
+            updateRadioGroupButtons(session, "data_source", disabledChoices = NULL)
+          } else {
+            cur_selected <- input$data_source
+            selected <- ifelse(cur_selected=="Auto", "Upload", cur_selected)
+            updateRadioGroupButtons(session, "data_source", disabledChoices = "Auto", selected = selected)
+          }
         })
 
         # uploaded data (if applicable)
@@ -113,13 +120,13 @@ load_server <- function(id){
 
         # keep track of mode for downstream functionality
         mode <- reactive({
-          if (input$mockmode == TRUE){
+          if (mockmode() == TRUE){
             if (input$data_source=="Auto"){
               "mock_no_data"
             } else {
               "mock_with_data"
             }
-          } else if (input$mockmode == FALSE){
+          } else if (mockmode() == FALSE){
             "reporting"
           }
         })
@@ -127,9 +134,9 @@ load_server <- function(id){
         # data to be used in the app
         data_out <- reactive({
 
-          if (input$mockmode==TRUE && input$data_source=="Auto"){
+          if (mockmode()==TRUE && input$data_source=="Auto"){
             NULL
-          } else if (input$mockmode==TRUE && input$data_source=="Example"){
+          } else if (input$data_source=="Example"){
             example_data()
           } else {
             loaded_data()

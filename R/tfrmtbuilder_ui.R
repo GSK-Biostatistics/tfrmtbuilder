@@ -9,6 +9,7 @@ tfrmtbuilder_ui <- function(id){
     fluidPage(
       titlePanel(""),
       includeCSS(system.file("www","styles.css", package = "tfrmtbuilder")),
+      html_dependency_pretty(),
       useShinyjs(),
       navbarPage(
         windowTitle = "tfrmt Builder",
@@ -81,7 +82,20 @@ tfrmtbuilder_ui <- function(id){
                    )
                  )
         ) ,
-        tabPanel("Export", export_ui(ns("export")))
+        tabPanel("Export", export_ui(ns("export"))),
+        tags$script(HTML(paste0("var header = $('.navbar> .container-fluid');",
+                             "header.append('<div style=\"float:right; margin-bottom:0; color:#fff;\">",
+                                "<div class=\"form-group shiny-input-container\" style = \"margin-bottom:0; color:#fff;\">",
+                                    "<div class=\"pretty p-default p-switch p-fill\">",
+                                      "<input id=\"", ns("mockmode"), "\" type=\"checkbox\"/ class = \"shiny-bound-input\">",
+                                      "<div class=\"state p-danger\">",
+                                        "<label>",
+                                        "<span >Mock Mode</span>",
+                                        "</label>",
+                                      "</div>",
+                                    "</div>",
+                                "</div>",
+                             "</div>');")))
       )
 
     )

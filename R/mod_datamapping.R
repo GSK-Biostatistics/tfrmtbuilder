@@ -272,6 +272,9 @@ datamapping_server <- function(id, data, tfrmt_orig, mode){
       settings_complete <- reactiveVal(NULL)
       observeEvent(reactiveValuesToList(input), {
 
+        req(num_grps())
+        req(num_cols())
+        req(num_sortcols())
         # get names of all current & expected inputs
         inputs <- reactiveValuesToList(input) %>% names
         expected_grps <- if (num_grps()>0) {paste0("group-", 1:num_grps())} else {character(0)}

@@ -49,5 +49,6 @@ Imports:
     shinycssloaders,
     webshot2,
     shinyAce,
-    pkgload
+    pkgload,
+    shinyFeedback
     

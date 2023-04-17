@@ -262,7 +262,6 @@ datamapping_server <- function(id, data, tfrmt_orig, mode){
 
 
       # generate these UI even when tab not showing
-      outputOptions(output, "single_settings", suspendWhenHidden = FALSE)
       outputOptions(output, "grps", suspendWhenHidden = FALSE)
       outputOptions(output, "cols", suspendWhenHidden = FALSE)
       outputOptions(output, "sortcols", suspendWhenHidden = FALSE)

@@ -1,8 +1,8 @@
 # for use with removeUI
-remove_shiny_inputs <- function(id, .input) {
+remove_shiny_inputs <- function(ns, id, .input) {
   invisible(
     lapply(grep(id, names(.input), value = TRUE), function(i) {
-      .subset2(.input, "impl")$.values$remove(i)
+      .subset2(.input, "impl")$.values$remove(ns(i))
     })
   )
 }
@@ -98,6 +98,64 @@ input_dynamic_vars <- function(ns, all_vars, var, num_vars, data = NULL){
     })
   }
 
+}
+
+# function to dynamically insert variable selections
+#' @param ns namespace
+#' @param var_name name of variable class (for assigning ID's): "group", "label", etc
+#' @param selected_vars selections for pre-populating
+#' @param num_vars total # of entries to create
+#' @param data data
+#' @param all If num_vars>1, create entries for all (TRUE), or just the most recently added/last (FALSE)
+#'
+#' @noRd
+append_input_vars <- function(ns,
+                              input,
+                              selected_vars,
+                              active_vars,
+                              data = NULL,
+                              all = TRUE){
+
+  if (active_vars==0){
+    div()
+  } else {
+    # subset to only those in the data
+    if (!is.null(data)){
+      selected_vars <- selected_vars[which(selected_vars %in% names(data))]
+    }
+
+    if (all){
+      inputs <- active_vars  # create inputs for all
+    } else {
+      inputs <- last(active_vars) # just create an input for the last one
+    }
+
+    lapply(inputs, function(i){
+
+      if (i>length(selected_vars)){
+        placeholder <- "Enter variable name"
+        value <- NULL
+        choices <- c("",names(data))
+        selected <- NULL
+      } else {
+        placeholder <- NULL
+        choices <- names(data)
+        selected <- value <- selected_vars[i]
+      }
+
+      id <- ns(paste0("item-", i))
+
+      if (is.null(data)){
+        input_div <- textInput(id, label = NULL, value = value, placeholder = placeholder)
+      } else {
+        input_div <- selectInput(id, label = NULL, selected = selected, choices = choices)
+      }
+
+     #  freezeReactiveValue(input, id)
+
+       div(id = paste0(id,"_outer"), input_div)
+    })
+  }
 }
 
 # create sortable list of *structure objects

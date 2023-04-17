@@ -11,6 +11,7 @@ tfrmtbuilder_ui <- function(id){
       includeCSS(system.file("www","styles.css", package = "tfrmtbuilder")),
       html_dependency_pretty(),
       useShinyjs(),
+      useShinyFeedback(),
       navbarPage(
         windowTitle = "tfrmt Builder",
         title = div("tfrmt Builder", class = "navheader_padding"),
@@ -30,6 +31,12 @@ tfrmtbuilder_ui <- function(id){
                               class = "side_panel",
                               navlistPanel(
                                 id = ns("tabs"),
+
+                                tabPanel(div( h6("Data Mapping - TEST", class = "zero_margin"),
+                                              div("(Required)", id = "tab_note")),
+                                         value = "Data Mapping - TEST",
+                                         div( datamapping_2_ui(ns("dmt")), id = "content_border")),
+
                                 tabPanel(div( h6("Data Mapping", class = "zero_margin"),
                                               div("(Required)", id = "tab_note")),
                                          value = "Data Mapping",
@@ -87,7 +94,7 @@ tfrmtbuilder_ui <- function(id){
                              "header.append('<div style=\"float:right; margin-bottom:0; color:#fff;\">",
                                 "<div class=\"form-group shiny-input-container\" style = \"margin-bottom:0; color:#fff;\">",
                                     "<div class=\"pretty p-default p-switch p-fill\">",
-                                      "<input id=\"", ns("mockmode"), "\" type=\"checkbox\"/ class = \"shiny-bound-input\">",
+                                      "<input id=\"", ns("mockmode"), "\" type=\"checkbox\"/ checked=\"checked\" class = \"shiny-bound-input\">",
                                       "<div class=\"state p-danger\">",
                                         "<label>",
                                         "<span >Mock Mode</span>",

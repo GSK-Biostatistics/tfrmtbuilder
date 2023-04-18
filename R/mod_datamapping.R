@@ -1,6 +1,10 @@
 # Data mapping module - refactored
 
-# Returns updated tfrmt with new column names
+# Returns reactive list including:
+#  - tfrmt: updated tfrmt with new column names
+#  - data: updated generated mock data or original uploaded data (without the value column if in mock mode)
+#  - mode: mock with data, mock no data, non mock "reporting"
+#  - original: does this represent the original state (for automatically refreshing the table view)
 
 datamapping_ui <- function(id){
   ns <- NS(id)

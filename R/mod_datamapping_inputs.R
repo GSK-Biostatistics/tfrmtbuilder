@@ -1,6 +1,9 @@
-# Data mapping module
+# Data mapping module - input creation/selection - to be used for each tfrmt data arg
 
-# Returns updated tfrmt with new column names
+# Returns list of reactives including:
+#   - settings: selected variables
+#   - valid: whether or not the settings are complete/valid
+#   - initial_state: whether it represents the "initial" state prior to any edits.
 
 datamapping_inputs_ui <- function(id, setting_name){
   ns <- NS(id)

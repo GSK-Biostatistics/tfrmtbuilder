@@ -133,27 +133,29 @@ append_input_vars <- function(ns,
     lapply(inputs, function(i){
 
       if (i>length(selected_vars)){
-        placeholder <- "Enter variable name"
         value <- NULL
-        choices <- c("",names(data))
-        selected <- NULL
+        selected <- character(0)
       } else {
-        placeholder <- NULL
-        choices <- names(data)
         selected <- value <- selected_vars[i]
       }
 
       id <- ns(paste0("item-", i))
 
       if (is.null(data)){
-        input_div <- textInput(id, label = NULL, value = value, placeholder = placeholder)
+        choices <- selected
+        allow_create <- TRUE
+        placeholder <- "Type or select variable"
       } else {
-        input_div <- selectInput(id, label = NULL, selected = selected, choices = choices)
+        choices <- c("", names(data))
+        allow_create <- FALSE
+        placeholder <- "Select variable"
+
       }
+      selectizeInput(id, label = NULL, selected = selected, choices = choices,
+                     multiple = TRUE,
+                     options = list(placeholder = placeholder, create = allow_create,
+                                    maxItems = 1))
 
-     #  freezeReactiveValue(input, id)
-
-       div(id = paste0(id,"_outer"), input_div)
     })
   }
 }

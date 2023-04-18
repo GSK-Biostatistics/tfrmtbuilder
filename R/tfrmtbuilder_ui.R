@@ -32,11 +32,6 @@ tfrmtbuilder_ui <- function(id){
                               navlistPanel(
                                 id = ns("tabs"),
 
-                                tabPanel(div( h6("Data Mapping - TEST", class = "zero_margin"),
-                                              div("(Required)", id = "tab_note")),
-                                         value = "Data Mapping - TEST",
-                                         div( datamapping_2_ui(ns("dmt")), id = "content_border")),
-
                                 tabPanel(div( h6("Data Mapping", class = "zero_margin"),
                                               div("(Required)", id = "tab_note")),
                                          value = "Data Mapping",

@@ -27,9 +27,7 @@ tfrmtbuilder_server <- function(id) {
       })
 
       # tfrmt data mapping - returns an updated tfrmt/data to be fed into the other modules
-    # settings <- datamapping_server("overview", settings_orig$data, settings_orig$tfrmt, settings_orig$mode)
-      settings <- datamapping_2_server("dmt", settings_orig$data, settings_orig$tfrmt, settings_orig$mode)
-
+     settings <- datamapping_server("overview", settings_orig$data, settings_orig$tfrmt, settings_orig$mode)
 
       # body plan creation
       bp_out <- body_plan_server("body_plan", reactive(settings()$data), reactive(settings()$tfrmt), settings_orig$mode)

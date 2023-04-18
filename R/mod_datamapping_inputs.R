@@ -45,13 +45,27 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, mode, multip
       # define # of active dropdown menus
       active_items <- reactiveVal(NULL)
 
+      # collect all input selections
+      selected_items <- reactiveVal(NULL)
+
+      # are all inputs filled in?
+      settings_complete <- reactiveVal(NULL)
+
       observeEvent(req(reset()>0),{
 
         active_items(0)
+        selected_items(NULL)
+        settings_complete(NULL)
 
         state_counter(0)
 
         removeUI(paste0("#", ns("item_div_inputs")))
+
+        existing_inputs <- names(input)[str_detect(names(input), "^item-")]
+        for (i in existing_inputs){
+          remove_shiny_inputs(ns, i, input)
+        }
+
         insertUI(
             selector = paste0("#", ns("item_div")),
             where = "afterEnd",
@@ -72,6 +86,8 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, mode, multip
           where = "beforeEnd",
           ui = to_add
         )
+
+        lapply(paste0("item-", active), function(x) freezeReactiveValue(input, x))
 
         # capture the unique ID #s for the current inputs
         active_items(active)
@@ -103,6 +119,8 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, mode, multip
           immediate = TRUE
         )
 
+        freezeReactiveValue(input, paste0("item-", item_id))
+
         # remove any zeros (ahould only happen on init) & append new item id
          if (length(active_items())==0 || all(active_items()==0)){
           active_items(item_id)
@@ -112,21 +130,14 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, mode, multip
 
       })
 
-
-     # collect all input selections
-      selected_items <- reactiveVal(NULL)
-
-
       observe({
+        req(active_items()>0)
         active_items <- (active_items())
 
         expected_inputs <- paste0("item-", active_items)
 
         vals <- lapply(expected_inputs, function(ind){
-          input_ind <- input[[ind]]
-          req(!is.null(input_ind))
-            input_ind
-
+          input[[ind]]
         }) %>% set_names(expected_inputs)
 
         selected_items(vals)
@@ -136,6 +147,7 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, mode, multip
         })
 
       })
+
 
     # dropping an input
     observeEvent(input$dropinput,{
@@ -149,7 +161,7 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, mode, multip
 
         item_id <- last(active_items())
         removeUI(
-          selector = paste0("#", ns(paste0("item-", item_id, "_outer *"))),
+          selector = paste0("#", ns(paste0("item-", item_id))),
           immediate = TRUE
         )
         remove_shiny_inputs(ns, paste0("item-", item_id), input)
@@ -159,16 +171,8 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, mode, multip
       }
     })
 
-    # are all inputs filled in?
-    settings_complete <- reactiveVal(NULL)
-
-    observe({
+    observeEvent(reset(), {
       if(required==FALSE) settings_complete(TRUE)
-    })
-    observeEvent(req(length(selected_items())==0 && length(active_items())==0),{
-      if (required==FALSE){
-        settings_complete(TRUE)
-      }
     })
 
     # mark invalid if empty selection
@@ -177,14 +181,14 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, mode, multip
       expected_inputs <- paste0("item-", active_items())
       req(all(expected_inputs %in% names(selected_items())))
 
-
       imap(selected_items(),  function(value, name){
 
-        toggleClass(id = paste0(name, "_outer"), class = "invalid", condition = (value==""))
+        show <- is.null(value)
+        feedbackDanger(inputId = name, color = "red", icon = NULL, text = NULL, show = show)
 
       })
 
-      if (any(selected_items()=="")){
+      if (any(map_lgl(selected_items(), is.null))){
         settings_complete(FALSE)
       } else {
         settings_complete(TRUE)
@@ -192,13 +196,19 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, mode, multip
 
     })
 
+    # selected items out
+    settings <- reactive({
+      if (!is.null(selected_items())){
+        keep(selected_items(), function(x)!is.null(x)) %>% unlist() %>% unname()
+      } else {
+        NULL
+      }
+    })
 
     # output
     return(
       list(
-        settings = reactive({
-          keep(selected_items(), function(x)!x=="") %>% unlist() %>% unname()
-        }),
+        settings = settings,
         valid = reactive(settings_complete()),
         initial_state = reactive(state_counter()==1)
       )

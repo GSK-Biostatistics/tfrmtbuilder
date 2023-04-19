@@ -164,7 +164,7 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, mode, multip
 
         item_id <- last(active_items())
         removeUI(
-          selector = paste0("#", ns(paste0("item-", item_id))),
+          selector = paste0("#", ns(paste0("item-", item_id, "_outer *"))),
           immediate = TRUE
         )
         remove_shiny_inputs(ns, paste0("item-", item_id), input)

@@ -151,10 +151,12 @@ append_input_vars <- function(ns,
         placeholder <- "Select variable"
 
       }
-      selectizeInput(id, label = NULL, selected = selected, choices = choices,
+      input_div <- selectizeInput(id, label = NULL, selected = selected, choices = choices,
                      multiple = TRUE,
                      options = list(placeholder = placeholder, create = allow_create,
                                     maxItems = 1))
+
+      div(id = paste0(id,"_outer"), input_div)
 
     })
   }

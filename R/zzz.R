@@ -19,5 +19,6 @@
 #' @importFrom stats setNames
 #' @importFrom rlang `:=` `!!`
 #' @importFrom shinyFeedback useShinyFeedback feedbackDanger
+#' @importFrom fontawesome fa_i
 
 NULL

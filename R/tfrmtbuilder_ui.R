@@ -14,7 +14,7 @@ tfrmtbuilder_ui <- function(id){
       useShinyFeedback(),
       navbarPage(
         windowTitle = "tfrmt Builder",
-        title = div("tfrmt Builder", class = "navheader_padding"),
+        title = span(tagList(fa_i("person-digging"), "tfrmt Builder"), class = "navheader_padding"),
         theme = bs_theme(bootswatch = "flatly",
                          base_font = font_collection(font_google("Lato", local = FALSE), "sans-serif"),
                          primary = "#254988",

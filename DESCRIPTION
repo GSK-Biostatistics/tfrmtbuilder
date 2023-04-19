@@ -50,5 +50,6 @@ Imports:
     webshot2,
     shinyAce,
     pkgload,
-    shinyFeedback
+    shinyFeedback,
+    fontawesome
     

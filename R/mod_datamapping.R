@@ -29,8 +29,7 @@ datamapping_ui <- function(id){
 #' @param id module ID
 #' @param settings - list of data, tfrmt, mode
 #'
-#'
-#' @noRd
+#'@noRd
 datamapping_server <- function(id, data, tfrmt_orig, mode){
 
   moduleServer(
@@ -142,13 +141,15 @@ datamapping_server <- function(id, data, tfrmt_orig, mode){
             !is.null(label_out$initial_state()),
             !is.null(param_out$initial_state()),
             !is.null(value_out$initial_state()),
-            !is.null(columns_out$initial_state()))
+            !is.null(columns_out$initial_state()),
+            !is.null(sorting_cols_out$initial_state()))
 
         if (all(c(groups_out$initial_state(),
                   label_out$initial_state(),
                   param_out$initial_state(),
                   value_out$initial_state(),
-                  columns_out$initial_state())==TRUE)) {
+                  columns_out$initial_state(),
+                  sorting_cols_out$initial_state())==TRUE)) {
           TRUE
         } else {
           FALSE

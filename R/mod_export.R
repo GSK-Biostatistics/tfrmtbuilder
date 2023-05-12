@@ -84,7 +84,7 @@ export_server <- function(id, data, tfrmt_app_out, mode){
 
       output$json_save <- downloadHandler(
           filename = function() {
-            paste('tfrmt-', Sys.Date(), '.json', sep='')
+            paste('tfrmt.json', sep='')
           },
           content = function(con) {
             tfrmt_to_json(tfrmt_app_out(), con)
@@ -93,7 +93,7 @@ export_server <- function(id, data, tfrmt_app_out, mode){
 
       output$tbl_save_html <- downloadHandler(
         filename = function() {
-          paste('tfrmt-', Sys.Date(), '.html', sep='')
+          paste('tfrmt.html', sep='')
         },
         content = function(con) {
           gtobj <- tbl_out()
@@ -103,7 +103,7 @@ export_server <- function(id, data, tfrmt_app_out, mode){
 
       output$tbl_save_png <- downloadHandler(
         filename = function() {
-          paste('tfrmt-', Sys.Date(), '.png', sep='')
+          paste('tfrmt.png', sep='')
         },
         content = function(con) {
           gtobj <- tbl_out()

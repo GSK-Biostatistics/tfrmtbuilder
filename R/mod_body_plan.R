@@ -257,7 +257,7 @@ body_plan_server <- function(id, data, tfrmt_app, mode_load){
       # return final struct_list only when in done mode
       body_plan_out <- eventReactive(struct_list(), {
         req(mode()=="done")
-        struct_list()
+        do.call(body_plan, struct_list())
       })
 
       # return

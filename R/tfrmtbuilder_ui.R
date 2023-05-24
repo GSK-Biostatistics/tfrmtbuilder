@@ -9,10 +9,12 @@ tfrmtbuilder_ui <- function(id){
     fluidPage(
       titlePanel(""),
       includeCSS(system.file("www","styles.css", package = "tfrmtbuilder")),
+      html_dependency_pretty(),
       useShinyjs(),
+      useShinyFeedback(),
       navbarPage(
         windowTitle = "tfrmt Builder",
-        title = div("tfrmt Builder", class = "navheader_padding"),
+        title = span(tagList(fa_i("person-digging"), "tfrmt Builder"), class = "navheader_padding"),
         theme = bs_theme(bootswatch = "flatly",
                          base_font = font_collection(font_google("Lato", local = FALSE), "sans-serif"),
                          primary = "#254988",
@@ -29,6 +31,7 @@ tfrmtbuilder_ui <- function(id){
                               class = "side_panel",
                               navlistPanel(
                                 id = ns("tabs"),
+
                                 tabPanel(div( h6("Data Mapping", class = "zero_margin"),
                                               div("(Required)", id = "tab_note")),
                                          value = "Data Mapping",
@@ -81,7 +84,20 @@ tfrmtbuilder_ui <- function(id){
                    )
                  )
         ) ,
-        tabPanel("Export", export_ui(ns("export")))
+        tabPanel("Export", export_ui(ns("export"))),
+        tags$script(HTML(paste0("var header = $('.navbar> .container-fluid');",
+                             "header.append('<div style=\"float:right; margin-bottom:0; color:#fff;\">",
+                                "<div class=\"form-group shiny-input-container\" style = \"margin-bottom:0; color:#fff;\">",
+                                    "<div class=\"pretty p-default p-switch p-fill\">",
+                                      "<input id=\"", ns("mockmode"), "\" type=\"checkbox\"/ checked=\"checked\" class = \"shiny-bound-input\">",
+                                      "<div class=\"state p-danger\">",
+                                        "<label>",
+                                        "<span >Mock Mode</span>",
+                                        "</label>",
+                                      "</div>",
+                                    "</div>",
+                                "</div>",
+                             "</div>');")))
       )
 
     )

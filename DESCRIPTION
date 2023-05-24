@@ -1,6 +1,6 @@
 Package: tfrmtbuilder
 Title: Shiny app companion to the tfrmt package
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: 
   c(person(given = "Becca",
                     family = "Krouse",
@@ -49,5 +49,7 @@ Imports:
     shinycssloaders,
     webshot2,
     shinyAce,
-    pkgload
+    pkgload,
+    shinyFeedback,
+    fontawesome
     

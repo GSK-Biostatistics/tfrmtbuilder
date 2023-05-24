@@ -10,7 +10,7 @@ tfrmtbuilder_server <- function(id) {
       home_out <- home_server("home")
 
       # ui for loading
-      settings_orig <- load_server("load")
+      settings_orig <- load_server("load", reactive(input$mockmode))
 
       # if user adjust the inputs, direct them to Data Mapping tab (in Edit tab)
       observe({
@@ -21,14 +21,13 @@ tfrmtbuilder_server <- function(id) {
         updateTabsetPanel(
           session = session,
           "tabs",
-          selected = "Data Mapping"
+          selected = "Data Mapping - TEST"
         )
 
       })
 
       # tfrmt data mapping - returns an updated tfrmt/data to be fed into the other modules
-      settings <- datamapping_server("overview", settings_orig$data, settings_orig$tfrmt, settings_orig$mode)
-
+     settings <- datamapping_server("overview", settings_orig$data, settings_orig$tfrmt, settings_orig$mode)
 
       # body plan creation
       bp_out <- body_plan_server("body_plan", reactive(settings()$data), reactive(settings()$tfrmt), settings_orig$mode)

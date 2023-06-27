@@ -48,7 +48,8 @@ body_plan_edit_server <- function(id, data, tfrmt_app, selected){
 
         frmt_out_ready <- list(frmt_out())
 
-        if (!collected_filters()$param_val==".default"){
+        if (!all(collected_filters()$param_val==".default") &&
+            length(collected_filters()$param_val)==1){
           frmt_out_ready <- setNames(frmt_out_ready, collected_filters()$param_val)
         }
 

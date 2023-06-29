@@ -153,7 +153,7 @@ table_view_server <- function(id, tab_selected, data, tfrmt_app_out, settings){
                 tab_options(
                   table.align = "left"
                 )
-            ))
+            ), inline_css = "FALSE")
 
       })
 

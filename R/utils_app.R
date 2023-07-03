@@ -18,10 +18,10 @@ create_filter_select <- function(ns, type, data, existing_filters, var_vec,
 
       if (is.list(x)){
         x
-      } else if (is.null(x) || x==".default"){
+      } else if (is.null(x) || all(x==".default")){
          x
       } else {
-        as.list(x) %>% setNames(var_vec)
+        list(x) %>% setNames(var_vec)
       }
     }) %>%
     list_flatten(name_spec = "{inner}") %>%

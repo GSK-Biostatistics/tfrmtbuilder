@@ -15,7 +15,8 @@ tfrmtbuilder <- function(run = TRUE){
 
   if (run){
     runApp(app, launch.browser = TRUE)
+  } else {
+    app
   }
 
-  app
 }

@@ -72,7 +72,7 @@ body_plan_edit_frmts_server <- function(id, selected){
 
         observeEvent(input[[paste0("pst_", x)]],{
 
-          dummy_fun <- match.fun(paste0("dummy_", x))
+          dummy_fun <- get(paste0("dummy_", x), envir = asNamespace("tfrmtbuilder"))
           updateAceEditor(session,
                           editorId = "frmt",
                               value = paste0(input$frmt, dummy_fun()))

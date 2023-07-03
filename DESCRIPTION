@@ -1,6 +1,6 @@
 Package: tfrmtbuilder
 Title: Shiny app companion to the tfrmt package
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: 
   c(person(given = "Becca",
                     family = "Krouse",

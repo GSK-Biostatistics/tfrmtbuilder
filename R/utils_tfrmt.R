@@ -246,6 +246,7 @@ cols_to_dat <- function(data, tfrmt, mock){
   columns <- tfrmt$column %>% map_chr(as_label)
   columns_lowest <- columns %>% last() %>% sym()
 
+  tfrmt$big_n <- NULL
   col_plan_vars <- attr(tfrmt:::apply_tfrmt(data, tfrmt, mock), ".col_plan_vars")
 
   allcols <- col_plan_vars %>% map_chr(as_label)

@@ -85,7 +85,7 @@ tfrmtbuilder_ui <- function(id){
                  )
         ) ,
         tabPanel("Export", export_ui(ns("export"))),
-        tags$script(HTML(paste0("var header = $('.navbar> .container-fluid');",
+        header = tags$script(HTML(paste0("var header = $('.navbar> .container-fluid');",
                              "header.append('<div style=\"float:right; margin-bottom:0; color:#fff;\">",
                                 "<div class=\"form-group shiny-input-container\" style = \"margin-bottom:0; color:#fff;\">",
                                     "<div class=\"pretty p-default p-switch p-fill\">",

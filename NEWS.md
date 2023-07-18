@@ -1,3 +1,9 @@
+# tfrmtbuilder 0.0.3
+
+* Bug fixes:
+  - Allow param-level formatting in `body_plan()`
+  - Fix issue where user is unable to select `frmt` buttons in `body_plan()` via installed package
+  - fix navbar warnings about extra content
 
 # tfrmtbuilder 0.0.2
 

@@ -33,7 +33,7 @@ body_plan_edit_server <- function(id, data, tfrmt_app, selected){
 
       # TODO - no allow_create for the uploaded data
       collected_filters <- filters_server("filters", data, tfrmt_app, selected,
-                                          include = c("group", "label"),
+                                          include = c("group", "label", "param"),
                                           allow_create = reactive(TRUE),
                                           null_to_default = TRUE)
 
@@ -46,9 +46,16 @@ body_plan_edit_server <- function(id, data, tfrmt_app, selected){
         req(length(collected_filters())>0)
         req(!is.null(frmt_out()))
 
-        frmt_structure(group_val = collected_filters()$group_val,
-                       label_val = collected_filters()$label_val,
-                       frmt_out())
+        frmt_out_ready <- list(frmt_out())
+
+        if (!all(collected_filters()$param_val==".default") &&
+            length(collected_filters()$param_val)==1){
+          frmt_out_ready <- setNames(frmt_out_ready, collected_filters()$param_val)
+        }
+
+        do.call("frmt_structure", args = c(list(group_val = collected_filters()$group_val,
+                                              label_val = collected_filters()$label_val),
+                                              frmt_out_ready))
 
       })
 

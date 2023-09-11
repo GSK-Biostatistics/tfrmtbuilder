@@ -88,7 +88,7 @@ load_server <- function(id, mockmode){
 
         # uploaded tfrmt (if applicable)
         loaded_tfrmt <- eventReactive(input$tfrmt_load,{
-          tfrmt:::json_to_tfrmt(path = input$tfrmt_load$datapath)
+          json_to_tfrmt(path = input$tfrmt_load$datapath)
         })
 
         # selected example data
@@ -145,7 +145,7 @@ load_server <- function(id, mockmode){
         output$data_view <- renderDT({
 
           if (is.null(data_out())){
-            data_tbl <- tfrmt:::make_mock_data(tfrmt_out())
+            data_tbl <- make_mock_data(tfrmt_out())
           } else {
             data_tbl <- data_out()
           }

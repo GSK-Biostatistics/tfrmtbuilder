@@ -90,7 +90,7 @@ tfrmtbuilder_server <- function(id) {
         } else {
           req(tfrmt_app_out())
           # regenerate mock data from new tfrmt
-          tfrmt:::make_mock_data(tfrmt_app_out())
+          make_mock_data(tfrmt_app_out())
         }
       })
 

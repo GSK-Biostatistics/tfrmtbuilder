@@ -12,3 +12,8 @@ tfrmtbuilder(run = TRUE)
 \description{
 Run tfrmt Builder Shiny App
 }
+\examples{
+\dontrun{
+tfrmtbuilder()
+}
+}

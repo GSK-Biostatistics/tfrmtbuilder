@@ -4,4 +4,4 @@
 ^rsconnect$
 ^app\.R$
 ^\.github$
-^codecov\.yml$
+^cran-comments\.md$

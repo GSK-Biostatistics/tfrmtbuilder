@@ -9,11 +9,14 @@ tfrmtbuilder(run = TRUE)
 \arguments{
 \item{run}{Boolean for whether the created object should be run directly. Set to \code{FALSE} for deployment}
 }
+\value{
+Shiny app for creating and modifying tfrmt objects
+}
 \description{
 Run tfrmt Builder Shiny App
 }
 \examples{
-\dontrun{
-tfrmtbuilder()
+if (interactive()){
+  tfrmtbuilder()
 }
 }

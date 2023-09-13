@@ -1,3 +1,7 @@
+# tfrmtbuilder 0.0.4
+
+First release to CRAN
+
 # tfrmtbuilder 0.0.3
 
 * Bug fixes:

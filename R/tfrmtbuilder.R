@@ -2,6 +2,11 @@
 #'
 #' @param run Boolean for whether the created object should be run directly. Set to `FALSE` for deployment
 #' @export
+#' @return Shiny app for creating and modifying tfrmt objects
+#' @examples
+#' if (interactive()){
+#'   tfrmtbuilder()
+#' }
 tfrmtbuilder <- function(run = TRUE){
   app <- shinyApp(
     ui =  tfrmtbuilder_ui("tb"),

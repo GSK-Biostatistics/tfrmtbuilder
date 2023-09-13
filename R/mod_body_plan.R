@@ -243,7 +243,7 @@ body_plan_server <- function(id, data, tfrmt_app, mode_load){
           new_tfrmt$body_plan <- struct_list()
 
           if (length(struct_list())>0){
-            new_data <- tfrmt:::make_mock_data(new_tfrmt)
+            new_data <- make_mock_data(new_tfrmt)
           } else {
             new_data <- data()
           }

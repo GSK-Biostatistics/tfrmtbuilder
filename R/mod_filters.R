@@ -62,7 +62,7 @@ filters_server <- function(id, data, tfrmt_app, selected,
 
             i <- which(var==names(var_shell()))
 
-            if (is_col_style_structure(selected())){
+            if (getFromNamespace("is_col_style_structure","tfrmt")(selected())){
 
               selected_vars_nms <- selected()$cols %>% map_chr(as_label) %>%
                 list() %>%

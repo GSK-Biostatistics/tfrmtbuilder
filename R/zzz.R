@@ -20,12 +20,12 @@
 #' @importFrom rlang `:=` `!!`
 #' @importFrom shinyFeedback useShinyFeedback feedbackDanger
 #' @importFrom fontawesome fa_i
-#' @importFrom utils getFromNameSpace
+#' @importFrom utils getFromNamespace
 NULL
 
 globalVariables(".")
 
-make_mock_data <- utils::getFromNamespace("make_mock_data","tfrmt")
+make_mock_data <- getFromNamespace("make_mock_data","tfrmt")
 
 
 

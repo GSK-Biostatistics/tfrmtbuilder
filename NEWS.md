@@ -1,4 +1,4 @@
-# tfrmtbuilder development version
+# tfrmtbuilder 0.0.5
 
 - Improve robustness of how `tfrmt` internal functions are called.
 

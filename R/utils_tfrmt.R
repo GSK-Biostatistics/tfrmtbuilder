@@ -221,11 +221,12 @@ cols_to_dat <- function(data, tfrmt, mock){
   columns_lowest <- columns %>% last() %>% sym()
 
   tfrmt$big_n <- NULL
-  col_plan_vars <- attr(apply_tfrmt(data, tfrmt, mock), ".col_plan_vars")
+  col_plan_vars <- attr(getFromNamespace("apply_tfrmt","tfrmt")(data, tfrmt, mock), ".col_plan_vars")
 
   allcols <- col_plan_vars %>% map_chr(as_label)
-  allcols <- split_data_names_to_df(data_names= c(), preselected_cols = allcols,
-                           column_names = columns)
+  allcols <- getFromNamespace("split_data_names_to_df","tfrmt")(data_names= c(),
+                                                                preselected_cols = allcols,
+                                                                column_names = columns)
 
   num_fix_ord <- c(groups, label) %>% length()
   allcols %>%

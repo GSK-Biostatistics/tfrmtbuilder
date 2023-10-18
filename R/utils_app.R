@@ -116,7 +116,7 @@ append_input_vars <- function(ns,
                               data = NULL,
                               all = TRUE){
 
-  if (active_vars==0){
+  if (all(active_vars==0)){
     div()
   } else {
     # subset to only those in the data

@@ -25,8 +25,6 @@ NULL
 
 globalVariables(".")
 
-make_mock_data <- getFromNamespace("make_mock_data","tfrmt")
-
 
 
 

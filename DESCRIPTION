@@ -51,3 +51,5 @@ Imports:
     shinyAce,
     shinyFeedback,
     fontawesome
+URL: https://gsk-biostatistics.github.io/tfrmtbuilder/, https://github.com/GSK-Biostatistics/tfrmtbuilder
+BugReports: https://github.com/GSK-Biostatistics/tfrmtbuilder/issues

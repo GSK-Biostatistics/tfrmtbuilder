@@ -2,6 +2,8 @@
 
 test_that("Body plan as expected with no user changes",{
 
+  skip_on_cran()
+
   app_dir <- rprojroot::find_testthat_root_file("module_examples/mod_body_plan")
   app <-  shinytest2::AppDriver$new(app_dir)
 
@@ -41,6 +43,8 @@ test_that("Body plan as expected with no user changes",{
 
 test_that("body plan add/delete rows",{
 
+  skip_on_cran()
+
   app_dir <- rprojroot::find_testthat_root_file("module_examples/mod_body_plan")
   app <-  shinytest2::AppDriver$new(app_dir)
 
@@ -49,13 +53,11 @@ test_that("body plan add/delete rows",{
   # click add button
   app$click("bp-add")
   # Update output value
+  app$wait_for_idle()
+  app$set_inputs(`bp-customize_pane-filters-values-rowlbl1` = "Baseline BMI",
+                 allow_no_input_binding_ = TRUE)
 
-  app$set_inputs(`bp-customize_pane-filters-values-rowlbl1` = "Baseline BMI")
-  # app$set_inputs(`bp-customize_pane-formats-frmt` = "frmt(\"xx.xxx\", missing = NULL, scientific = NULL, transform = NULL)", wait_=FALSE)
-  # app$wait_for_idle()
-  # save
   app$click("bp-save")
-
   body_plan_actual <- app$get_values()$export$vals
   body_plan_expected <- body_plan(
     frmt_structure(group_val = ".default", label_val = ".default", frmt("xx.x")),

@@ -2,6 +2,8 @@
 
 test_that("End to end with mock/auto mode (no data)", {
 
+  skip_on_cran()
+
   app <- shinytest2::AppDriver$new()
 
   # click export tab

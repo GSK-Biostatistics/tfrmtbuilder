@@ -1,6 +1,8 @@
 
 test_that("title and subtitle modified then reset to default (NULL)",{
 
+  skip_on_cran()
+
   # incoming tfrmt
   tfrmt_obj <- tfrmt(
     group = "group",
@@ -35,6 +37,8 @@ test_that("title and subtitle modified then reset to default (NULL)",{
 
 
 test_that("title and subtitle modified then reset to default (values",{
+
+  skip_on_cran()
 
   # incoming tfrmt
   tfrmt_obj <- tfrmt(

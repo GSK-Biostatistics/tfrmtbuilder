@@ -1,5 +1,7 @@
 test_that("no files provided - mock mode", {
 
+  skip_on_cran()
+
   testServer(load_server,
              args = list(mockmode = reactive(TRUE)), {
 
@@ -54,7 +56,12 @@ test_that("no files provided - mock mode", {
 
 test_that("Upload tfrmt", {
 
-  json_example_path <- "https://raw.githubusercontent.com/statasaurus/Phuse2023-ARDs-to-tables/main/data/ard.json"
+  skip_on_cran()
+
+  # save a json
+  tfrmt_n_pct() %>% tfrmt_to_json("test.json")
+
+  json_example_path <- "test.json"
   ard_json <- tfrmt::json_to_tfrmt(path = json_example_path)
 
   testServer(load_server,
@@ -72,11 +79,20 @@ test_that("Upload tfrmt", {
              }
   )
 
+  # remove json
+  file.remove(json_example_path)
+
 })
 
 test_that("Upload data", {
 
-  ard_example_path <- "https://raw.githubusercontent.com/statasaurus/Phuse2023-ARDs-to-tables/main/data/ard.csv"
+  skip_on_cran()
+
+  # save a csv
+  tfrmt::data_demog %>% filter(rowlbl1 %in% c("Age (y)","Sex")) %>%
+    write.csv("ard_demog.csv", row.names = FALSE)
+
+  ard_example_path <- "ard_demog.csv"
   ard <- read.csv(ard_example_path)
 
   testServer(load_server,
@@ -92,4 +108,8 @@ test_that("Upload data", {
                )
              }
   )
+
+  # remove ard
+  file.remove(ard_example_path)
+
 })

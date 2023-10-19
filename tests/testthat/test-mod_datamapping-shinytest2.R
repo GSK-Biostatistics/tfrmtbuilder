@@ -4,7 +4,7 @@
 
 test_that("Mock w/ data mode",{
 
-  skip_on_cran()
+  skip_if_not(interactive())
 
   app_dir <- rprojroot::find_testthat_root_file("module_examples/mod_datamapping")
   app <-  shinytest2::AppDriver$new(app_dir)
@@ -88,4 +88,7 @@ test_that("Mock w/ data mode",{
   expect_equal(values$data, tfrmt::data_demog %>% select(-value))
   expect_equal(values$mode, "mock_with_data")
   expect_equal(values$original, FALSE)
+
+  app$stop()
+
 })

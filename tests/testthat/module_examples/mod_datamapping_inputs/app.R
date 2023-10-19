@@ -1,4 +1,4 @@
-devtools::load_all()
+pkgload::load_all(here::here())
 
 setting_name <- "groups"
 data <- tfrmt::data_demog

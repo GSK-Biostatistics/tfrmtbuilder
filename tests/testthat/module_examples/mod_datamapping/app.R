@@ -1,5 +1,4 @@
-devtools::load_all()
-
+pkgload::load_all(here::here())
 
 tfrmt_orig <- tfrmt(
   group = c("rowlbl1", "rowlbl2"),

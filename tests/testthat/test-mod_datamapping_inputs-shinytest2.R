@@ -1,7 +1,7 @@
 
 test_that("Data-driven dropdowns produce expected results",{
 
-  skip_on_cran()
+  skip_if_not(interactive())
 
   app_dir <- rprojroot::find_testthat_root_file("module_examples/mod_datamapping_inputs")
   app <-  shinytest2::AppDriver$new(app_dir)
@@ -39,13 +39,15 @@ test_that("Data-driven dropdowns produce expected results",{
   expect_equal(export_vals$valid, FALSE)
   expect_equal(export_vals$initial_state, FALSE)
 
+  app$stop()
+
 })
 
 
 
 test_that("Data-driven dropdowns can be added/removed",{
 
-  skip_on_cran()
+  skip_if_not(interactive())
 
   app_dir <- rprojroot::find_testthat_root_file("module_examples/mod_datamapping_inputs")
   app <-  shinytest2::AppDriver$new(app_dir)
@@ -124,5 +126,8 @@ test_that("Data-driven dropdowns can be added/removed",{
   expect_equal(export_vals$settings, c("grp","rowlbl1"))
   expect_equal(export_vals$valid, TRUE)
   expect_equal(export_vals$initial_state, FALSE)
+
+  app$stop()
+
 })
 

@@ -1,4 +1,4 @@
-devtools::load_all()
+pkgload::load_all(here::here())
 
 tfrmt_app <- tfrmt(
   group = c("rowlbl1", "grp"),

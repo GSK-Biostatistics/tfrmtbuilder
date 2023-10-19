@@ -7,3 +7,4 @@ _\.new\.png$
 ^\.github$
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
+docs/

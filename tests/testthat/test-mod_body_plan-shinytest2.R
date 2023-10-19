@@ -2,7 +2,7 @@
 
 test_that("Body plan as expected with no user changes",{
 
-  skip_on_cran()
+  skip_if_not(interactive())
 
   app_dir <- rprojroot::find_testthat_root_file("module_examples/mod_body_plan")
   app <-  shinytest2::AppDriver$new(app_dir)
@@ -38,12 +38,15 @@ test_that("Body plan as expected with no user changes",{
 
   expect_equal(body_plan_actual, body_plan_expected)
 
+  app$stop()
+
+
 
 })
 
 test_that("body plan add/delete rows",{
 
-  skip_on_cran()
+  skip_if_not(interactive())
 
   app_dir <- rprojroot::find_testthat_root_file("module_examples/mod_body_plan")
   app <-  shinytest2::AppDriver$new(app_dir)
@@ -67,6 +70,9 @@ test_that("body plan add/delete rows",{
 
   expect_equal(body_plan_actual, body_plan_expected)
 
+  app$stop()
+
+
   # delete row -----------------------------------------------------------
 
   app <-  shinytest2::AppDriver$new(app_dir)
@@ -83,5 +89,7 @@ test_that("body plan add/delete rows",{
   )
 
   expect_equal(body_plan_actual, body_plan_expected, ignore_attr = TRUE)
+
+  app$stop()
 
 })

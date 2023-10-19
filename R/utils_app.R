@@ -116,7 +116,7 @@ append_input_vars <- function(ns,
                               data = NULL,
                               all = TRUE){
 
-  if (active_vars==0){
+  if (all(active_vars==0)){
     div()
   } else {
     # subset to only those in the data
@@ -316,17 +316,6 @@ create_col_plan_sortable <- function(ns, col_num, col_name, col_levs, col_confir
 
 
   tagList(
-    #fluidRow(
-      # column(3,
-      #        prettyCheckbox(ns(paste0("confirm_", col_num)),
-      #                         label = paste0("`", col_name, "`"),
-      #                         status = "success",
-      #                         value = col_confirmed,
-      #                         icon = icon("check"))
-      #        ),
-      # column(2,
-      #        levs_drop),
-      # column(7,
       p("Arrange Columns", style = "font-weight: bold;"),
       div(style = paste0("width:", width, "; display: flex; flex-direction: row; flex-wrap: wrap;"), levs_keep),
       br(),

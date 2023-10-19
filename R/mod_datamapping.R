@@ -240,7 +240,7 @@ datamapping_server <- function(id, data, tfrmt_orig, mode){
         if (mode()=="mock_with_data"){
           data <- data() %>% select(-as_label(tfrmt_out$value))
         } else {
-          data <- data() %||% (tfrmt:::make_mock_data(tfrmt_out))
+          data <- data() %||% (make_mock_data(tfrmt_out))
         }
 
         # layer for return

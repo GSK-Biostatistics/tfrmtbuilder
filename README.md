@@ -1,5 +1,4 @@
-## {tfrmtbuilder} Shiny App <img src="https://github.com/GSK-Biostatistics/tfrmt/blob/main/man/figures/tfrmt.png?raw=true" align="right" alt = "tfrmt logo" style="height:120px;"/> 
-
+## {tfrmtbuilder} Shiny App 
 
 The {tfrmt} package provides a language for defining display-related metadata, which can then be used to automate and easily update output formats. {tfrmtbuilder} serves as an interface to the package, allowing users to quickly and easily modify existing or new table templates.
 
@@ -28,11 +27,11 @@ The {tfrmt} package provides a language for defining display-related metadata, w
 {tfrmtbuilder} can be installed and used with the following code:
 
 ```r
-# install development version of {tfrmt}
-devtools::install_github("GSK-Biostatistics/tfrmt")
-
-# install {tfrmtbuilder}
+# development version
 devtools::install_github("GSK-Biostatistics/tfrmtbuilder")
+
+# from CRAN
+install.packages("tfrmtbuilder")
 
 # Load app
 library(tfrmtbuilder)

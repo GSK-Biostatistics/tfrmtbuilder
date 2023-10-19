@@ -1,6 +1,6 @@
 Package: tfrmtbuilder
-Title: Shiny app companion to the tfrmt package
-Version: 0.0.3
+Title: 'shiny' App Companion to the 'tfrmt' Package
+Version: 0.0.4.9000
 Authors@R: 
   c(person(given = "Becca",
                     family = "Krouse",
@@ -29,18 +29,18 @@ Description: Provides an interactive interface to the 'tfrmt' package. Users
 License: Apache License (>= 2)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Imports: 
-    tfrmt,
-    shiny, 
+    tfrmt (>= 0.1.0),
+    shiny,
     shinyjs,
-    dplyr, 
+    dplyr,
     tidyr,
     forcats,
     stringr,
     purrr,
     DT,
-    gt, 
+    gt,
     rlang,
     sortable,
     bslib,
@@ -49,7 +49,6 @@ Imports:
     shinycssloaders,
     webshot2,
     shinyAce,
-    pkgload,
     shinyFeedback,
     fontawesome
 Suggests: 

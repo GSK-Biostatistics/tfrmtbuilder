@@ -211,32 +211,6 @@ string_to_tfrmtobj <- function(obj){
 
 }
 
-# # helper to get values for the col plan
-# cols_to_dat <- function(data, tfrmt){
-#
-#   cols <- tfrmt$column %>% map_chr(as_label)
-#
-#   # establish order of all slots
-#   cols_dat <- data %>%
-#     ungroup() %>%
-#     select(any_of(cols)) %>%
-#     unique %>%
-#     mutate(across(everything(), function(x){
-#       ifelse(is.na(x), paste0("__span_empty_", cumsum(is.na(x))), x)
-#     })) %>%
-#     mutate(across(everything(), ~fct_inorder(.x))) %>%
-#     arrange(across(everything()))
-#
-#   # bind sorting cols
-#   if (!is.null(tfrmt$sorting_cols)){
-#     col_last <- last(cols)
-#     ord_cols <- map_chr(tfrmt$sorting_cols, as_label)
-#     cols_dat <- bind_rows(cols_dat, tibble(!!col_last:= ord_cols))
-#   }
-#
-#   cols_dat
-# }
-
 # function inspired by tfrmt column helpers to get the order of col levels/spans based on the data and col_plan
 cols_to_dat <- function(data, tfrmt, mock){
 
@@ -247,40 +221,12 @@ cols_to_dat <- function(data, tfrmt, mock){
   columns_lowest <- columns %>% last() %>% sym()
 
   tfrmt$big_n <- NULL
-  col_plan_vars <- attr(tfrmt:::apply_tfrmt(data, tfrmt, mock), ".col_plan_vars")
+  col_plan_vars <- attr(getFromNamespace("apply_tfrmt","tfrmt")(data, tfrmt, mock), ".col_plan_vars")
 
   allcols <- col_plan_vars %>% map_chr(as_label)
-  allcols <- tfrmt:::split_data_names_to_df(data_names= c(), preselected_cols = allcols,
-                           column_names = columns)
-
-  # allcols <- col_plan_vars %>%
-  #   map_chr(as_label) %>%
-  #   tibble(`__tlang__col_name` = .,
-  #          !!columns_lowest := NA,
-  #          rename = names(col_plan_vars) %>% ifelse(.=="", NA_character_, .))
-  #
-  # spanning_cols <- allcols$`__tlang__col_name`[str_detect(allcols$`__tlang__col_name`, "___tlang_delim___")]
-  # if(length(spanning_cols) > 0){
-  #
-  #   spanning_cols_df<- spanning_cols %>%
-  #     keep(str_detect, "___tlang_delim___") %>%
-  #     str_split("___tlang_delim___", simplify = TRUE) %>%
-  #     as_tibble( .name_repair = ~columns) %>%
-  #     mutate(`__tlang__col_name` = spanning_cols)
-  #
-  #   allcols <- allcols %>% select(-all_of(columns_lowest)) %>%
-  #     left_join(spanning_cols_df, by = "__tlang__col_name")
-  # }
-#
-#   allcols_mrg <- allcols %>%
-#     mutate(!!columns_lowest := coalesce(!!columns_lowest, `__tlang__col_name`),
-#            rename = coalesce(rename, !!columns_lowest)) %>%
-#     select(-`__tlang__col_name`) %>%
-#     mutate(across(everything(), function(x){
-#       ifelse(is.na(x), paste0("__span_empty_", cumsum(is.na(x))), x)
-#     })) %>%
-#     mutate(across(everything(), ~fct_inorder(.x))) %>%
-#     arrange(across(everything()))
+  allcols <- getFromNamespace("split_data_names_to_df","tfrmt")(data_names= c(),
+                                                                preselected_cols = allcols,
+                                                                column_names = columns)
 
   num_fix_ord <- c(groups, label) %>% length()
   allcols %>%

@@ -1,3 +1,12 @@
+# tfrmtbuilder development version
+
+- Improve robustness of how `tfrmt` internal functions are called.
+
+
+# tfrmtbuilder 0.0.4
+
+First release to CRAN
+
 # tfrmtbuilder 0.0.3
 
 * Bug fixes:

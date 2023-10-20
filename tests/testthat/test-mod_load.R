@@ -93,7 +93,7 @@ test_that("Upload data", {
     write.csv("ard_demog.csv", row.names = FALSE)
 
   ard_example_path <- "ard_demog.csv"
-  ard <- read.csv(ard_example_path)
+  ard <- read.csv(ard_example_path, stringsAsFactors = FALSE)
 
   testServer(load_server,
              args = list(mockmode = reactive(TRUE)), {

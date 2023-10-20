@@ -58,3 +58,5 @@ Suggests:
     shinytest2,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+URL: https://gsk-biostatistics.github.io/tfrmtbuilder/, https://github.com/GSK-Biostatistics/tfrmtbuilder
+BugReports: https://github.com/GSK-Biostatistics/tfrmtbuilder/issues

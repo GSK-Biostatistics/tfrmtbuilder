@@ -23,11 +23,11 @@ datamapping_inputs_ui <- function(id, setting_name){
 }
 
 #' @param id module ID
-#' @param settings - list of data, tfrmt, mode
+#' @param settings
 #'
 #'
 #' @noRd
-datamapping_inputs_server <- function(id, data, settings_in, reset, mode, multiple, required = TRUE){
+datamapping_inputs_server <- function(id, data, settings_in, reset, multiple, required = TRUE){
 
   moduleServer(
     id,
@@ -44,6 +44,8 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, mode, multip
 
       # starts at zero, 1 for initial state, then increments for each edit
       state_counter <- reactiveVal(0)
+
+      min_state_counter <- reactiveVal(0)
 
       # define # of active dropdown menus
       active_items <- reactiveVal(NULL)
@@ -94,6 +96,9 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, mode, multip
 
         # capture the unique ID #s for the current inputs
         active_items(active)
+
+        # capture baseline state counter
+        min_state_counter(as.numeric(all(active>0)))
 
       })
 
@@ -213,7 +218,7 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, mode, multip
       list(
         settings = settings,
         valid = reactive(settings_complete()),
-        initial_state = reactive(state_counter()==1)
+        initial_state = reactive(state_counter()==min_state_counter())
       )
     )
 

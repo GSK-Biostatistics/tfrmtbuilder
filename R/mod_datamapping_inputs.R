@@ -45,8 +45,6 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, multiple, re
       # starts at zero, 1 for initial state, then increments for each edit
       state_counter <- reactiveVal(0)
 
-      min_state_counter <- reactiveVal(0)
-
       # define # of active dropdown menus
       active_items <- reactiveVal(NULL)
 
@@ -96,9 +94,6 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, multiple, re
 
         # capture the unique ID #s for the current inputs
         active_items(active)
-
-        # capture baseline state counter
-        min_state_counter(as.numeric(all(active>0)))
 
       })
 
@@ -218,7 +213,7 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, multiple, re
       list(
         settings = settings,
         valid = reactive(settings_complete()),
-        initial_state = reactive(state_counter()==min_state_counter())
+        initial_state = reactive(state_counter()==1)
       )
     )
 

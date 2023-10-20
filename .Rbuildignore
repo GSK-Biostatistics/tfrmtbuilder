@@ -3,6 +3,10 @@
 ^LICENSE\.md$
 ^rsconnect$
 ^app\.R$
+_\.new\.png$
 ^\.github$
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
+docs/
+^_pkgdown\.yml$
+^pkgdown$

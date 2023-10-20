@@ -17,7 +17,8 @@ body_plan_edit_frmts_ui <- function(id){
     fluidRow(
       div(style = "margin-top:20px; width: 75%",
           div(id = ns("frmt_outer"),
-              aceEditor(ns("frmt"), mode = "r", fontSize = 16, value = "frmt('XXX.X')", wordWrap = TRUE,
+              aceEditor(ns("frmt"), mode = "r", fontSize = 16, value = "frmt('XXX.X')",
+                        wordWrap = TRUE,
                         minLines = 5,
                         maxLines = 8,
                         debounce = 500,
@@ -26,7 +27,7 @@ body_plan_edit_frmts_ui <- function(id){
                         autoScrollEditorIntoView = TRUE)
           )
       ),
-      p(id = ns("invalid_txt"), style = "color: red;", "Invalid format entry")
+      shinyjs::hidden(p(id = ns("invalid_txt"), style = "color: red;", "Invalid format entry"))
     )
   )
 

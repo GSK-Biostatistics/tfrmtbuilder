@@ -21,6 +21,7 @@ tfrmtbuilder_ui <- function(id){
                          bg = "#ffffff",
                          fg = "#000000"
                          ),
+        id = ns("all_tabs"),
         tabPanel("Home", home_ui(ns("home"))),
         tabPanel("Initialize", load_ui(ns("load"))),
         tabPanel("Edit",

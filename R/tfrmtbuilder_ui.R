@@ -6,14 +6,14 @@ tfrmtbuilder_ui <- function(id){
   ns <- NS(id)
 
   tagList(
-    fluidPage(
+    page_fillable(
       titlePanel(""),
       includeCSS(system.file("www","styles.css", package = "tfrmtbuilder")),
       html_dependency_pretty(),
       useShinyjs(),
       useShinyFeedback(),
-      navbarPage(
-        windowTitle = "tfrmt Builder",
+      page_navbar(
+        window_title = "tfrmt Builder",
         title = span(tagList(fa_i("person-digging"), "tfrmt Builder"), class = "navheader_padding"),
         theme = bs_theme(bootswatch = "flatly",
                          base_font = font_collection(font_google("Lato", local = FALSE), "sans-serif"),
@@ -22,70 +22,78 @@ tfrmtbuilder_ui <- function(id){
                          fg = "#000000"
                          ),
         id = ns("all_tabs"),
-        tabPanel("Home", home_ui(ns("home"))),
-        tabPanel("Initialize", load_ui(ns("load"))),
-        tabPanel("Edit",
-                 fluidPage(
-                   fluidRow(
-                     column(6,
-                            tags$div(
-                              class = "side_panel",
-                              navlistPanel(
+        nav_panel("Home", home_ui(ns("home"))),
+        nav_panel("Initialize", load_ui(ns("load"))),
+        nav_panel("Edit",
+                 page_fillable(
+                   layout_sidebar(
+                          #  tags$div(
+                           #   class = "side_panel",
+                              navset_pill_list(
                                 id = ns("tabs"),
 
-                                tabPanel(div( h6("Data Mapping", class = "zero_margin"),
+                                nav_panel(div( h6("Data Mapping", class = "zero_margin"),
                                               div("(Required)", id = "tab_note")),
                                          value = "Data Mapping",
-                                         div( datamapping_ui(ns("overview")), id = "content_border")),
+                                           div(style = "height: 650px",
+                                           #div(
+                                             datamapping_ui(ns("overview"))
+                                             , id = "content_border")
 
-                                tabPanel(div( h6("Body Plan", class = "zero_margin"),
+                                         ),
+
+                                nav_panel(div( h6("Body Plan", class = "zero_margin"),
                                               div("(Required)", id = "tab_note")),
                                          div( body_plan_ui(ns("body_plan")), id = "content_border")),
 
-                                tabPanel(div( h6("Row Group Plan", class = "zero_margin"),
+                                nav_panel(div( h6("Row Group Plan", class = "zero_margin"),
                                               div("(Optional)", id = "tab_note")),
                                          div( row_grp_plan_ui(ns("row_grp_plan")), id = "content_border")),
 
-                                tabPanel(div( h6("Column Plan", class = "zero_margin"),
+                                nav_panel(div( h6("Column Plan", class = "zero_margin"),
                                             div("(Optional)", id = "tab_note")),
                                          value = "Column Plan",
                                          div( col_plan_simple_ui(ns("col_plan")), id = "content_border")),
 
-                                tabPanel(div( h6("Column Style Plan", class = "zero_margin"),
+                                nav_panel(div( h6("Column Style Plan", class = "zero_margin"),
                                               div("(Optional)", id = "tab_note")),
                                          div( col_style_plan_ui(ns("col_style_plan")), id = "content_border")),
 
-                                tabPanel(div( h6("Footnote Plan", class = "zero_margin"),
+                                nav_panel(div( h6("Footnote Plan", class = "zero_margin"),
                                               div("(Optional)", id = "tab_note")),
                                          div( footnote_plan_ui(ns("footnote_plan")), id = "content_border")),
 
-                                tabPanel(div( h6("Big Ns", class = "zero_margin"),
+                                nav_panel(div( h6("Big Ns", class = "zero_margin"),
                                               div("(Optional)", id = "tab_note")),
                                          div( big_n_ui(ns("big_n")), id = "content_border")),
 
-                                tabPanel(div( h6("Titles", class = "zero_margin"),
+                                nav_panel(div( h6("Titles", class = "zero_margin"),
                                               div("(Optional)", id = "tab_note")),
                                          div( titles_ui(ns("titles")), id = "content_border")),
 
                                 widths = c(3, 9),
                                 well = FALSE
+                             #   )
+                              ),
+                           sidebar = sidebar(
+                             card(
+                                   accordion(
+                                   tabsetPanel(
+                                     tabPanel(title = div("Table", class = "tab_names"), br(),
+                                              table_view_ui(ns("tbl_view"))),
+                                     tabPanel(title = div("Data", class = "tab_names"),
+                                              DTOutput(ns("data_view")))
+                                   )
+                                 ),
+                                 height="650px"
+                                 ),
+                                 position = "right",
+                            width="50%"
                                 )
-                              )
-                            ),
-                     column(6,
-                            div(id = ns("sidebar"),
-                                tabsetPanel(
-                                  tabPanel(title = div("Table", class = "tab_names"), br(),
-                                           table_view_ui(ns("tbl_view"))),
-                                  tabPanel(title = div("Data", class = "tab_names"),
-                                           DTOutput(ns("data_view")))
-                                  )
                             )
                      )
-                   )
-                 )
         ) ,
-        tabPanel("Export", export_ui(ns("export"))),
+        nav_panel("Export", export_ui(ns("export"))),
         header = tags$script(HTML(paste0("var header = $('.navbar> .container-fluid');",
                              "header.append('<div style=\"float:right; margin-bottom:0; color:#fff;\">",
                                 "<div class=\"form-group shiny-input-container\" style = \"margin-bottom:0; color:#fff;\">",

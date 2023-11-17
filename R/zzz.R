@@ -20,7 +20,7 @@
 #' @importFrom rlang `:=` `!!`
 #' @importFrom shinyFeedback useShinyFeedback feedbackDanger
 #' @importFrom fontawesome fa_i
-#' @importFrom utils getFromNamespace
+#' @importFrom utils getFromNamespace zip
 NULL
 
 globalVariables(".")

@@ -99,13 +99,14 @@ tfrmtbuilder_server <- function(id) {
                         tab_selected = reactive(input$tabs),
                         data = reactive(settings()$data) ,
                         tfrmt_app_out = tfrmt_app_out,
-                        settings = settings)
+                        settings = settings,
+                        enable_refresh = TRUE)
 
       # export module
       export_server("export",
                     data =  reactive(settings()$data) ,
                     tfrmt_app_out = tfrmt_app_out,
-                    mode = settings_orig$mode)
+                    settings = settings)
 
       # view data
       output$data_view <- renderDT({

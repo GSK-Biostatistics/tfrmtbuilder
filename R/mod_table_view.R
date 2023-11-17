@@ -5,18 +5,20 @@ table_view_ui <- function(id){
   ns <- NS(id)
 
   tagList(
-    actionButton(ns("refresh"), "Refresh", icon = icon("sync"), class = "btn-refresh"),
+    shinyjs::hidden(actionButton(ns("refresh"), "Refresh", icon = icon("sync"), class = "btn-refresh")),
     shinyjs::hidden(
       div(
         id = ns("tbl_div"),
+        table_page_ui(ns("tbl_page")),
         shinycssloaders::withSpinner(
           color = getOption("spinner.color", default = "#254988"),
           type = 4,
-          htmlOutput(ns("tbl_view"))
+          tagList(
+            htmlOutput(ns("tbl_view"))
+          )
         )
       )
-    )
-    ,
+    ) ,
     shinyjs::hidden(
       p(id = ns("tbl_div_msg"), style="color:red;",
         "Incomplete settings configuration")
@@ -33,13 +35,18 @@ table_view_ui <- function(id){
 #' @param mode mock mode w/ no data, w/ data, reporting
 #'
 #' @noRd
-table_view_server <- function(id, tab_selected, data, tfrmt_app_out, settings){
+table_view_server <- function(id, tab_selected = reactive(NULL), data, tfrmt_app_out, settings, enable_refresh = FALSE){
 
   moduleServer(
     id,
     function(input, output, session){
 
       ns <- session$ns
+
+      # enable refresh?
+      observe({
+        shinyjs::toggle("refresh", condition = enable_refresh)
+      })
 
       # hide/show the table
       observe({
@@ -128,41 +135,58 @@ table_view_server <- function(id, tab_selected, data, tfrmt_app_out, settings){
         data <- isolate(data())
 
         if (mode=="reporting"){
-          tab <- tfrmt_app_out %>% safely(print_to_gt)(.data = data)
+          tfrmt_app_out %>% safely(print_to_gt)(.data = data)
 
         } else if (mode=="mock_no_data"){
 
-          tab <- tfrmt_app_out %>% safely(print_mock_gt)()
+          tfrmt_app_out %>% safely(print_mock_gt)()
 
         } else {
-          tab <- tfrmt_app_out %>% safely(print_mock_gt)(.data = data)
+          tfrmt_app_out %>% safely(print_mock_gt)(.data = data)
         }
 
+      })
+
+      # module to get current page
+      page_cur <- table_page_server("tbl_page", reactive(tab()$result))
+
+      # subset to selected
+      tab_sub <- reactive({
+
+        req(!is.null(tab()$result))
+
+        if (inherits(tab()$result, "gt_group")){
+          tab()$result |> grp_pull(page_cur())
+        } else{
+          tab()$result
+        }
       })
 
       # view table
       output$tbl_view <- renderUI({
 
-        req(!is.null(tab()$result))
+        req(tab_sub())
 
-        div(style = "height:100%; overflow-x: auto; overflow-y: auto; width: 100%",
+          div(style = "height:100%; overflow-x: auto; overflow-y: auto; width: 100%",
             as_raw_html(
-              tab()$result %>%
+              tab_sub() %>%
                 tab_style(style = cell_text(whitespace = "pre"),
                           locations = list(cells_stub(), cells_body(), cells_row_groups()))  %>%
                 tab_options(
                   table.align = "left"
                 )
-            , inline_css = FALSE))
+            , inline_css = FALSE)
+        )
 
       })
-
 
       # error msgs print
       output$error_msg <- renderUI({
         req(!is.null(tab()$error))
         HTML(p(paste(tab()$error)))
       })
+
+      return(reactive(tab()$result))
     }
   )
 }

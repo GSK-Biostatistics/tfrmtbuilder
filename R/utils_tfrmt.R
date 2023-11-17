@@ -26,6 +26,12 @@ prep_tfrmt_app <- function(tf){
     )
   }
 
+  if(is.null(tf$page_plan)){
+    tf$page_plan <- page_plan(
+      max_rows = 5
+    )
+  }
+
   tf
 }
 

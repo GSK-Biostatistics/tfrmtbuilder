@@ -261,6 +261,21 @@ pre.shiny-text-output {
   border-color: #1D3A6D !important;
 }
 
+/* for pagination buttons */
+.btn-page {
+  color: #FFFFFF !important;
+  background: #254988 !important;
+  border-color: #254988 !important;
+  padding:0px 6px 0px 6px;
+  margin: 0px;
+  font-size:90%
+}
+.btn-page:hover {
+  color: #FFFFFF !important;
+  background-color: #1D3A6D !important;
+  border-color: #1D3A6D !important;
+}
+
 /* for fileInput (browse) button */
 span.btn.btn-default.btn-file {
   color: #FFFFFF !important;

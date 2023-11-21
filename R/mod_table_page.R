@@ -33,7 +33,7 @@ table_page_server <- function(id, tab_gt){
     # reset indices when table updates
     observeEvent(tab_gt(), {
       if (inherits(tab_gt(), "gt_group")){
-        tot <- length(tab_gt())
+        tot <- nrow(tab_gt()$gt_tbls)
         page_tot(tot)
       } else {
         page_tot(1)

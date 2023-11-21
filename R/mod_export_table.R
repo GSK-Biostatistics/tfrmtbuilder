@@ -32,7 +32,7 @@ mod_export_table_server <- function(id, tbl, ext){
             dir.create(temp_dir)
 
             walk(seq_along(tbl()), function(x){
-              tbl() |> grp_pull(x) |> gtsave(filename = paste0("tfrmt_",x,".", tolower(ext)), path = temp_dir)
+              tbl() %>% grp_pull(x) %>% gtsave(filename = paste0("tfrmt_",x,".", tolower(ext)), path = temp_dir)
             })
 
             zip(

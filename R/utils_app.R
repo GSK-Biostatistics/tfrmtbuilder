@@ -15,7 +15,7 @@ create_filter_select <- function(ns, type, data, existing_filters, var_vec,
 
   # get the incoming settings for the given filter type (group_val, etc)
   existing_vars <- existing_filters %>%
-    keep_at(type) |>
+    keep_at(type) %>%
     pluck(type)
 
   # create a named list

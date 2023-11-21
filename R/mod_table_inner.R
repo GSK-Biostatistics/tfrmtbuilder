@@ -80,7 +80,7 @@ table_inner_server <- function(id, data, tfrmt_app_out, settings, retbl){
         req(!is.null(tab()$result))
 
         if (inherits(tab()$result, "gt_group")){
-          tab()$result |> grp_pull(page_cur())
+          tab()$result %>% grp_pull(page_cur())
         } else{
           tab()$result
         }

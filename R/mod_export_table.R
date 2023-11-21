@@ -1,4 +1,6 @@
 
+# module for table download button for given output type
+
 mod_export_table_ui <- function(id, ext){
 
   ns <- NS(id)

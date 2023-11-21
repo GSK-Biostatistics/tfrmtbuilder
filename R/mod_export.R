@@ -34,7 +34,7 @@ export_ui <- function(id){
                       )
                       ),
                    div(style = "height: 550px; overflow-y:auto; ",
-                       table_view_ui(ns("tbl_view"))
+                       table_inner_ui(ns("tbl_view"))
                    )
                )
                )
@@ -61,7 +61,12 @@ export_server <- function(id, data, tfrmt_app_out, settings){
         tfrmt_app_out() %>% tfrmt_to_json()
       })
 
-      tbl_out <- table_view_server("tbl_view", data = data, tfrmt_app_out = tfrmt_app_out, settings = settings)
+      retbl <- reactiveVal(0)
+      observeEvent(tfrmt_app_out(), {
+        retbl(retbl()+1)
+      })
+
+      tbl_out <- table_inner_server("tbl_view", data = data, tfrmt_app_out = tfrmt_app_out, settings = settings, retbl = retbl)
 
 
       output$json_save <- downloadHandler(

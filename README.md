@@ -1,4 +1,5 @@
-# {tfrmtbuilder} Shiny App 
+# {tfrmtbuilder}<a href='https://gsk-biostatistics.github.io/tfrmtbuilder/'><img src="man/figures/tfrmtbuilder_hex.png" align="right" alt = "tfrmt logo" style="height:139px;"/></a>
+
 
 <!-- badges: start -->
 

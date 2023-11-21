@@ -59,6 +59,10 @@ tfrmtbuilder_ui <- function(id){
                                               div("(Optional)", id = "tab_note")),
                                          div( footnote_plan_ui(ns("footnote_plan")), id = "content_border")),
 
+                                tabPanel(div( h6("Page Plan", class = "zero_margin"),
+                                              div("(Optional)", id = "tab_note")),
+                                         div( page_plan_ui(ns("page_plan")), id = "content_border")),
+
                                 tabPanel(div( h6("Big Ns", class = "zero_margin"),
                                               div("(Optional)", id = "tab_note")),
                                          div( big_n_ui(ns("big_n")), id = "content_border")),
@@ -76,7 +80,7 @@ tfrmtbuilder_ui <- function(id){
                             div(id = ns("sidebar"),
                                 tabsetPanel(
                                   tabPanel(title = div("Table", class = "tab_names"), br(),
-                                           table_view_ui(ns("tbl_view"))),
+                                           table_outer_ui(ns("tbl_view"))),
                                   tabPanel(title = div("Data", class = "tab_names"),
                                            DTOutput(ns("data_view")))
                                   )

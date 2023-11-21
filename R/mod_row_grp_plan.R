@@ -70,7 +70,7 @@ row_grp_plan_server <- function(id, data, tfrmt_app, mode_load){
       observeEvent(input$reset,{
         req(mode()=="done")
         data_bp(data())
-        struct_list(tfrmt_app()$row_grp_plan$struct_ls)
+        struct_list(tfrmt_app()$row_grp_plan$struct_list)
 
         shinyWidgets::updateRadioGroupButtons(session, "label_loc",
                                               selected = tfrmt_app()$row_grp_plan$label_loc$location)
@@ -78,7 +78,11 @@ row_grp_plan_server <- function(id, data, tfrmt_app, mode_load){
 
       # set up the defaults
       observeEvent(tfrmt_app(),{
-        struct_list(tfrmt_app()$row_grp_plan$struct_ls)
+
+        existing_rgp <- tfrmt_app()$row_grp_plan$struct_list
+        if (!is_empty(existing_rgp)){
+          struct_list(existing_rgp)
+        }
 
         selected <- tfrmt_app()$row_grp_plan$label_loc$location %||% "indented"
 

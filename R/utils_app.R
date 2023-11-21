@@ -10,31 +10,51 @@ remove_shiny_inputs <- function(ns, id, .input) {
 # data-driven selectInputs: for selecting values of the tfrmt parameters (group, value, etc)
 create_filter_select <- function(ns, type, data, existing_filters, var_vec,
                                  allow_create = TRUE,
-                                 null_to_default = TRUE){
+                                 null_to_default = TRUE,
+                                 add_default_opt = FALSE){
 
+  # get the incoming settings for the given filter type (group_val, etc)
   existing_vars <- existing_filters %>%
-    keep_at(type)
-  existing_vars <- map2(existing_vars, names(existing_vars), function(x, y ){
+    keep_at(type) |>
+    pluck(type)
+
+  # create a named list
+  #  - if already a named list (e.g. list(group = "val1")) then return
+  #  - if not (e.g. ".default") then make it a named list (e.g. list(group=".default"))
+  existing_vars <- map(existing_vars, function(x){
 
       if (is.list(x)){
         x
-      } else if (is.null(x) || all(x==".default")){
-         x
       } else {
         list(x) %>% setNames(var_vec)
       }
     }) %>%
-    list_flatten(name_spec = "{inner}") %>%
-    discard(~all(.x==".default"))
+    list_flatten(name_spec = "{inner}")
 
+  # remove any default values if all null are to be set to .default
+  #   (placeholder text will say ".default" when non selected)
+  if (null_to_default ||
+      (!null_to_default && !add_default_opt)){
+    existing_vars <- existing_vars  %>%
+      discard(~all(.x==".default"))
+  }
+
+  # create a select input for each variable to be represented
   lapply(var_vec, function(v){
 
+    # pull anything pre-selected for this variable
     filter_keep <-existing_vars %>% keep_at(v)
+
+    # define pre-selections, if any
     if (length(filter_keep)>0){
       selected_vals <- filter_keep %>% unlist() %>% unname()
     } else {
-        selected_vals <- character(0)
+      selected_vals <- character(0)
     }
+
+    # define choices in the drop-down:
+    #   - no data: choices are only the pre-selections
+    #   - data: choices are the values in the data
 
     if (is.null(data)){
       if (length(selected_vals)>0){
@@ -46,6 +66,12 @@ create_filter_select <- function(ns, type, data, existing_filters, var_vec,
       choices <- data %>% pull(all_of(v)) %>% unique()
     }
 
+    # add ".default" as a choice if required
+    if (add_default_opt){
+      choices <- c(".default",choices)
+    }
+
+    # define the placeholder text, depending on whether setting to NULL is an option
     if (null_to_default){
       placeholder <- ".default"
     } else {
@@ -182,14 +208,13 @@ create_struct_list_sortable <- function(ns, struct_list_txt, mode){
                      "<div id = ", ns(paste0("item-", i)),
                      " onclick = \"Shiny.setInputValue('",ns("button-item"), "', '", i,"')\" ",
                      class,
-                     "style = \"padding: 10px 15px;\"",
+                     " style = \"padding: 10px 15px;\"",
                      " >",
                      struct_list_txt[[i]],
                      "</div>"
                    ))
                  }) %>%
     setNames(as.character(ind))
-
 
   # rank list for sortable
   rank_list(text = "",

@@ -18,7 +18,7 @@ table_outer_ui <- function(id){
 #' @param settings mock mode w/ no data, w/ data, reporting
 #'
 #' @noRd
-table_outer_server <- function(id, tab_selected = reactive(NULL), data, tfrmt_app_out, settings){
+table_outer_server <- function(id, tab_selected, data, tfrmt_app_out, settings){
 
   moduleServer(
     id,

@@ -72,7 +72,7 @@ table_inner_server <- function(id, data, tfrmt_app_out, settings, retbl){
       })
 
       # module to get current page
-      page_cur <- table_page_server("tbl_page", reactive(tab()$result))
+      page_info <- table_page_server("tbl_page", reactive(tab()$result))
 
       # subset to selected
       tab_sub <- reactive({
@@ -80,7 +80,7 @@ table_inner_server <- function(id, data, tfrmt_app_out, settings, retbl){
         req(!is.null(tab()$result))
 
         if (inherits(tab()$result, "gt_group")){
-          tab()$result %>% grp_pull(page_cur())
+          tab()$result %>% grp_pull(page_info$page_cur())
         } else{
           tab()$result
         }
@@ -91,6 +91,8 @@ table_inner_server <- function(id, data, tfrmt_app_out, settings, retbl){
 
         req(tab_sub())
 
+        div(
+          p(paste0("Displaying page ", page_info$page_cur(), " of ", page_info$page_tot())),
         div(style = "height:100%; overflow-x: auto; overflow-y: auto; width: 100%",
             as_raw_html(
               tab_sub() %>%
@@ -100,6 +102,7 @@ table_inner_server <- function(id, data, tfrmt_app_out, settings, retbl){
                   table.align = "left"
                 )
               , inline_css = FALSE)
+        )
         )
 
       })

@@ -4,11 +4,11 @@ table_page_ui <- function(id){
   ns <- NS(id)
 
   tagList(
-    span(
-      style = "display: flex; gap: 5px;",
-      htmlOutput(ns("page_txt")),
+    h3(
+      span(
       actionButton(ns("prev_tbl"), "Previous", icon = icon("backward-step"), class = "btn-page"),
       actionButton(ns("next_tbl"), "Next", icon = icon("forward-step"), class = "btn-page")
+    )
     )
   )
 
@@ -41,14 +41,6 @@ table_page_server <- function(id, tab_gt){
       page_cur(1)
     })
 
-    # update txt
-    output$page_txt <- renderUI({
-
-      p(paste0("Displaying page ", page_cur(), " of ", page_tot()),
-        style="font-size: 90%; margin-top:4px; margin-bottom: 4px; text-align:center;")
-
-    })
-
     # toggle buttons
     observe({
       shinyjs::toggleState("prev_tbl", condition = !page_cur()==1)
@@ -69,7 +61,10 @@ table_page_server <- function(id, tab_gt){
       }
     })
 
-    return(page_cur)
+    return(
+      list(page_cur = page_cur,
+           page_tot = page_tot)
+    )
 
 
   })

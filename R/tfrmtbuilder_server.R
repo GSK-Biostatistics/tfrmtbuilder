@@ -12,22 +12,14 @@ tfrmtbuilder_server <- function(id) {
       # ui for loading
       settings_orig <- load_server("load", reactive(input$mockmode))
 
-      # if user adjust the inputs, direct them to Data Mapping tab (in Edit tab)
-      observe({
-        settings_orig$data()
-        settings_orig$tfrmt()
-        settings_orig$mode()
+      # final tfrmt to combine results of all modules
+      tfrmt_app_out <- reactiveVal(NULL)
 
-        updateTabsetPanel(
-          session = session,
-          "tabs",
-          selected = "Data Mapping - TEST"
-        )
-
-      })
+      observeEvent(settings_orig$data(), # when data changes, reset
+                   tfrmt_app_out(NULL))
 
       # tfrmt data mapping - returns an updated tfrmt/data to be fed into the other modules
-     settings <- datamapping_server("overview", settings_orig$data, settings_orig$tfrmt, settings_orig$mode)
+      settings <- datamapping_server("overview", settings_orig$data, settings_orig$tfrmt, settings_orig$mode)
 
       # body plan creation
       bp_out <- body_plan_server("body_plan", reactive(settings()$data), reactive(settings()$tfrmt), settings_orig$mode)
@@ -46,13 +38,7 @@ tfrmtbuilder_server <- function(id) {
       # titles
       ti_out <- titles_server("titles", reactive(settings()$tfrmt))
 
-      # final tfrmt to combine results of all modules
-      tfrmt_app_out <- reactiveVal(NULL)
-
-      observeEvent(settings_orig$data(), # when data changes, reset
-                   tfrmt_app_out(NULL))
-
-      # generate the updated tfrmt
+      # generate/update tfrmt
       observe({
         req(settings())
         req(bp_out())
@@ -84,7 +70,9 @@ tfrmtbuilder_server <- function(id) {
         }
 
         tfrmt_app_out(tfrmt_app)
+
       })
+
 
       # data to display
       data_out <- reactive({
@@ -100,10 +88,10 @@ tfrmtbuilder_server <- function(id) {
 
       # table viewer module
       table_outer_server("tbl_view",
-                        tab_selected = reactive(input$tabs),
-                        data = reactive(settings()$data) ,
-                        tfrmt_app_out = tfrmt_app_out,
-                        settings = settings)
+                         tab_selected = reactive(input$tabs),
+                         data = reactive(settings()$data) ,
+                         tfrmt_app_out = tfrmt_app_out,
+                         settings = settings)
 
       # export module
       export_server("export",

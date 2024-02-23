@@ -61,12 +61,12 @@ export_server <- function(id, data, tfrmt_app_out, settings){
         tfrmt_app_out() %>% tfrmt_to_json()
       })
 
-      retbl <- reactiveVal(0)
+      auto_tbl <- reactiveVal(0)
       observeEvent(tfrmt_app_out(), {
-        retbl(retbl()+1)
+        auto_tbl(auto_tbl()+1)
       })
 
-      tbl_out <- table_inner_server("tbl_view", data = data, tfrmt_app_out = tfrmt_app_out, settings = settings, retbl = retbl)
+      tbl_out <- table_inner_server("tbl_view", data = data, tfrmt_app_out = tfrmt_app_out, settings = settings, auto_tbl = auto_tbl)
 
 
       output$json_save <- downloadHandler(

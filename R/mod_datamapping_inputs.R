@@ -38,8 +38,6 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, multiple, re
       # hide add/drop inputs if multiple = FALSE
       observe({
         toggle("multiples", condition = multiple==TRUE)
-        toggle("multiples", condition = multiple==TRUE)
-
       })
 
       # starts at zero, 1 for initial state, then increments for each edit

@@ -31,10 +31,10 @@ table_inner_ui <- function(id){
 #' @param data data for the table
 #' @param tfrmt_app_out final tfrmt for the table
 #' @param mode mock mode w/ no data, w/ data, reporting
-#' @param retbl
+#' @param auto_tbl
 #'
 #' @noRd
-table_inner_server <- function(id, data, tfrmt_app_out, settings, retbl){
+table_inner_server <- function(id, data, tfrmt_app_out, settings, auto_tbl){
 
   moduleServer(
     id,
@@ -52,7 +52,7 @@ table_inner_server <- function(id, data, tfrmt_app_out, settings, retbl){
       # table as reactive
       tab <- reactive({
 
-        req(retbl()>0)
+        req(auto_tbl()>0)
 
         tfrmt_app_out <- isolate(tfrmt_app_out())
         mode <- isolate(settings()$mode)

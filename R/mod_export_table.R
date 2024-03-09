@@ -31,7 +31,8 @@ mod_export_table_server <- function(id, tbl, ext){
             temp_dir <- tempdir()
             dir.create(temp_dir)
 
-            walk(seq_along(tbl()), function(x){
+            n_tbls <- nrow(tbl()$gt_tbls)
+            walk(1:n_tbls, function(x){
               tbl() %>% grp_pull(x) %>% gtsave(filename = paste0("tfrmt_",x,".", tolower(ext)), path = temp_dir)
             })
 

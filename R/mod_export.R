@@ -28,7 +28,7 @@ export_ui <- function(id){
                div(style = "height: 650px;",
                    h3("Table", class = "heading_style",
                       span(class = "btn-export", style = "display: flex; gap: 5px;",
-                           lapply(c("html","png","rtf","docx","pdf"), function(ext){
+                           lapply(c("html","png","rtf","docx","pdf","tex"), function(ext){
                              mod_export_table_ui(ns(ext), ext=ext)
                            })
                       )
@@ -78,7 +78,7 @@ export_server <- function(id, data, tfrmt_app_out, settings){
           }
         )
 
-      lapply(c("html","png","rtf","docx","pdf"), function(ext){
+      lapply(c("html","png","rtf","docx","pdf","tex"), function(ext){
         mod_export_table_server(ext, tbl=tbl_out, ext=ext)
       })
     })

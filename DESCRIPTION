@@ -43,7 +43,7 @@ Imports:
     gt,
     rlang,
     sortable,
-    bslib,
+    bslib (>= 0.6.0),
     shinyWidgets,
     rio,
     shinycssloaders,

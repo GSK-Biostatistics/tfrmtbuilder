@@ -7,41 +7,35 @@ page_plan_ui <- function(id){
   ns <- NS(id)
 
   tagList(
-    fluidRow(
-      h3("Page Plan", class = "heading_style",
-         actionButton(ns("reset"), "Reset", icon = icon("undo")), class = "btn-reset"),
-      h4("Note location"),
-      shinyWidgets::radioGroupButtons(
-        inputId = ns("note_loc"), label = NULL,
-        choices = c("noprint", "preheader", "subtitle", "source_note"),
-        selected = character(0)
-      ),
-      h4("Max rows"),
-      span(
-        style = "display: flex; gap: 5px;",
-        prettySwitch(ns("max_set"), "Set", value = FALSE),
-        conditionalPanel(
-          condition = "input.max_set==true",
-          numericInput(ns("max_rows"), label = NULL, value = 10, min = 1, max = NA, step = 5),
-          ns = ns
-        )
-      ),
-      h4("Page Structures"),
-      shinyjs::hidden(
-        p(id = ns("none"),
-          "None supplied.")
-      ),
-      p(id = ns("some"), "Click table entry to edit"),
-      div(
-        id = ns("sortable"),
-        uiOutput(ns("tbl"))
-      ),
-      br(),
-      fluidRow(
-        column(3, div(actionButton(ns("add"), "New", icon = icon("plus")), class = "btn-new")),
-        column(3, offset = 1, div(shinyjs::disabled(actionButton(ns("delete"), "Delete", icon = icon("trash")))), class = "btn-delete")
-      )
+    # fluidRow(
+    h3("Page Plan", class = "heading_style",
+       actionButton(ns("reset"), "Reset", icon = icon("undo")), class = "btn-reset"),
+    h4("Note location"),
+    shinyWidgets::radioGroupButtons(
+      inputId = ns("note_loc"), label = NULL,
+      choices = c("noprint", "preheader", "subtitle", "source_note"),
+      selected = character(0)
     ),
+    h4("Max rows"),
+    prettySwitch(ns("max_set"), "Set", value = FALSE),
+    numericInput(ns("max_rows"), label = NULL, value = 10, min = 1, max = NA, step = 5,
+                 width = "25%") ,
+    h4("Page Structures"),
+    shinyjs::hidden(
+      p(id = ns("none"),
+        "None supplied.")
+    ),
+    p(id = ns("some"), "Click table entry to edit"),
+    div(
+      id = ns("sortable"),
+      uiOutput(ns("tbl"))
+    ),
+    br(),
+    fluidRow(
+      column(3, div(actionButton(ns("add"), "New", icon = icon("plus")), class = "btn-new")),
+      column(3, offset = 1, div(shinyjs::disabled(actionButton(ns("delete"), "Delete", icon = icon("trash")))), class = "btn-delete")
+    ),
+    #  ),
     br(),
     shinyjs::hidden(
       div(id = ns("customize"),
@@ -118,8 +112,10 @@ page_plan_server <- function(id, data, tfrmt_app, mode_load){
 
       observe({
         if(input$max_set){
+          shinyjs::enable("max_rows")
           max_rows(input$max_rows)
         } else {
+          shinyjs::disable("max_rows")
           max_rows(NULL)
         }
       })
@@ -303,12 +299,22 @@ page_plan_server <- function(id, data, tfrmt_app, mode_load){
 
       })
 
+      # set the max rows depending on user preference
+      max_rows <- reactiveVal(NULL)
+      observe({
+        if(input$max_set){
+          max_rows(input$max_rows)
+        } else {
+          max_rows(NULL)
+        }
+      })
+
       # return final struct_list only when in done mode
       page_plan_out <- reactive({
         req(mode()=="done")
         req(input$note_loc)
 
-        arg_list <- list(note_loc = input$note_loc, max_rows = input$max_rows)
+        arg_list <- list(note_loc = input$note_loc, max_rows = max_rows())
         if (!is.null(struct_list())){
           arg_list <- c(struct_list(), arg_list)
         }

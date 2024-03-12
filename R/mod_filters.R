@@ -25,6 +25,7 @@ filters_ui <- function(id){
 filters_server <- function(id, data, tfrmt_app, selected,
                            include,
                            null_to_default = TRUE,
+                           add_default_opt = FALSE,
                            allow_create = reactive(TRUE)){
 
     moduleServer(
@@ -50,7 +51,6 @@ filters_server <- function(id, data, tfrmt_app, selected,
 
         })
 
-
         # loop through all variables in the var shell
         output$filters <- renderUI({
 
@@ -71,6 +71,7 @@ filters_server <- function(id, data, tfrmt_app, selected,
               selected_vars <- list(column_val = selected_vars_nms)
 
             } else{
+
               selected_vars <- selected() %>%
                 keep_at(paste0(var, "_val"))
             }
@@ -78,7 +79,8 @@ filters_server <- function(id, data, tfrmt_app, selected,
             all_vars <- var_shell()[[var]]
              ui_list[[i]] <- create_filter_select(ns, paste0(var, "_val"), data,
                                                   selected_vars, all_vars,
-                                                  allow_create(), null_to_default)
+                                                  allow_create(), null_to_default,
+                                                  add_default_opt)
 
           }
 

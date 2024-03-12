@@ -12,22 +12,14 @@ tfrmtbuilder_server <- function(id) {
       # ui for loading
       settings_orig <- load_server("load", reactive(input$mockmode))
 
-      # if user adjust the inputs, direct them to Data Mapping tab (in Edit tab)
-      observe({
-        settings_orig$data()
-        settings_orig$tfrmt()
-        settings_orig$mode()
+      # final tfrmt to combine results of all modules
+      tfrmt_app_out <- reactiveVal(NULL)
 
-        updateTabsetPanel(
-          session = session,
-          "tabs",
-          selected = "Data Mapping - TEST"
-        )
-
-      })
+      observeEvent(settings_orig$data(), # when data changes, reset
+                   tfrmt_app_out(NULL))
 
       # tfrmt data mapping - returns an updated tfrmt/data to be fed into the other modules
-     settings <- datamapping_server("overview", settings_orig$data, settings_orig$tfrmt, settings_orig$mode)
+      settings <- datamapping_server("overview", settings_orig$data, settings_orig$tfrmt, settings_orig$mode)
 
       # body plan creation
       bp_out <- body_plan_server("body_plan", reactive(settings()$data), reactive(settings()$tfrmt), settings_orig$mode)
@@ -41,16 +33,12 @@ tfrmtbuilder_server <- function(id) {
       cp_out <- col_plan_simple_server("col_plan",  reactive(settings()$data), reactive(settings()$tfrmt), settings_orig$mode)
       # big N creation
       bn_out <- big_n_server("big_n", reactive(settings()$data), reactive(settings()$tfrmt), settings_orig$mode)
+      # page plan creation
+      pp_out <- page_plan_server("page_plan", reactive(settings()$data), reactive(settings()$tfrmt), settings_orig$mode)
       # titles
       ti_out <- titles_server("titles", reactive(settings()$tfrmt))
 
-      # final tfrmt to combine results of all modules
-      tfrmt_app_out <- reactiveVal(NULL)
-
-      observeEvent(settings_orig$data(), # when data changes, reset
-                   tfrmt_app_out(NULL))
-
-      # generate the updated tfrmt
+      # generate/update tfrmt
       observe({
         req(settings())
         req(bp_out())
@@ -59,6 +47,7 @@ tfrmtbuilder_server <- function(id) {
         req(cs_out())
         req(cp_out())
         req(bn_out())
+        req(pp_out())
         req(ti_out())
 
         tfrmt_app <-  settings()$tfrmt
@@ -68,6 +57,7 @@ tfrmtbuilder_server <- function(id) {
         tfrmt_app$row_grp_plan <- rg_out()
         tfrmt_app$col_style_plan <- cs_out()
         tfrmt_app$col_plan <- cp_out()
+        tfrmt_app$page_plan <- pp_out()
 
         if (length(fn_out()$struct_list)>0){
           tfrmt_app$footnote_plan <- fn_out()
@@ -80,7 +70,9 @@ tfrmtbuilder_server <- function(id) {
         }
 
         tfrmt_app_out(tfrmt_app)
-      })
+
+      }, priority = -1)
+
 
       # data to display
       data_out <- reactive({
@@ -95,17 +87,17 @@ tfrmtbuilder_server <- function(id) {
       })
 
       # table viewer module
-      table_view_server("tbl_view",
-                        tab_selected = reactive(input$tabs),
-                        data = reactive(settings()$data) ,
-                        tfrmt_app_out = tfrmt_app_out,
-                        settings = settings)
+      table_outer_server("tbl_view",
+                         tab_selected = reactive(input$tabs),
+                         data = reactive(settings()$data) ,
+                         tfrmt_app_out = tfrmt_app_out,
+                         settings = settings)
 
       # export module
       export_server("export",
                     data =  reactive(settings()$data) ,
                     tfrmt_app_out = tfrmt_app_out,
-                    mode = settings_orig$mode)
+                    settings = settings)
 
       # view data
       output$data_view <- renderDT({

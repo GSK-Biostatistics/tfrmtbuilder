@@ -90,8 +90,12 @@
   color: #CF4F15 !important;
 }
 
-.navbar-default .navbar-nav > li > a.active {
-  text-decoration: underline #CF4F15;
+.nav-underline > li > a.active{
+  color: #CF4F15 !important;
+}
+
+.navbar-nav {
+    --bs-nav-link-padding-y: 0 !important;
 }
 
 .navbar {
@@ -257,6 +261,18 @@ pre.shiny-text-output {
 }
 .btn-export:hover > div > a {
   color: #FFFFFF;
+  background-color: #1D3A6D !important;
+  border-color: #1D3A6D !important;
+}
+
+/* for pagination buttons */
+.btn-page {
+  color: #FFFFFF !important;
+  background: #254988 !important;
+  border-color: #254988 !important;
+}
+.btn-page:hover {
+  color: #FFFFFF !important;
   background-color: #1D3A6D !important;
   border-color: #1D3A6D !important;
 }

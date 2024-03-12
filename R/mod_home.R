@@ -18,6 +18,10 @@ home_server <- function(id){
   moduleServer(
     id,
     function(input, output, session) {
+
+      addResourcePath("www", system.file('www',
+                                         package = 'tfrmtbuilder'))
+
       output$about <- renderUI({
         HTML("
              <h2 class=heading_style> Welcome to the {tfrmtbuilder} Shiny App </h2>
@@ -68,7 +72,7 @@ home_server <- function(id){
       })
 
       output$hex <- renderUI({
-        HTML(" <left> <img src=https://github.com/GSK-Biostatistics/tfrmt/blob/main/man/figures/tfrmt.png?raw=true
+        HTML(" <left> <img src= 'www/tfrmtbuilder_hex.png'
                 alt=hex width=75% > </left> ")
 
       })

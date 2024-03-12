@@ -39,10 +39,20 @@ table_outer_server <- function(id, tab_selected, data, tfrmt_app_out, settings){
 
       auto_tbl <- reactiveVal(0)
 
+      tfrmt_counter <- reactiveVal(0)
+
+      observeEvent(tfrmt_app_out(),{
+        if (is.null(tfrmt_app_out())){
+          tfrmt_counter(0)
+        } else {
+          tfrmt_counter(tfrmt_counter()+1)
+        }
+      })
+      observe(print(tfrmt_counter()))
       # on initialization, if all valid
       observe({
         req(settings()$original==TRUE)
-        req(tfrmt_app_out())
+        req(tfrmt_counter()==1)
 
         isolate(
           auto_tbl(auto_tbl()+1)
@@ -73,12 +83,12 @@ table_outer_server <- function(id, tab_selected, data, tfrmt_app_out, settings){
       tbl_invalid<- reactiveVal(FALSE)
 
       # when the final tfrmt is changed, indicate refresh is needed
-      observeEvent(c(tfrmt_app_out(), settings()), {
+      observeEvent(tfrmt_app_out(), {
         shinyjs::addClass("refresh", class = "btn-danger")
         shinyjs::removeClass("refresh", class = "btn-refresh")
 
         tbl_invalid(TRUE)
-      }, priority = 100)
+      })
       # when display update is triggered, remove the indication
       observeEvent(req(auto_tbl()>0),{
         shinyjs::removeClass("refresh", class = "btn-danger")

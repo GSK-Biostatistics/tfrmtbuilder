@@ -71,7 +71,7 @@ tfrmtbuilder_server <- function(id) {
 
         tfrmt_app_out(tfrmt_app)
 
-      })
+      }, priority = -1)
 
 
       # data to display

@@ -15,20 +15,18 @@ tfrmtbuilder_ui <- function(id){
       page_navbar(
         window_title = "tfrmt Builder",
         title = span(tagList(fa_i("person-digging"), "tfrmt Builder"), class = "navheader_padding"),
-        theme = bs_theme(bootswatch = "flatly",
+        theme = bs_theme(bootswatch = "simplex",
                          base_font = font_collection(font_google("Lato", local = FALSE), "sans-serif"),
                          primary = "#254988",
                          bg = "#ffffff",
                          fg = "#000000"
-                         ),
+                         ) ,
         id = ns("all_tabs"),
         nav_panel("Home", home_ui(ns("home"))),
         nav_panel("Initialize", load_ui(ns("load"))),
         nav_panel("Edit",
                  page_fillable(
                    layout_sidebar(
-                          #  tags$div(
-                           #   class = "side_panel",
                               navset_pill_list(
                                 id = ns("tabs"),
 
@@ -36,10 +34,8 @@ tfrmtbuilder_ui <- function(id){
                                               div("(Required)", id = "tab_note")),
                                          value = "Data Mapping",
                                            div(style = "height: 650px",
-                                           #div(
                                              datamapping_ui(ns("overview"))
-                                             , id = "content_border")
-
+                                           , id = "content_border")
                                          ),
 
                                 nav_panel(div( h6("Body Plan", class = "zero_margin"),
@@ -63,6 +59,10 @@ tfrmtbuilder_ui <- function(id){
                                               div("(Optional)", id = "tab_note")),
                                          div( footnote_plan_ui(ns("footnote_plan")), id = "content_border")),
 
+                                nav_panel(div( h6("Page Plan", class = "zero_margin"),
+                                              div("(Optional)", id = "tab_note")),
+                                         div( page_plan_ui(ns("page_plan")), id = "content_border")),
+
                                 nav_panel(div( h6("Big Ns", class = "zero_margin"),
                                               div("(Optional)", id = "tab_note")),
                                          div( big_n_ui(ns("big_n")), id = "content_border")),
@@ -80,7 +80,7 @@ tfrmtbuilder_ui <- function(id){
                                    accordion(
                                    tabsetPanel(
                                      tabPanel(title = div("Table", class = "tab_names"), br(),
-                                              table_view_ui(ns("tbl_view"))),
+                                              table_outer_ui(ns("tbl_view"))),
                                      tabPanel(title = div("Data", class = "tab_names"),
                                               DTOutput(ns("data_view")))
                                    )
@@ -95,17 +95,14 @@ tfrmtbuilder_ui <- function(id){
         ) ,
         nav_panel("Export", export_ui(ns("export"))),
         header = tags$script(HTML(paste0("var header = $('.navbar> .container-fluid');",
-                             "header.append('<div style=\"float:right; margin-bottom:0; color:#fff;\">",
-                                "<div class=\"form-group shiny-input-container\" style = \"margin-bottom:0; color:#fff;\">",
-                                    "<div class=\"pretty p-default p-switch p-fill\">",
-                                      "<input id=\"", ns("mockmode"), "\" type=\"checkbox\"/ checked=\"checked\" class = \"shiny-bound-input\">",
-                                      "<div class=\"state p-danger\">",
-                                        "<label>",
-                                        "<span >Mock Mode</span>",
-                                        "</label>",
-                                      "</div>",
-                                    "</div>",
-                                "</div>",
+                             "header.append('<div style=\"float:right; color:#fff;\">",
+                             "<div id =\"mocktoggle\" class=\"form-group shiny-input-container\"",
+                             "data-require-bs-version=\"5\" ",
+                             "data-require-bs-caller=\"input_switch()\">",
+                             " <div class=\"bslib-input-switch form-switch form-check\">",
+                             " <input id=\"", ns("mockmode"), "\" class=\"form-check-input\" type=\"checkbox\" role=\"switch\"/>",
+                             "<label class=\"form-check-label\" for=\"mockmode\">",
+                             "<span>Mock Mode</span>  </label>  </div></div>",
                              "</div>');")))
       )
 

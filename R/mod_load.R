@@ -13,7 +13,8 @@ load_ui <- function(id){
                div(style = "height: 650px",
                    h3("Table Metadata", class = "heading_style"),
                    fluidRow(
-                     column(4, radioGroupButtons(ns("tfrmt_source"), label = NULL, choices = c("None", "Upload"))),
+                     column(4, radioGroupButtons(ns("tfrmt_source"), label = NULL, choices = c("None", "Upload"),
+                                                 status = "primary")),
                      column(8, conditionalPanel( "input.tfrmt_source=='Upload'",
                                                  fileInput(ns("tfrmt_load"), buttonLabel = "Load JSON", label = NULL, accept = c(".json")),
                                                  ns = ns)

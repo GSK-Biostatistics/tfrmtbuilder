@@ -28,18 +28,16 @@ export_ui <- function(id){
                div(style = "height: 650px;",
                    h3("Table", class = "heading_style",
                       span(class = "btn-export", style = "display: flex; gap: 5px;",
-                        div(downloadButton(ns("tbl_save_html"), label = "HTML", icon = icon("download"))),
-                      div(downloadButton(ns("tbl_save_png"), label = "PNG", icon = icon("download")))),
+                           lapply(c("html","png","rtf","docx","pdf","tex"), function(ext){
+                             mod_export_table_ui(ns(ext), ext=ext)
+                           })
+                      )
                       ),
                    div(style = "height: 550px; overflow-y:auto; ",
-                       shinycssloaders::withSpinner(
-                         color = getOption("spinner.color", default = "#254988"),
-                         type = 4,
-                         gt_output(ns("tbl"))
-                       )
+                       table_inner_ui(ns("tbl_view"))
                    )
                )
-             )
+               )
       )
     )
   )
@@ -52,7 +50,7 @@ export_ui <- function(id){
 #' @param mode mock mode w/ no data, w/ data, reporting
 #'
 #' @noRd
-export_server <- function(id, data, tfrmt_app_out, mode){
+export_server <- function(id, data, tfrmt_app_out, settings){
 
   moduleServer(
     id,
@@ -63,24 +61,13 @@ export_server <- function(id, data, tfrmt_app_out, mode){
         tfrmt_app_out() %>% tfrmt_to_json()
       })
 
-      tbl_out <- reactive({
-        req(tfrmt_app_out())
-        mode <- isolate(mode())
-
-        if (mode=="reporting"){
-          tfrmt_app_out() %>% print_to_gt(.data = data())
-
-        } else if (mode=="mock_no_data"){
-          tfrmt_app_out() %>% print_mock_gt()
-
-        } else {
-          tfrmt_app_out() %>% print_mock_gt(.data = data())
-        }
+      auto_tbl <- reactiveVal(0)
+      observeEvent(tfrmt_app_out(), {
+        auto_tbl(auto_tbl()+1)
       })
 
-      output$tbl <- render_gt({
-         tbl_out()
-      })
+      tbl_out <- table_inner_server("tbl_view", data = data, tfrmt_app_out = tfrmt_app_out, settings = settings, auto_tbl = auto_tbl)
+
 
       output$json_save <- downloadHandler(
           filename = function() {
@@ -91,24 +78,8 @@ export_server <- function(id, data, tfrmt_app_out, mode){
           }
         )
 
-      output$tbl_save_html <- downloadHandler(
-        filename = function() {
-          paste('tfrmt.html', sep='')
-        },
-        content = function(con) {
-          gtobj <- tbl_out()
-          gtsave(gtobj, con)
-        }
-      )
-
-      output$tbl_save_png <- downloadHandler(
-        filename = function() {
-          paste('tfrmt.png', sep='')
-        },
-        content = function(con) {
-          gtobj <- tbl_out()
-          gtsave(gtobj, con)
-        }
-      )
+      lapply(c("html","png","rtf","docx","pdf","tex"), function(ext){
+        mod_export_table_server(ext, tbl=tbl_out, ext=ext)
+      })
     })
 }

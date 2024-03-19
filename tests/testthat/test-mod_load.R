@@ -9,14 +9,7 @@ test_that("no files provided - mock mode", {
                session$setInputs(tfrmt_source = "None")
                session$setInputs(data_source = "Auto")
 
-               template_tfrmt <- tfrmt(group = "group",
-                                       label = "label",
-                                       param = "param",
-                                       value = "value",
-                                       column = "column",
-                                       body_plan = body_plan(
-                                         frmt_structure(group_val = ".default", label_val = ".default", frmt("xx.x"))
-                                       ))
+               template_tfrmt <- prep_tfrmt_app(tfrmt())
 
                # returns template tfrmt
                expect_equal(

@@ -1,5 +1,12 @@
 # tfrmtbuilder development version
 
+* New features:
+  - Add support for `page_plan`
+  - Add support for additional output formats 
+  
+* Bug fixes:
+  - Fix navbar link underline css conflict to support bslib >= 0.6.0
+
 # tfrmtbuilder 0.0.5
 
 - Improve robustness of how `tfrmt` internal functions are called.

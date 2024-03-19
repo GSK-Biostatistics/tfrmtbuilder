@@ -84,14 +84,32 @@
 
 .navbar-default .navbar-nav > li > a {
   color: #ffffff !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .navbar-default .navbar-nav > li > a:hover {
   color: #CF4F15 !important;
 }
 
-.navbar-default .navbar-nav > li > a.active {
-  text-decoration: underline #CF4F15;
+.nav-underline > li > a.active{
+  color: #CF4F15 !important;
+}
+
+#mocktoggle {
+ margin-bottom: 0 !important;
+}
+.form-check-input:checked {
+  background-color:#CF4F15 !important;
+  border-color:#CF4F15 !important;
+}
+.form-check-input:focus {
+  border-color: #AAC0E8;
+}
+
+.navbar-nav {
+    --bs-nav-link-padding-y: 0 !important;
+    --bs-nav-link-font-size: 1rem !important;
 }
 
 .navbar {
@@ -261,6 +279,18 @@ pre.shiny-text-output {
   border-color: #1D3A6D !important;
 }
 
+/* for pagination buttons */
+.btn-page {
+  color: #FFFFFF !important;
+  background: #254988 !important;
+  border-color: #254988 !important;
+}
+.btn-page:hover {
+  color: #FFFFFF !important;
+  background-color: #1D3A6D !important;
+  border-color: #1D3A6D !important;
+}
+
 /* for fileInput (browse) button */
 span.btn.btn-default.btn-file {
   color: #FFFFFF !important;
@@ -280,4 +310,8 @@ span.btn.btn-default.btn-file:hover {
 
 .unclickable {
   pointer-events:none;
+}
+
+.nav-pills .nav-link.active {
+     background: #254988 !important;
 }

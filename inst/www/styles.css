@@ -63,16 +63,16 @@
 }
 
 /* for navlinks in side_panel (wrapped around navlistPanel) */
-.side_panel .nav-pills a {
+.nav-pills a {
   color: #254988;
 }
 
-.side_panel .nav-pills a:hover {
+.nav-pills a:hover {
   color: #1D3A6D;
   background: #AAC0E8;
 }
 
-.side_panel .nav-pills .nav-link.active {
+.nav-pills .nav-link.active {
   color: #ffffff;
   background: #254988;
 }
@@ -146,11 +146,11 @@
   font-weight:; normal !important;
 }
 
-.side_panel .nav-pills a:hover #tab_note {
+.nav-pills a:hover #tab_note {
   color: #254988;
 }
 
-.side_panel .nav-pills .nav-link.active #tab_note {
+.nav-pills .nav-link.active #tab_note {
   color: #ffffff;
 }
 
@@ -198,11 +198,28 @@
  padding: 15px;
 }
 
-/* for table/data view tab names */
-a.nav-link > div.tab_names {
+/* for table/data view tab names
+/*a.nav-link > div.tab_names {
   font-weight: bold !important;
   font-size: 20px !important;
+  color: #254988;
 }
+*/
+
+.sidebar .nav-tabs a {
+  color:  #CF4F15;
+}
+
+.sidebar .nav-tabs a:hover {
+  color: #1D3A6D;
+  background: #AAC0E8;
+}
+
+.sidebar .nav-tabs .nav-link.active {
+  color: #ffffff;
+  background: #254988;
+}
+
 
 /* for table refresh button */
 .btn-danger {

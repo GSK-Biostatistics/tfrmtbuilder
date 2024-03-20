@@ -64,7 +64,7 @@
 
 /* for navlinks in side_panel (wrapped around navlistPanel) */
 .nav-pills a {
-  color: #254988;
+  color: #254988 !important;
 }
 
 .nav-pills a:hover {
@@ -73,7 +73,7 @@
 }
 
 .nav-pills .nav-link.active {
-  color: #ffffff;
+  color: #ffffff !important;
   background: #254988;
 }
 

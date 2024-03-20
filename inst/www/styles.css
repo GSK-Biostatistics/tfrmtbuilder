@@ -226,6 +226,9 @@
   background-color: #CF4F15;
   box-shadow: 0 0 15px #CF4F15;
 }
+.btn-danger:hover {
+  background-color: #BD4813;
+}
 
 /* for wellPanel */
 div.well {

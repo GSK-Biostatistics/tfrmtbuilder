@@ -6,23 +6,27 @@ table_inner_ui <- function(id){
 
   tagList(
     shinyjs::hidden(
-      div(
-        id = ns("tbl_div"),
-        table_page_ui(ns("tbl_page")),
-        shinycssloaders::withSpinner(
-          color = getOption("spinner.color", default = "#254988"),
-          type = 4,
-          tagList(
-            htmlOutput(ns("tbl_view"))
-          )
-        )
-      )
-    ) ,
-    shinyjs::hidden(
       p(id = ns("tbl_div_msg"), style="color:red;",
         "Incomplete settings configuration")
     ),
-    htmlOutput(ns("error_msg"))
+    htmlOutput(ns("error_msg")),
+    shinycssloaders::withSpinner(
+      color = getOption("spinner.color", default = "#254988"),
+      type = 4,
+      tagList(
+        div(style = "height: 450px; overflow-x: auto; overflow-y:auto; width:100%;",
+          htmlOutput(ns("tbl_view")),
+          br(),
+          htmlOutput(ns("tbl_txt"))
+        )
+      )
+    ),
+    shinyjs::hidden(
+      div(
+        id = ns("tbl_page_div"),
+        table_page_ui(ns("tbl_page")),
+      )
+    )
   )
 }
 
@@ -44,8 +48,9 @@ table_inner_server <- function(id, data, tfrmt_app_out, settings, auto_tbl){
 
       # hide/show the table
       observe({
-        shinyjs::toggle("tbl_div", condition = !is.null(tfrmt_app_out()))
         shinyjs::toggle("tbl_div_msg", condition = is.null(tfrmt_app_out()))
+        shinyjs::toggle("tbl_page_div", condition = !is.null(tfrmt_app_out()))
+
       })
 
 
@@ -91,10 +96,7 @@ table_inner_server <- function(id, data, tfrmt_app_out, settings, auto_tbl){
 
         req(tab_sub())
 
-        div(
-          p(paste0("Displaying page ", page_info$page_cur(), " of ", page_info$page_tot())),
-        div(style = "height:100%; overflow-x: auto; overflow-y: auto; width: 100%",
-            as_raw_html(
+        as_raw_html(
               tab_sub() %>%
                 tab_style(style = cell_text(whitespace = "pre"),
                           locations = list(cells_stub(), cells_body(), cells_row_groups()))  %>%
@@ -102,8 +104,12 @@ table_inner_server <- function(id, data, tfrmt_app_out, settings, auto_tbl){
                   table.align = "left"
                 )
               , inline_css = FALSE)
-        )
-        )
+      })
+
+      output$tbl_txt <- renderUI({
+
+        req(tab_sub())
+        p(paste0("Displaying page ", page_info$page_cur(), " of ", page_info$page_tot()))
 
       })
 

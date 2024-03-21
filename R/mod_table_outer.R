@@ -48,7 +48,7 @@ table_outer_server <- function(id, tab_selected, data, tfrmt_app_out, settings){
           tfrmt_counter(tfrmt_counter()+1)
         }
       })
-      observe(print(tfrmt_counter()))
+
       # on initialization, if all valid
       observe({
         req(settings()$original==TRUE)

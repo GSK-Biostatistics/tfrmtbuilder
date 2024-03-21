@@ -143,6 +143,14 @@ load_server <- function(id, mockmode){
 
         })
 
+        # If currently on data = "Auto" and example tfrmt is selected, use the example data instead
+        observeEvent(c(input$tfrmt_ex, input$tfrmt_source), {
+          req(input$tfrmt_source=="Example")
+          req(!input$data_source=="Upload")
+          updateRadioGroupButtons(session, "data_source", selected = "Example")
+          updateRadioGroupButtons(session, "data_ex", selected = input$tfrmt_ex)
+        })
+
         # keep track of mode for downstream functionality
         mode <- reactive({
           if (mockmode() == TRUE){

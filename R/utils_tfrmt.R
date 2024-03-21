@@ -245,7 +245,7 @@ cols_to_dat <- function(data, tfrmt, mock){
 
   tfrmt$big_n <- NULL
   tfrmt_out <- getFromNamespace("apply_tfrmt","tfrmt")(data, tfrmt, mock)
-  if (!inherits(tfrmt_out, "processed_tfrmt_tbl") && is.list(tfrmt_out)){
+  if (inherits(tfrmt_out, "list")){
     tfrmt_out <- tfrmt_out[[1]]
   }
 

@@ -25,6 +25,8 @@ create_filter_select <- function(ns, type, data, existing_filters, var_vec,
 
       if (is.list(x)){
         x
+      } else if (all(x==".default")){
+        rep(".default", length(var_vec)) %>% as.list() %>% setNames(var_vec)
       } else {
         list(x) %>% setNames(var_vec)
       }
@@ -160,7 +162,7 @@ append_input_vars <- function(ns,
 
       if (i>length(selected_vars)){
         value <- NULL
-        selected <- character(0)
+      selected <- character(0)
       } else {
         selected <- value <- selected_vars[i]
       }

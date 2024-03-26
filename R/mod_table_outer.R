@@ -73,6 +73,7 @@ table_outer_server <- function(id, tab_selected, data, tfrmt_app_out, settings){
       observe({
         if (is.null(tfrmt_app_out())){
           auto_tbl(0)
+          tfrmt_counter(0)
         }
       })
 

@@ -17,6 +17,8 @@ tfrmtbuilder_server <- function(id) {
 
       observeEvent(settings_orig$data(), # when data changes, reset
                    tfrmt_app_out(NULL))
+      observeEvent(settings_orig$tfrmt(),
+                   tfrmt_app_out(NULL))
 
       # tfrmt data mapping - returns an updated tfrmt/data to be fed into the other modules
       settings <- datamapping_server("overview", settings_orig$data, settings_orig$tfrmt, settings_orig$mode)

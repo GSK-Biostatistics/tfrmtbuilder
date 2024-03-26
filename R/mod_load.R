@@ -30,6 +30,7 @@ load_ui <- function(id){
                      #                                           choices = c("demog","ae","labs")),
                      #                         ns = ns)
 
+
                    ),
                    fluidRow(
                      div(style = "height: 500px; overflow-y:auto; ",

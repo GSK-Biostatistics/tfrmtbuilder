@@ -53,7 +53,7 @@ load_ui <- function(id){
                      radioGroupButtons(ns("data_source"), label = NULL,
                                                                   choices = c("Auto", "Upload", "Example"), selected = "Auto"),
                      conditionalPanel("input.data_source=='Upload'",
-                                                fileInput(ns("data_load"), buttonLabel = "Load Data", label = NULL, accept = c(".csv",".sas7bdat",".rds")),
+                                                fileInput(ns("data_load"), buttonLabel = "Load Data", label = NULL, accept = c(".csv",".sas7bdat",".rds",".xpt")),
                                                 ns = ns),
                             conditionalPanel("input.data_source=='Example'",
                                              radioGroupButtons(ns("data_ex"), label = NULL, choices = c("demog","ae","labs","efficacy")),

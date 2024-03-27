@@ -99,7 +99,7 @@ table_outer_server <- function(id, tab_selected, data, tfrmt_app_out, settings){
       })
 
 
-      table_inner_server("tbl", data, tfrmt_app_out, settings, auto_tbl)
+      table_inner_server("tbl", data, tfrmt_app_out, reactive(settings()$mode), auto_tbl)
 
 
     }

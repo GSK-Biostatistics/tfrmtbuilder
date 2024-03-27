@@ -36,7 +36,7 @@ table_inner_ui <- function(id){
 #' @param auto_tbl
 #'
 #' @noRd
-table_inner_server <- function(id, data, tfrmt_app_out, settings, auto_tbl){
+table_inner_server <- function(id, data, tfrmt_app_out, mode, auto_tbl){
 
   moduleServer(
     id,
@@ -58,7 +58,7 @@ table_inner_server <- function(id, data, tfrmt_app_out, settings, auto_tbl){
         req(auto_tbl()>0)
 
         tfrmt_app_out <- isolate(tfrmt_app_out())
-        mode <- isolate(settings()$mode)
+        mode <- isolate(mode())
         data <- isolate(data())
 
         if (mode=="reporting"){

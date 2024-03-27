@@ -50,7 +50,7 @@ export_ui <- function(id){
 #' @param mode mock mode w/ no data, w/ data, reporting
 #'
 #' @noRd
-export_server <- function(id, data, tfrmt_app_out, settings){
+export_server <- function(id, data, tfrmt_app_out, mode, cur_tab){
 
   moduleServer(
     id,
@@ -61,13 +61,14 @@ export_server <- function(id, data, tfrmt_app_out, settings){
         tfrmt_app_out() %>% tfrmt_to_json()
       })
 
+      # trigger the table
       auto_tbl <- reactiveVal(0)
-      observeEvent(tfrmt_app_out(), {
+      observeEvent(req(cur_tab()=="Export"), {
+        req(tfrmt_app_out())
         auto_tbl(auto_tbl()+1)
       })
 
-      tbl_out <- table_inner_server("tbl_view", data = data, tfrmt_app_out = tfrmt_app_out, settings = settings, auto_tbl = auto_tbl)
-
+      tbl_out <- table_inner_server("tbl_view", data, tfrmt_app_out, mode, auto_tbl)
 
       output$json_save <- downloadHandler(
           filename = function() {

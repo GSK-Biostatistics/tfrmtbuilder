@@ -12,25 +12,16 @@ load_ui <- function(id){
              wellPanel(
                div(style = "height: 650px",
                    h3("Table Metadata", class = "heading_style"),
-                   layout_column_wrap(
-                   #  col_widths = c(4,8),
-                     gap = 0,
-
-                     radioGroupButtons(ns("tfrmt_source"), label = NULL, choices = c("None", "Upload", "Example")),
-                     shinyjs::hidden(fileInput(ns("tfrmt_load"), buttonLabel = "Load JSON", label = NULL, accept = c(".json"))),
+                   radioGroupButtons(ns("tfrmt_source"), label = NULL, choices = c("None", "Upload", "Example")),
+                   fluidRow(
+                     column(12,
+                            shinyjs::hidden(fileInput(ns("tfrmt_load"), buttonLabel = "Load JSON", label = NULL, accept = c(".json")))
+                     )
+                   ),
+                   fluidRow(
                      shinyjs::hidden(radioGroupButtons(ns("tfrmt_ex"),
-                                                        label = NULL,
-                                                        choices = c("demog","ae","efficacy")))
-                     # conditionalPanel( "input.tfrmt_source=='Upload'",
-                     #                             fileInput(ns("tfrmt_load"), buttonLabel = "Load JSON", label = NULL, accept = c(".json")),
-                     #                             ns = ns),
-                     #        conditionalPanel("input.tfrmt_source=='Example'",
-                     #                         radioGroupButtons(ns("example_json"),
-                     #                                           label = NULL,
-                     #                                           choices = c("demog","ae","labs")),
-                     #                         ns = ns)
-
-
+                                                       label = NULL,
+                                                       choices = c("demog","ae","efficacy")))
                    ),
                    fluidRow(
                      div(style = "height: 500px; overflow-y:auto; ",
@@ -48,16 +39,17 @@ load_ui <- function(id){
              wellPanel(
                div(style = "height: 650px",
                    h3("Data", class = "heading_style"),
-                   layout_columns(
-                     col_widths = c(5,7),
-                     radioGroupButtons(ns("data_source"), label = NULL,
-                                                                  choices = c("Auto", "Upload", "Example"), selected = "Auto"),
+                   radioGroupButtons(ns("data_source"), label = NULL,
+                                     choices = c("Auto", "Upload", "Example"), selected = "Auto"),
+                   fluidRow(
                      conditionalPanel("input.data_source=='Upload'",
-                                                fileInput(ns("data_load"), buttonLabel = "Load Data", label = NULL, accept = c(".csv",".sas7bdat",".rds",".xpt")),
-                                                ns = ns),
-                            conditionalPanel("input.data_source=='Example'",
-                                             radioGroupButtons(ns("data_ex"), label = NULL, choices = c("demog","ae","labs","efficacy")),
-                                             ns = ns)
+                                      column(6, fileInput(ns("data_load"), buttonLabel = "Load Data", label = NULL, accept = c(".csv",".sas7bdat",".rds"))),
+                                      ns = ns)
+                   ),
+                   fluidRow(
+                     conditionalPanel("input.data_source=='Example'",
+                                      radioGroupButtons(ns("data_ex"), label = NULL, choices = c("demog","ae","labs","efficacy")),
+                                      ns = ns)
                    ),
                    fluidRow(
                      div(style = "height: 550px;",

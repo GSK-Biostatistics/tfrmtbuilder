@@ -10,16 +10,14 @@ table_inner_ui <- function(id){
         "Incomplete settings configuration")
     ),
     htmlOutput(ns("error_msg")),
-    shinycssloaders::withSpinner(
-      color = getOption("spinner.color", default = "#254988"),
-      type = 4,
-      tagList(
-        div(style = "height: 450px; overflow-x: auto; overflow-y:auto; width:100%;",
-          htmlOutput(ns("tbl_view")),
-          br(),
-          htmlOutput(ns("tbl_txt"))
-        )
-      )
+    div(style = "height: 450px; overflow-x: auto; overflow-y:auto; width:100%;",
+        shinycssloaders::withSpinner(
+          color = getOption("spinner.color", default = "#254988"),
+          type = 4,
+          htmlOutput(ns("tbl_view"))
+        ),
+        br(),
+        htmlOutput(ns("tbl_txt"))
     ),
     shinyjs::hidden(
       div(

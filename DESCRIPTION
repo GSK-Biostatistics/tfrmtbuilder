@@ -50,7 +50,8 @@ Imports:
     webshot2,
     shinyAce,
     shinyFeedback,
-    fontawesome
+    fontawesome,
+    cli
 Suggests: 
     here,
     pkgload,

@@ -114,21 +114,21 @@ load_server <- function(id, mockmode){
           eval(parse(text = str_to_eval))
 
         })
-        # # selected example tfrmt (if applicable)
-        # tfrmt_ex <- eventReactive(input$tfrmt_ex,{
-        #
-        #   tfrmt_file <- paste0("tfrmt_", input$tfrmt_ex, ".json")
-        #   json_to_tfrmt(path = system.file("json_examples", tfrmt_file, package = "tfrmt"))
-        #
-        # })
+        # selected example tfrmt (if applicable)
+        tfrmt_ex <- eventReactive(input$tfrmt_ex,{
+
+          tfrmt_file <- paste0("tfrmt_", input$tfrmt_ex, ".json")
+          json_to_tfrmt(path = system.file("json_examples", tfrmt_file, package = "tfrmt"))
+
+        })
 
         # tfrmt to be used in the app
         tfrmt_out <- reactive({
 
           if (input$tfrmt_source=="None"){
             prep_tfrmt_app(tfrmt())
-          # }  else if (input$tfrmt_source=="Example"){
-          #   tfrmt_ex()
+          }  else if (input$tfrmt_source=="Example"){
+            tfrmt_ex()
           } else {
             req(loaded_tfrmt())
             loaded_tfrmt()
@@ -136,13 +136,13 @@ load_server <- function(id, mockmode){
 
         })
 
-        # # If currently on data = "Auto" and example tfrmt is selected, use the example data instead
-        # observeEvent(c(input$tfrmt_ex, input$tfrmt_source), {
-        #   req(input$tfrmt_source=="Example")
-        #   req(!input$data_source=="Upload")
-        #   updateRadioGroupButtons(session, "data_source", selected = "Example")
-        #   updateRadioGroupButtons(session, "data_ex", selected = input$tfrmt_ex)
-        # })
+        # If currently on data = "Auto" and example tfrmt is selected, use the example data instead
+        observeEvent(c(input$tfrmt_ex, input$tfrmt_source), {
+          req(input$tfrmt_source=="Example")
+          req(!input$data_source=="Upload")
+          updateRadioGroupButtons(session, "data_source", selected = "Example")
+          updateRadioGroupButtons(session, "data_ex", selected = input$tfrmt_ex)
+        })
 
         # keep track of mode for downstream functionality
         mode <- reactive({

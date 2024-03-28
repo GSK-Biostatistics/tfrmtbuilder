@@ -12,14 +12,6 @@ tfrmtbuilder_server <- function(id) {
       # ui for loading
       settings_orig <- load_server("load", reactive(input$mockmode))
 
-      # final tfrmt to combine results of all modules
-      tfrmt_app_out <- reactiveVal(NULL)
-
-      observeEvent(settings_orig$data(), # when data changes, reset
-                   tfrmt_app_out(NULL))
-      observeEvent(settings_orig$tfrmt(),
-                   tfrmt_app_out(NULL))
-
       # tfrmt data mapping - returns an updated tfrmt/data to be fed into the other modules
       settings <- datamapping_server("overview", settings_orig$data, settings_orig$tfrmt, settings_orig$mode)
 
@@ -40,8 +32,8 @@ tfrmtbuilder_server <- function(id) {
       # titles
       ti_out <- titles_server("titles", reactive(settings()$tfrmt))
 
-      # generate/update tfrmt
-      observe({
+
+      tfrmt_app_out <- reactive({
         req(settings())
         req(bp_out())
         req(rg_out())
@@ -71,9 +63,9 @@ tfrmtbuilder_server <- function(id) {
           tfrmt_app$big_n <- bn_out()
         }
 
-        tfrmt_app_out(tfrmt_app)
+        tfrmt_app
 
-      }, priority = -1)
+      })
 
 
       # data to display
@@ -88,19 +80,22 @@ tfrmtbuilder_server <- function(id) {
         }
       })
 
+
       # table viewer module
       table_outer_server("tbl_view",
-                         tab_selected = reactive(input$tabs),
+                         cur_tab = reactive(input$all_tabs=="Edit"),
+                         subtab = reactive(input$tabs),
                          data = reactive(settings()$data) ,
                          tfrmt_app_out = tfrmt_app_out,
-                         settings = settings)
+                         settings = settings
+                         )
 
       # export module
       export_server("export",
                     data =  reactive(settings()$data) ,
                     tfrmt_app_out = tfrmt_app_out,
                     mode = reactive(settings()$mode),
-                    cur_tab = reactive(input$all_tabs))
+                    cur_tab = reactive(input$all_tabs=="Export"))
 
       # view data
       output$data_view <- renderDT({

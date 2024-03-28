@@ -48,6 +48,7 @@ export_ui <- function(id){
 #' @param data data for the table
 #' @param tfrmt_app_out final tfrmt for the table
 #' @param mode mock mode w/ no data, w/ data, reporting
+#' @param cur_tab Is this tab currently selected? TRUE/FALSE
 #'
 #' @noRd
 export_server <- function(id, data, tfrmt_app_out, mode, cur_tab){
@@ -62,13 +63,13 @@ export_server <- function(id, data, tfrmt_app_out, mode, cur_tab){
       })
 
       # trigger the table
-      auto_tbl <- reactiveVal(0)
-      observeEvent(req(cur_tab()=="Export"), {
+      tbl_auto_refresh <- reactiveVal(0)
+      observeEvent(cur_tab()==TRUE, {
         req(tfrmt_app_out())
-        auto_tbl(auto_tbl()+1)
+        tbl_auto_refresh(tbl_auto_refresh()+1)
       })
 
-      tbl_out <- table_inner_server("tbl_view", data, tfrmt_app_out, mode, auto_tbl)
+      tbl_out <- table_inner_server("tbl_view", data, tfrmt_app_out, mode, tbl_auto_refresh)
 
       output$json_save <- downloadHandler(
           filename = function() {

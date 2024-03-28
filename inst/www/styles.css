@@ -158,6 +158,10 @@
 	background-color: #AAC0E8;
 }
 
+::-webkit-scrollbar-thumb:hover {
+    background-color: #6C87B2;
+}
+
 /* heading style */
 .heading_style {
   color: #254988;

@@ -158,6 +158,10 @@
 	background-color: #AAC0E8;
 }
 
+::-webkit-scrollbar-thumb:hover {
+    background-color: #6C87B2;
+}
+
 /* heading style */
 .heading_style {
   color: #254988;
@@ -310,3 +314,9 @@ span.btn.btn-default.btn-file:hover {
   color: #ffffff;
   background: #254988;
 }
+
+/* card full-screen options */
+.bslib-full-screen-enter {
+  bottom: var(--bslib-full-screen-enter-bottom);
+}
+

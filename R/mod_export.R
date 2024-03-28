@@ -64,9 +64,17 @@ export_server <- function(id, data, tfrmt_app_out, mode, cur_tab){
 
       # trigger the table
       tbl_auto_refresh <- reactiveVal(0)
+      tbl_needs_refresh<- reactiveVal(FALSE)
+
+      # when the final tfrmt is changed, indicate refresh is needed
+      observeEvent(tfrmt_app_out(), {
+        tbl_needs_refresh(TRUE)
+      })
       observeEvent(cur_tab()==TRUE, {
-        req(tfrmt_app_out())
-        tbl_auto_refresh(tbl_auto_refresh()+1)
+        if (tbl_needs_refresh()){
+          tbl_auto_refresh(tbl_auto_refresh()+1)
+          tbl_needs_refresh(FALSE)
+        }
       })
 
       tbl_out <- table_inner_server("tbl_view", data, tfrmt_app_out, mode, tbl_auto_refresh)

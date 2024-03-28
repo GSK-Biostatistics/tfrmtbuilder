@@ -310,3 +310,9 @@ span.btn.btn-default.btn-file:hover {
   color: #ffffff;
   background: #254988;
 }
+
+/* card full-screen options */
+.bslib-full-screen-enter {
+  bottom: var(--bslib-full-screen-enter-bottom);
+}
+

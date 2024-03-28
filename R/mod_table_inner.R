@@ -10,14 +10,18 @@ table_inner_ui <- function(id){
         "Incomplete settings configuration")
     ),
     htmlOutput(ns("error_msg")),
-    div(style = "height: 450px; overflow-x: auto; overflow-y:auto; width:100%;",
-        shinycssloaders::withSpinner(
-          color = getOption("spinner.color", default = "#254988"),
-          type = 4,
-          htmlOutput(ns("tbl_view"))
-        ),
-        br(),
-        htmlOutput(ns("tbl_txt"))
+    br(),
+    htmlOutput(ns("tbl_txt")),
+    card(
+      shinycssloaders::withSpinner(
+        color = getOption("spinner.color", default = "#254988"),
+        type = 4,
+        htmlOutput(ns("tbl_view"))
+      ),
+      full_screen = TRUE,
+      #height = "380px",
+      max_height = "380px",
+      style = "border: 1px solid #AAC0E8 !important;"
     ),
     shinyjs::hidden(
       div(
@@ -95,13 +99,13 @@ table_inner_server <- function(id, data, tfrmt_app_out, mode, auto_tbl){
         req(tab_sub())
 
         as_raw_html(
-              tab_sub() %>%
-                tab_style(style = cell_text(whitespace = "pre"),
-                          locations = list(cells_stub(), cells_body(), cells_row_groups()))  %>%
-                tab_options(
-                  table.align = "left"
-                )
-              , inline_css = FALSE)
+          tab_sub() %>%
+            tab_style(style = cell_text(whitespace = "pre"),
+                      locations = list(cells_stub(), cells_body(), cells_row_groups()))  %>%
+            tab_options(
+              table.align = "left"
+            )
+          , inline_css = FALSE)
       })
 
       output$tbl_txt <- renderUI({
@@ -114,7 +118,7 @@ table_inner_server <- function(id, data, tfrmt_app_out, mode, auto_tbl){
       # error msgs print
       output$error_msg <- renderUI({
         req(!is.null(tab()$error))
-          p(paste(cli::ansi_strip(tab()$error)))
+        p(paste(cli::ansi_strip(tab()$error)))
       })
 
       return(reactive(tab()$result))

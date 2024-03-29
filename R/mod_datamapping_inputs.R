@@ -27,7 +27,7 @@ datamapping_inputs_ui <- function(id, setting_name){
 #'
 #'
 #' @noRd
-datamapping_inputs_server <- function(id, data, settings_in, reset, multiple, required = TRUE){
+datamapping_inputs_server <- function(id, data, settings_in, reset, multiple, required = reactive(TRUE)){
 
   moduleServer(
     id,
@@ -173,7 +173,7 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, multiple, re
     })
 
     observeEvent(reset(), {
-      if(required==FALSE) settings_complete(TRUE)
+      if(required()==FALSE) settings_complete(TRUE)
     })
 
     # mark invalid if empty selection
@@ -185,6 +185,7 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, multiple, re
       imap(selected_items(),  function(value, name){
 
         show <- is.null(value)
+
         feedbackDanger(inputId = name, color = "red", icon = NULL, text = NULL, show = show)
 
       })
@@ -211,7 +212,7 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, multiple, re
       list(
         settings = settings,
         valid = reactive(settings_complete()),
-        initial_state = reactive(state_counter()==1)
+        state_counter = state_counter #reactive(state_counter()==1)
       )
     )
 

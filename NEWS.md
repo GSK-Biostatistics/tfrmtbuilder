@@ -1,4 +1,4 @@
-# tfrmtbuilder development version
+# tfrmtbuilder 0.0.6
 
 * New features:
   - Add support for `page_plan`

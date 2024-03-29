@@ -33,7 +33,7 @@ test_that("no files provided - mock mode", {
 
                # now change to example data
               session$setInputs(data_source="Example")
-              session$setInputs(example_data="demog")
+              session$setInputs(data_ex="demog")
 
               expect_equal(
                 data_out(),

@@ -6,23 +6,29 @@ table_inner_ui <- function(id){
 
   tagList(
     shinyjs::hidden(
-      div(
-        id = ns("tbl_div"),
-        table_page_ui(ns("tbl_page")),
-        shinycssloaders::withSpinner(
-          color = getOption("spinner.color", default = "#254988"),
-          type = 4,
-          tagList(
-            htmlOutput(ns("tbl_view"))
-          )
-        )
-      )
-    ) ,
-    shinyjs::hidden(
       p(id = ns("tbl_div_msg"), style="color:red;",
         "Incomplete settings configuration")
     ),
-    htmlOutput(ns("error_msg"))
+    htmlOutput(ns("error_msg")),
+    br(),
+    htmlOutput(ns("tbl_txt")),
+    card(
+      shinycssloaders::withSpinner(
+        color = getOption("spinner.color", default = "#254988"),
+        type = 4,
+        htmlOutput(ns("tbl_view"))
+      ),
+      full_screen = TRUE,
+      #height = "380px",
+      max_height = "380px",
+      style = "border: 1px solid #AAC0E8 !important;"
+    ),
+    shinyjs::hidden(
+      div(
+        id = ns("tbl_page_div"),
+        table_page_ui(ns("tbl_page")),
+      )
+    )
   )
 }
 
@@ -31,10 +37,10 @@ table_inner_ui <- function(id){
 #' @param data data for the table
 #' @param tfrmt_app_out final tfrmt for the table
 #' @param mode mock mode w/ no data, w/ data, reporting
-#' @param auto_tbl
+#' @param tbl_auto_refresh Should the table automatically render?
 #'
 #' @noRd
-table_inner_server <- function(id, data, tfrmt_app_out, settings, auto_tbl){
+table_inner_server <- function(id, data, tfrmt_app_out, mode, tbl_auto_refresh){
 
   moduleServer(
     id,
@@ -44,18 +50,19 @@ table_inner_server <- function(id, data, tfrmt_app_out, settings, auto_tbl){
 
       # hide/show the table
       observe({
-        shinyjs::toggle("tbl_div", condition = !is.null(tfrmt_app_out()))
         shinyjs::toggle("tbl_div_msg", condition = is.null(tfrmt_app_out()))
+        shinyjs::toggle("tbl_page_div", condition = !is.null(tfrmt_app_out()))
+
       })
 
 
       # table as reactive
       tab <- reactive({
 
-        req(auto_tbl()>0)
+        req(tbl_auto_refresh()>0)
 
         tfrmt_app_out <- isolate(tfrmt_app_out())
-        mode <- isolate(settings()$mode)
+        mode <- isolate(mode())
         data <- isolate(data())
 
         if (mode=="reporting"){
@@ -91,26 +98,27 @@ table_inner_server <- function(id, data, tfrmt_app_out, settings, auto_tbl){
 
         req(tab_sub())
 
-        div(
-          p(paste0("Displaying page ", page_info$page_cur(), " of ", page_info$page_tot())),
-        div(style = "height:100%; overflow-x: auto; overflow-y: auto; width: 100%",
-            as_raw_html(
-              tab_sub() %>%
-                tab_style(style = cell_text(whitespace = "pre"),
-                          locations = list(cells_stub(), cells_body(), cells_row_groups()))  %>%
-                tab_options(
-                  table.align = "left"
-                )
-              , inline_css = FALSE)
-        )
-        )
+        as_raw_html(
+          tab_sub() %>%
+            tab_style(style = cell_text(whitespace = "pre"),
+                      locations = list(cells_stub(), cells_body(), cells_row_groups()))  %>%
+            tab_options(
+              table.align = "left"
+            )
+          , inline_css = FALSE)
+      })
+
+      output$tbl_txt <- renderUI({
+
+        req(tab_sub())
+        p(paste0("Displaying page ", page_info$page_cur(), " of ", page_info$page_tot()))
 
       })
 
       # error msgs print
       output$error_msg <- renderUI({
         req(!is.null(tab()$error))
-        HTML(p(paste(tab()$error)))
+        p(paste(as.character(tab()$error)))
       })
 
       return(reactive(tab()$result))

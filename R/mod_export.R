@@ -48,9 +48,10 @@ export_ui <- function(id){
 #' @param data data for the table
 #' @param tfrmt_app_out final tfrmt for the table
 #' @param mode mock mode w/ no data, w/ data, reporting
+#' @param cur_tab Is this tab currently selected? TRUE/FALSE
 #'
 #' @noRd
-export_server <- function(id, data, tfrmt_app_out, settings){
+export_server <- function(id, data, tfrmt_app_out, mode, cur_tab){
 
   moduleServer(
     id,
@@ -61,13 +62,22 @@ export_server <- function(id, data, tfrmt_app_out, settings){
         tfrmt_app_out() %>% tfrmt_to_json()
       })
 
-      auto_tbl <- reactiveVal(0)
+      # trigger the table
+      tbl_auto_refresh <- reactiveVal(0)
+      tbl_needs_refresh<- reactiveVal(FALSE)
+
+      # when the final tfrmt is changed, indicate refresh is needed
       observeEvent(tfrmt_app_out(), {
-        auto_tbl(auto_tbl()+1)
+        tbl_needs_refresh(TRUE)
+      })
+      observeEvent(cur_tab()==TRUE, {
+        if (tbl_needs_refresh()){
+          tbl_auto_refresh(tbl_auto_refresh()+1)
+          tbl_needs_refresh(FALSE)
+        }
       })
 
-      tbl_out <- table_inner_server("tbl_view", data = data, tfrmt_app_out = tfrmt_app_out, settings = settings, auto_tbl = auto_tbl)
-
+      tbl_out <- table_inner_server("tbl_view", data, tfrmt_app_out, mode, tbl_auto_refresh)
 
       output$json_save <- downloadHandler(
           filename = function() {

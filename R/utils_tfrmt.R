@@ -242,14 +242,16 @@ cols_to_dat <- function(data, tfrmt, mock){
   groups_lowest <- groups %>% last()
   columns <- tfrmt$column %>% map_chr(as_label)
   columns_lowest <- columns %>% last() %>% sym()
+  value <- tfrmt$value %>% as_label
 
   tfrmt$big_n <- NULL
-  tfrmt_out <- getFromNamespace("apply_tfrmt","tfrmt")(data, tfrmt, mock)
-  if (!inherits(tfrmt_out, "processed_tfrmt_tbl") && is.list(tfrmt_out)){
-    tfrmt_out <- tfrmt_out[[1]]
+
+  if (! value %in% names(data)) {
+    data <- data %>% mutate(!!value := "xx")
   }
 
-  col_plan_vars <- attr(tfrmt_out, ".col_plan_vars")
+  data_wide <- getFromNamespace("pivot_wider_tfrmt", "tfrmt")(data, tfrmt, mock)
+  col_plan_vars <- getFromNamespace("create_col_order", "tfrmt")(names(data_wide), cp = tfrmt$col_plan, columns = tfrmt$column)
 
   allcols <- col_plan_vars %>% map_chr(as_label)
   allcols <- getFromNamespace("split_data_names_to_df","tfrmt")(data_names= c(),

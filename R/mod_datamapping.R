@@ -75,41 +75,42 @@ datamapping_server <- function(id, data, tfrmt_orig, mode){
                                               settings_in = reactive(settings_default()$group),
                                               reset,
                                               multiple = TRUE,
-                                              required = TRUE)
+                                              required = reactive(TRUE))
 
       label_out <- datamapping_inputs_server("label",
                                              data,
                                              settings_in = reactive(settings_default()$label),
                                              reset,
                                              multiple = FALSE,
-                                             required = TRUE)
+                                             required = reactive(TRUE))
 
       param_out <- datamapping_inputs_server("param",
                                              data,
                                              settings_in = reactive(settings_default()$param),
                                              reset,
                                              multiple = FALSE,
-                                             required = TRUE)
+                                             required = reactive(TRUE))
+
       value_out <- datamapping_inputs_server("value",
                                              data,
                                              settings_in = reactive(settings_default()$value),
                                              reset,
                                              multiple = FALSE,
-                                             required = TRUE)
+                                             required = reactive(mode()=="reporting"))
 
       columns_out <- datamapping_inputs_server("columns",
                                                data,
                                                settings_in = reactive(settings_default()$column),
                                                reset,
                                                multiple = TRUE,
-                                               required = TRUE)
+                                               required = reactive(TRUE))
 
       sorting_cols_out <- datamapping_inputs_server("sorting_cols",
                                                     data,
                                                     settings_in = reactive(settings_default()$sorting_cols),
                                                     reset,
                                                     multiple = TRUE,
-                                                    required = FALSE)
+                                                    required = reactive(FALSE))
 
       # are all the inputs valid?
       valid <- reactive({
@@ -137,17 +138,19 @@ datamapping_server <- function(id, data, tfrmt_orig, mode){
       initial_valid <- reactive({
         req(valid())
 
-        req(!is.null(groups_out$initial_state()),
-            !is.null(label_out$initial_state()),
-            !is.null(param_out$initial_state()),
-            !is.null(value_out$initial_state()),
-            !is.null(columns_out$initial_state()))
+        req(!is.null(groups_out$state_counter()),
+            !is.null(label_out$state_counter()),
+            !is.null(param_out$state_counter()),
+            !is.null(value_out$state_counter()),
+            !is.null(columns_out$state_counter()),
+            !is.null(sorting_cols_out$state_counter()))
 
-        if (all(c(groups_out$initial_state(),
-                  label_out$initial_state(),
-                  param_out$initial_state(),
-                  value_out$initial_state(),
-                  columns_out$initial_state()))) {
+        if (all(c(groups_out$state_counter(),
+                  label_out$state_counter(),
+                  param_out$state_counter(),
+                  value_out$state_counter(),
+                  columns_out$state_counter(),
+                  sorting_cols_out$state_counter()) <= 1)) {
           TRUE
         } else {
           FALSE
@@ -172,8 +175,7 @@ datamapping_server <- function(id, data, tfrmt_orig, mode){
           value = value_out$settings(),
           column = columns_out$settings(),
           sorting_cols = sorting_cols_out$settings()
-        ) %>%
-          discard(is.null)
+        )
       })
 
       # if invalid on initial state and settings are updated (and therefore valid),
@@ -214,7 +216,7 @@ datamapping_server <- function(id, data, tfrmt_orig, mode){
 
         tf <- isolate(tfrmt_orig())
 
-        tfrmt_new <- do.call(tfrmt, settings_collected())
+        tfrmt_new <- do.call(tfrmt, settings_collected() %>% discard(is.null))
 
         # update groups if needed
         old_grps <- tf$group %>% map_chr(as_label)

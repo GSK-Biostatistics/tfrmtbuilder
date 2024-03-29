@@ -11,6 +11,7 @@
 * Bug fixes:
   - Fix navbar link underline css conflict to support bslib >= 0.6.0
   - Fix issue where buttons on "Load" tab overlapped on smaller screens
+  - Fix issue where sorting cols selections did not trigger activation/glow of save/refresh buttons properly
 
 # tfrmtbuilder 0.0.5
 

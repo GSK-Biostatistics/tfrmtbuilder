@@ -118,7 +118,7 @@ table_inner_server <- function(id, data, tfrmt_app_out, mode, tbl_auto_refresh){
       # error msgs print
       output$error_msg <- renderUI({
         req(!is.null(tab()$error))
-        p(paste(ansi_strip(tab()$error)))
+        p(paste(as.character(tab()$error)))
       })
 
       return(reactive(tab()$result))

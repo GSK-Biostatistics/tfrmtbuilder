@@ -21,7 +21,6 @@
 #' @importFrom shinyFeedback useShinyFeedback feedbackDanger
 #' @importFrom fontawesome fa_i
 #' @importFrom utils getFromNamespace zip
-#' @importFrom cli ansi_strip
 NULL
 
 globalVariables(".")

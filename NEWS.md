@@ -2,10 +2,15 @@
 
 * New features:
   - Add support for `page_plan`
-  - Add support for additional output formats 
+  - Add support for additional output formats: `rtf`, `docx`, `pdf`
+  - Add support for `.xpt` data files
+  - Add ability to expand and collapse table preview on "Edit" tab
+  - Addition of JSON examples on the "Load" tab
+  
   
 * Bug fixes:
   - Fix navbar link underline css conflict to support bslib >= 0.6.0
+  - Fix issue where buttons on "Load" tab overlapped on smaller screens
 
 # tfrmtbuilder 0.0.5
 

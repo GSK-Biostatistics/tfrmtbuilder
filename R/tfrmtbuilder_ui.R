@@ -92,7 +92,7 @@ tfrmtbuilder_ui <- function(id){
                              "header.append('<div style=\"float:right; margin-bottom:0; color:#fff;\">",
                                 "<div class=\"form-group shiny-input-container\" style = \"margin-bottom:0; color:#fff;\">",
                                     "<div class=\"pretty p-default p-switch p-fill\">",
-                                      "<input id=\"", ns("mockmode"), "\" type=\"checkbox\"/ checked=\"checked\" class = \"shiny-bound-input\">",
+                                      "<input id=\"", ns("mockmode"), "\" type=\"checkbox\"/ checked=\"checked\">",
                                       "<div class=\"state p-danger\">",
                                         "<label>",
                                         "<span >Mock Mode</span>",

@@ -72,7 +72,7 @@ tfrmtbuilder_server <- function(id) {
       data_out <- reactive({
         if (!settings()$mode=="mock_no_data"){
           # original data loaded in
-          settings()$data
+          settings_orig$data()
         } else {
           req(tfrmt_app_out())
           # regenerate mock data from new tfrmt

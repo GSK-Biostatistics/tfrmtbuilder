@@ -43,7 +43,7 @@ load_ui <- function(id){
                                      choices = c("Auto", "Upload", "Example"), selected = "Auto"),
                    fluidRow(
                      conditionalPanel("input.data_source=='Upload'",
-                                      column(6, fileInput(ns("data_load"), buttonLabel = "Load Data", label = NULL, accept = c(".csv",".sas7bdat",".rds"))),
+                                      column(6, fileInput(ns("data_load"), buttonLabel = "Load Data", label = NULL, accept = c(".csv",".sas7bdat",".rds",".xpt"))),
                                       ns = ns)
                    ),
                    fluidRow(

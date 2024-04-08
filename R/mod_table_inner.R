@@ -19,8 +19,7 @@ table_inner_ui <- function(id){
         htmlOutput(ns("tbl_view"))
       ),
       full_screen = TRUE,
-      #height = "380px",
-      max_height = "380px",
+      height = "430px",
       style = "border: 1px solid #AAC0E8 !important;"
     ),
     shinyjs::hidden(

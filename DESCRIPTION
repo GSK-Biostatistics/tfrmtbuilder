@@ -29,13 +29,12 @@ Description: Provides an interactive interface to the 'tfrmt' package. Users
 License: Apache License (>= 2)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Imports: 
     tfrmt (>= 0.1.0),
     shiny,
     shinyjs,
     dplyr,
-    tidyr,
     forcats,
     stringr,
     purrr,

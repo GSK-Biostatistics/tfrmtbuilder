@@ -76,7 +76,7 @@ load_ui <- function(id){
   )
 }
 
-load_server <- function(id, tfrmt_in, data_in, mockmode){
+load_server <- function(id, tfrmt_in = reactive(NULL), data_in = reactive(NULL), mockmode){
 
     moduleServer(
       id,

@@ -1,6 +1,6 @@
 #' Main server function
 #' @noRd
-tfrmtbuilder_server <- function(id) {
+tfrmtbuilder_server <- function(id, tfrmt, data) {
 
   moduleServer(
     id,
@@ -10,7 +10,7 @@ tfrmtbuilder_server <- function(id) {
       home_out <- home_server("home")
 
       # ui for loading
-      settings_orig <- load_server("load", reactive(input$mockmode))
+      settings_orig <- load_server("load", reactive(tfrmt), reactive(data), reactive(input$mockmode))
 
       # tfrmt data mapping - returns an updated tfrmt/data to be fed into the other modules
       settings <- datamapping_server("overview", settings_orig$data, settings_orig$tfrmt, settings_orig$mode)

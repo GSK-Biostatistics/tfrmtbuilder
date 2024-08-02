@@ -4,9 +4,15 @@
 \alias{tfrmtbuilder}
 \title{Run tfrmt Builder Shiny App}
 \usage{
-tfrmtbuilder(run = TRUE)
+tfrmtbuilder(tfrmt = NULL, data = NULL, mockmode = TRUE, run = TRUE)
 }
 \arguments{
+\item{tfrmt}{tfrmt object to be loaded into app from R session. Defaults to \code{NULL}}
+
+\item{data}{data frame to be loaded into app from R session. Defaults to \code{NULL}}
+
+\item{mockmode}{Whether to initialize the app in mock mode. Defaults to \code{TRUE}}
+
 \item{run}{Boolean for whether the created object should be run directly. Set to \code{FALSE} for deployment}
 }
 \value{

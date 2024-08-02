@@ -2,7 +2,6 @@
 #' @import tfrmt
 #' @importFrom shinyjs useShinyjs enable disable addClass removeClass toggleState show hide toggle onclick toggleClass
 #' @import dplyr
-#' @import tidyr
 #' @import stringr
 #' @import purrr
 #' @importFrom DT datatable DTOutput renderDT

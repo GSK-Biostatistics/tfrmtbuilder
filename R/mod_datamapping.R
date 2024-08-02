@@ -211,6 +211,11 @@ datamapping_server <- function(id, data, tfrmt_orig, mode){
       observeEvent(input$save,{
         save_counter(save_counter()+1)
       })
+      observeEvent(mode(),{
+        if (initial_valid()==TRUE){
+          save_counter(save_counter()+1)
+        }
+      })
 
      settings_out <- eventReactive(req(save_counter()>0),{
 
@@ -251,6 +256,7 @@ datamapping_server <- function(id, data, tfrmt_orig, mode){
             original= initial_valid()
         )
       })
+
       return(settings_out)
 
     })

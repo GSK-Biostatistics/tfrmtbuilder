@@ -39,14 +39,26 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tfrmtbuilder</span><span class="op">(</span>run <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tfrmtbuilder</span><span class="op">(</span>tfrmt <span class="op">=</span> <span class="cn">NULL</span>, data <span class="op">=</span> <span class="cn">NULL</span>, mockmode <span class="op">=</span> <span class="cn">TRUE</span>, run <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-run">run<a class="anchor" aria-label="anchor" href="#arg-run"></a></dt>
+<dl><dt id="arg-tfrmt">tfrmt<a class="anchor" aria-label="anchor" href="#arg-tfrmt"></a></dt>
+<dd><p>tfrmt object to be loaded into app from R session. Defaults to <code>NULL</code></p></dd>
+
+
+<dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
+<dd><p>data frame to be loaded into app from R session. Defaults to <code>NULL</code></p></dd>
+
+
+<dt id="arg-mockmode">mockmode<a class="anchor" aria-label="anchor" href="#arg-mockmode"></a></dt>
+<dd><p>Whether to initialize the app in mock mode. Defaults to <code>TRUE</code></p></dd>
+
+
+<dt id="arg-run">run<a class="anchor" aria-label="anchor" href="#arg-run"></a></dt>
 <dd><p>Boolean for whether the created object should be run directly. Set to <code>FALSE</code> for deployment</p></dd>
 
 </dl></div>

@@ -16,10 +16,10 @@ table_outer_ui <- function(id){
 #' @param subtab Name of selected tab in the Edit pane tabPanel
 #' @param data data for the table
 #' @param tfrmt_app_out final tfrmt for the table
-#' @param settings mock mode w/ no data, w/ data, reporting
+#' @param mode mock mode w/ no data, w/ data, reporting
 #'
 #' @noRd
-table_outer_server <- function(id, cur_tab, subtab, data, tfrmt_app_out, settings){
+table_outer_server <- function(id, cur_tab, subtab, data, tfrmt_app_out, mode){
 
   moduleServer(
     id,
@@ -78,7 +78,7 @@ table_outer_server <- function(id, cur_tab, subtab, data, tfrmt_app_out, setting
         tbl_needs_refresh(FALSE)
       })
 
-      table_inner_server("tbl", data, tfrmt_app_out, reactive(settings()$mode), tbl_auto_refresh)
+      table_inner_server("tbl", data, tfrmt_app_out, mode, tbl_auto_refresh)
 
     }
   )

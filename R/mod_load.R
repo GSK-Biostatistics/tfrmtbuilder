@@ -162,10 +162,10 @@ load_server <- function(id, tfrmt_in = reactive(NULL), data_in = reactive(NULL),
         # keep track of mode for downstream functionality
         mode <- reactive({
           if (mockmode() == TRUE){
-            if (input$data_source=="Auto"){
-              "mock_no_data"
-            } else {
+            if (!is.null(data_in()) || !input$data_source=="Auto"){
               "mock_with_data"
+            } else {
+              "mock_no_data"
             }
           } else if (mockmode() == FALSE){
             "reporting"

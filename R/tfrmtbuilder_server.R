@@ -87,7 +87,7 @@ tfrmtbuilder_server <- function(id, tfrmt, data) {
                          subtab = reactive(input$tabs),
                          data = reactive(settings()$data) ,
                          tfrmt_app_out = tfrmt_app_out,
-                         settings = settings
+                         mode = reactive(settings()$mode)
                          )
 
       # export module

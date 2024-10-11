@@ -1,0 +1,45 @@
+{
+  "group": ["group"],
+  "label": ["label"],
+  "param": ["param"],
+  "value": ["value"],
+  "column": ["column"],
+  "body_plan": [
+    {
+      "group_val": [".default"],
+      "label_val": [".default"],
+      "param_val": [".default"],
+      "frmt": {
+        "expression": ["xx.x"],
+        "missing": {},
+        "scientific": {},
+        "transform": {}
+      }
+    }
+  ],
+  "page_plan": {
+    "struct_list": [],
+    "note_loc": ["noprint"],
+    "max_rows": [60]
+  },
+  "row_grp_plan": {
+    "struct_list": [],
+    "label_loc": {
+      "location": ["indented"],
+      "indent": ["  "]
+    }
+  },
+  "col_style_plan": [],
+  "col_plan": {
+    "col_plan": {
+      "dots": [
+        ["group"],
+        ["label"],
+        ["column1"],
+        ["column2"],
+        ["column3"]
+      ],
+      ".drop": [true]
+    }
+  }
+}

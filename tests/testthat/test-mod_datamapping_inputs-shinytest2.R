@@ -13,7 +13,7 @@ test_that("Data-driven dropdowns produce expected results",{
 
   expect_equal(export_vals$settings, "grp")
   expect_equal(export_vals$valid, TRUE)
-  expect_equal(export_vals$initial_state, TRUE)
+  expect_equal(export_vals$state_counter, 1)
 
 
 # Change selection --------------------------------------------------------
@@ -25,7 +25,7 @@ test_that("Data-driven dropdowns produce expected results",{
 
   expect_equal(export_vals$settings, "rowlbl1")
   expect_equal(export_vals$valid, TRUE)
-  expect_equal(export_vals$initial_state, FALSE)
+  expect_equal(export_vals$state_counter, 2)
 
 
 # Deselect ----------------------------------------------------------------
@@ -37,7 +37,7 @@ test_that("Data-driven dropdowns produce expected results",{
 
   expect_equal(export_vals$settings, NULL)
   expect_equal(export_vals$valid, FALSE)
-  expect_equal(export_vals$initial_state, FALSE)
+  expect_equal(export_vals$state_counter, 3)
 
   app$stop()
 
@@ -71,7 +71,7 @@ test_that("Data-driven dropdowns can be added/removed",{
 
   expect_equal(export_vals$settings, c("grp","rowlbl2"))
   expect_equal(export_vals$valid, TRUE)
-  expect_equal(export_vals$initial_state, FALSE)
+  expect_gt(export_vals$state_counter, 0)
 
   # Add another input -------------------------------------------------------
 
@@ -88,7 +88,7 @@ test_that("Data-driven dropdowns can be added/removed",{
 
   expect_equal(export_vals$settings, c("grp","rowlbl2", "rowlbl1"))
   expect_equal(export_vals$valid, TRUE)
-  expect_equal(export_vals$initial_state, FALSE)
+  expect_gt(export_vals$state_counter, 0)
 
 
 # Remove input ------------------------------------------------------------
@@ -125,7 +125,7 @@ test_that("Data-driven dropdowns can be added/removed",{
 
   expect_equal(export_vals$settings, c("grp","rowlbl1"))
   expect_equal(export_vals$valid, TRUE)
-  expect_equal(export_vals$initial_state, FALSE)
+  expect_gt(export_vals$state_counter, 0)
 
   app$stop()
 

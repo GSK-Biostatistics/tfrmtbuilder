@@ -8,7 +8,7 @@
 #' @import gt
 #' @import sortable
 #' @importFrom rlang quo_is_missing
-#' @import bslib
+#' @rawNamespace import(bslib, except = show_toast)
 #' @import shinyWidgets
 #' @import forcats
 #' @importFrom rio import

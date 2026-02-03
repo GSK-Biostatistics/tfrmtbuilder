@@ -43,7 +43,7 @@ create_format_txt <- function(x){
   if(is.null(x)){
     vals <- character(0)
   }else  if (is.list(x)){
-    vals <- x %>% map(unique)
+    vals <- x %>% purrr::map(unique)
   } else {
     vals <- unique(x)
   }
@@ -144,7 +144,7 @@ format_col_style_struct <- function(x){
     return(c("<b>Column Values:", "Align:", "Width:</b>"))
   }
 
-  col_string <- map_chr(x$cols, as_label)
+  col_string <- purrr::map_chr(x$cols, as_label)
   col_string <-  paste(paste0("\"", col_string, "\""), collapse = ", ")
 
   align <- x$align
@@ -238,9 +238,9 @@ string_to_tfrmtobj <- function(obj){
 cols_to_dat <- function(data, tfrmt, mock){
 
   label <- tfrmt$label %>% as_label
-  groups <- tfrmt$group %>% map_chr(as_label)
+  groups <- tfrmt$group %>% purrr::map_chr(as_label)
   groups_lowest <- groups %>% last()
-  columns <- tfrmt$column %>% map_chr(as_label)
+  columns <- tfrmt$column %>% purrr::map_chr(as_label)
   columns_lowest <- columns %>% last() %>% sym()
   value <- tfrmt$value %>% as_label
 
@@ -250,20 +250,20 @@ cols_to_dat <- function(data, tfrmt, mock){
     data <- data %>% mutate(!!value := "xx")
   }
 
-  data_wide <- getFromNamespace("pivot_wider_tfrmt", "tfrmt")(data, tfrmt, mock)
-  col_plan_vars <- getFromNamespace("create_col_order", "tfrmt")(names(data_wide), cp = tfrmt$col_plan, columns = tfrmt$column)
+  data_wide <- utils::getFromNamespace("pivot_wider_tfrmt", "tfrmt")(data, tfrmt, mock)
+  col_plan_vars <- utils::getFromNamespace("create_col_order", "tfrmt")(names(data_wide), cp = tfrmt$col_plan, columns = tfrmt$column)
 
-  allcols <- col_plan_vars %>% map_chr(as_label)
-  allcols <- getFromNamespace("split_data_names_to_df","tfrmt")(data_names= c(),
+  allcols <- col_plan_vars %>% purrr::map_chr(as_label)
+  allcols <- utils::getFromNamespace("split_data_names_to_df","tfrmt")(data_names= c(),
                                                                 preselected_cols = allcols,
                                                                 column_names = columns)
 
   num_fix_ord <- c(groups, label) %>% length()
   allcols %>%
-    mutate(`__col_plan_fixed__` = .data[[columns_lowest]] %in% label, #c(groups_lowest, label),
+    mutate(`__col_plan_fixed__` = .data[[columns_lowest]] %in% label,
            `__col_plan_fixed_ord__` = .data[[columns_lowest]] %in% c(groups, label),
            `__col_plan_fixed_ord__` = ifelse(.data$`__col_plan_fixed_ord__`, rev(seq_len(num_fix_ord)), 0)) %>%
     rename(`__col_plan_dropped__` = "subtraction_status") %>%
-    mutate(across(.data[[paste0("__tfrmt_new_name__", columns_lowest)]], function(x)str_remove(x, '^-')))
+    mutate(across(.data[[paste0("__tfrmt_new_name__", columns_lowest)]], function(x) stringr::str_remove(x, '^-')))
 }
 

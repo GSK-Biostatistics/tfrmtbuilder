@@ -3,6 +3,9 @@
 * New features:
   - Add ability to specify `tfrmt`, `data`, and/or `mockmode` in the `tfrmtbuilder()` function call, as an alternative to manually uploading/specifying these within the app.
 
+* Bug fixes: 
+  - Fix namespace conflict between bslib and shinyWidgets
+
 # tfrmtbuilder 0.0.6
 
 * New features:

@@ -12,7 +12,7 @@ row_grp_plan_edit_ui <- function(id){
     h3("Post Space"),
     fluidRow(
       div(style = "width: 50%;",
-      aceEditor(ns("post_space"), value = "\"  \"", mode = "r", debounce = 0,
+      shinyAce::aceEditor(ns("post_space"), value = "\"  \"", mode = "r", debounce = 0,
                 fontSize = 16,
                 wordWrap = TRUE,
                 minLines = 2,
@@ -51,7 +51,7 @@ row_grp_plan_edit_server <- function(id, data, tfrmt_app, selected){
           existing_post_space <- "  "
         }
 
-        updateAceEditor(session,
+        shinyAce::updateAceEditor(session,
                             editorId = "post_space",
                             value = paste0("\"", existing_post_space, "\""))
       })

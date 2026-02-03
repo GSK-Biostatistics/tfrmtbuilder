@@ -13,7 +13,7 @@ big_n_edit_ui <- function(id){
     fluidRow(
       div(style = " width: 50%;",
           div(id = ns("frmt_outer"),
-              aceEditor(ns("frmt"), mode = "r", fontSize = 16, value = "frmt(\"\\nN = xx\")",
+              shinyAce::aceEditor(ns("frmt"), mode = "r", fontSize = 16, value = "frmt(\"\\nN = xx\")",
                         wordWrap = TRUE,
                         minLines = 2,
                         maxLines = 2,
@@ -60,7 +60,7 @@ big_n_edit_server <- function(id, data, tfrmt_app, selected, mode_load){
 
         }
 
-        updateAceEditor(session,
+        shinyAce::updateAceEditor(session,
                             editorId = "frmt",
                             value = existing_frmt)
       })

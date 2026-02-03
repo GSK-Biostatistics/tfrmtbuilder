@@ -99,7 +99,7 @@ row_grp_plan_server <- function(id, data, tfrmt_app, mode_load){
 
         req(length(struct_list())>0)
 
-        struct_list_txt <- map(struct_list(),
+        struct_list_txt <- purrr::map(struct_list(),
                                ~.x %>% format_row_grp_struct() %>% {paste0(., collapse = "<br>")})
 
         create_struct_list_sortable(ns, struct_list_txt, mode())
@@ -124,9 +124,9 @@ row_grp_plan_server <- function(id, data, tfrmt_app, mode_load){
 
 
       # when any are selected, switch to edit mode
-      onclick("items", expr = {
+      shinyjs::onclick("items", expr = {
 
-        last_struct <- pluck(struct_list(), length(struct_list()))
+        last_struct <- purrr::pluck(struct_list(), length(struct_list()))
         if(!is_empty(last_struct)){
           mode("edit")
         }

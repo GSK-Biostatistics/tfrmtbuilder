@@ -64,13 +64,13 @@ test_that("Mock w/ data mode",{
   app$click("mappings-sorting_cols-addinput")
   app$click("mappings-sorting_cols-addinput")
 
-  input_ids <- app$get_values()$input %>% names() %>% .[str_detect(., "^mappings-sorting_cols-item")]
+  input_ids <- app$get_values()$input %>% names() %>% .[stringr::str_detect(., "^mappings-sorting_cols-item")]
   input_ids <- setdiff(input_ids, "mappings-sorting_cols-item-0")
 
-  new_val <- setNames("ord1", input_ids[1])
+  new_val <- purrr::set_names("ord1", input_ids[1])
   app$set_inputs(!!input_ids[1] := "ord1")
 
-  new_val <- setNames("ord2", input_ids[2])
+  new_val <- purrr::set_names("ord2", input_ids[2])
   app$set_inputs(!!input_ids[2] := "ord2")
 
   expect_equal(app$get_value(input=!!input_ids[1]), "ord1")

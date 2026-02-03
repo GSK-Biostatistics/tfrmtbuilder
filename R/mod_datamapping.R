@@ -44,16 +44,16 @@ datamapping_server <- function(id, data, tfrmt_orig, mode){
 
         nms <- c("group","label","param","value","column","sorting_cols")
         tfrmt_orig()[nms] %>%
-          map(function(x){
+          purrr::map(function(x){
             if (is.null(x)){
               NULL
             } else if (is.list(x)){
-              map_chr(x, as_label)
+              purrr::map_chr(x, as_label)
             } else {
               as_label(x)
             }
           }) %>%
-          setNames(nms)
+          purrr::set_names(nms)
 
       })
 
@@ -221,10 +221,10 @@ datamapping_server <- function(id, data, tfrmt_orig, mode){
 
         tf <- isolate(tfrmt_orig())
 
-        tfrmt_new <- do.call(tfrmt, settings_collected() %>% discard(is.null))
+        tfrmt_new <- do.call(tfrmt, settings_collected() %>% purrr::discard(is.null))
 
         # update groups if needed
-        old_grps <- tf$group %>% map_chr(as_label)
+        old_grps <- tf$group %>% purrr::map_chr(as_label)
         new_grps <- settings_collected()$group[1:length(old_grps)]
 
         grps_to_update <- which(!old_grps==new_grps)

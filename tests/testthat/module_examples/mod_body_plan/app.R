@@ -19,7 +19,7 @@ shinyApp(
     includeCSS(system.file("www","styles.css", package = "tfrmtbuilder")),
     html_dependency_pretty(),
     useShinyjs(),
-    useShinyFeedback(),
+    shinyFeedback::useShinyFeedback(),
     body_plan_ui("bp")
   ),
   function(input,output,session){

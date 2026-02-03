@@ -98,9 +98,9 @@ tfrmtbuilder_server <- function(id, tfrmt, data) {
                     cur_tab = reactive(input$all_tabs=="Export"))
 
       # view data
-      output$data_view <- renderDT({
+      output$data_view <- DT::renderDT({
 
-        datatable(data_out(),
+        DT::datatable(data_out(),
                   rownames = FALSE,
                   fillContainer = TRUE,
                   options = list(paging = FALSE,

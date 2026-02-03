@@ -65,14 +65,14 @@ table_inner_server <- function(id, data, tfrmt_app_out, mode, tbl_auto_refresh){
         data <- isolate(data())
 
         if (mode=="reporting"){
-          tfrmt_app_out %>% safely(print_to_gt)(.data = data)
+          tfrmt_app_out %>% purrr::safely(print_to_gt)(.data = data)
 
         } else if (mode=="mock_no_data"){
 
-          tfrmt_app_out %>% safely(print_mock_gt)()
+          tfrmt_app_out %>% purrr::safely(print_mock_gt)()
 
         } else {
-          tfrmt_app_out %>% safely(print_mock_gt)(.data = data)
+          tfrmt_app_out %>% purrr::safely(print_mock_gt)(.data = data)
         }
 
       })
@@ -86,7 +86,7 @@ table_inner_server <- function(id, data, tfrmt_app_out, mode, tbl_auto_refresh){
         req(!is.null(tab()$result))
 
         if (inherits(tab()$result, "gt_group")){
-          tab()$result %>% grp_pull(page_info$page_cur())
+          tab()$result %>% gt::grp_pull(page_info$page_cur())
         } else{
           tab()$result
         }
@@ -97,11 +97,11 @@ table_inner_server <- function(id, data, tfrmt_app_out, mode, tbl_auto_refresh){
 
         req(tab_sub())
 
-        as_raw_html(
+        gt::as_raw_html(
           tab_sub() %>%
-            tab_style(style = cell_text(whitespace = "pre"),
-                      locations = list(cells_stub(), cells_body(), cells_row_groups()))  %>%
-            tab_options(
+            gt::tab_style(style = gt::cell_text(whitespace = "pre"),
+                      locations = list(gt::cells_stub(), gt::cells_body(), gt::cells_row_groups()))  %>%
+            gt::tab_options(
               table.align = "left"
             )
           , inline_css = FALSE)

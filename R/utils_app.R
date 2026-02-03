@@ -15,37 +15,37 @@ create_filter_select <- function(ns, type, data, existing_filters, var_vec,
 
   # get the incoming settings for the given filter type (group_val, etc)
   existing_vars <- existing_filters %>%
-    keep_at(type) %>%
-    pluck(type)
+    purrr::keep_at(type) %>%
+    purrr::pluck(type)
 
   # create a named list
   #  - if already a named list (e.g. list(group = "val1")) then return
   #  - if not (e.g. ".default") then make it a named list (e.g. list(group=".default"))
-  existing_vars <- map(existing_vars, function(x){
+  existing_vars <- purrr::map(existing_vars, function(x){
 
       if (is.list(x)){
         x
       } else if (all(x==".default")){
-        rep(".default", length(var_vec)) %>% as.list() %>% setNames(var_vec)
+        rep(".default", length(var_vec)) %>% as.list() %>% purrr::set_names(var_vec)
       } else {
-        list(x) %>% setNames(var_vec)
+        list(x) %>% purrr::set_names(var_vec)
       }
     }) %>%
-    list_flatten(name_spec = "{inner}")
+    purrr::list_flatten(name_spec = "{inner}")
 
   # remove any default values if all null are to be set to .default
   #   (placeholder text will say ".default" when non selected)
   if (null_to_default ||
       (!null_to_default && !add_default_opt)){
     existing_vars <- existing_vars  %>%
-      discard(~all(.x==".default"))
+      purrr::discard(~all(.x==".default"))
   }
 
   # create a select input for each variable to be represented
   lapply(var_vec, function(v){
 
     # pull anything pre-selected for this variable
-    filter_keep <-existing_vars %>% keep_at(v)
+    filter_keep <-existing_vars %>% purrr::keep_at(v)
 
     # define pre-selections, if any
     if (length(filter_keep)>0){
@@ -216,10 +216,10 @@ create_struct_list_sortable <- function(ns, struct_list_txt, mode){
                      "</div>"
                    ))
                  }) %>%
-    setNames(as.character(ind))
+    purrr::set_names(as.character(ind))
 
   # rank list for sortable
-  rank_list(text = "",
+  sortable::rank_list(text = "",
             labels = divs,
             css_id = ns("items"),
             input_id = ns("item_list"))
@@ -261,20 +261,20 @@ create_col_plan_sortable_simple <- function(ns, col_levs, col_levs_orig, col_stu
                      "</div>"
                    ))
                  }) %>%
-    setNames(as.character(ind))
+    purrr::set_names(as.character(ind))
 
   which_keep <- divs[! col_dropped]
   which_drop <- divs[col_dropped]
 
-  bucket_list(
+  sortable::bucket_list(
     header = NULL,
-    add_rank_list(
+    sortable::add_rank_list(
       text = "Order Columns",
       labels = which_keep,
       css_id = ns("items"),
       input_id = ns("item_list"),
-      options = sortable_options(filter = ".no-move")),
-    add_rank_list(
+      options = sortable::sortable_options(filter = ".no-move")),
+    sortable::add_rank_list(
       text ="Drop Columns",
       labels = which_drop,
       input_id = ns("drop_list")
@@ -300,14 +300,14 @@ create_col_plan_sortable <- function(ns, col_num, col_name, col_levs, col_confir
         div(class = "itemlist",
             id = css_id_drop,
             contents_drop)),
-    sortable_js(css_id = css_id_drop,
-                options = sortable_options(
+    sortable::sortable_js(css_id = css_id_drop,
+                options = sortable::sortable_options(
                   group = list(
                     group = col_name,
                     put = TRUE,
                     pull = TRUE
                   ),
-                  onSort = sortable_js_capture_input(input_id = ns(paste0("drop_", col_num)))
+                  onSort = sortable::sortable_js_capture_input(input_id = ns(paste0("drop_", col_num)))
                 )))
 
   # UI elements for the "keep" levels
@@ -328,16 +328,16 @@ create_col_plan_sortable <- function(ns, col_num, col_name, col_levs, col_confir
           div(class = "itemlist",
               id = css_id,
              contents_keep)),
-      sortable_js(css_id = css_id,
-                  options = sortable_options(
+      sortable::sortable_js(css_id = css_id,
+                  options = sortable::sortable_options(
                     swap = TRUE,
                     group = list(
                       group = col_name,
                       put = TRUE,
                       pull = TRUE
                     ),
-                    onLoad = sortable_js_capture_input(input_id = ns(paste0("keep_", col_num, "_", lev_num))),
-                    onSort = sortable_js_capture_input(input_id = ns(paste0("keep_", col_num, "_", lev_num)))
+                    onLoad = sortable::sortable_js_capture_input(input_id = ns(paste0("keep_", col_num, "_", lev_num))),
+                    onSort = sortable::sortable_js_capture_input(input_id = ns(paste0("keep_", col_num, "_", lev_num)))
                   )))
   })
 
@@ -362,7 +362,7 @@ arrange_ui_grid <- function(el_list, el_width = 6){
   num_rows <- ceiling(length(el_list)/num_cols)
 
   # for each element, determine the col row # and arrange
-  row_num <- map_dbl(seq_along(el_list), function(i){ ceiling(i/num_cols)})
+  row_num <- purrr::map_dbl(seq_along(el_list), function(i){ ceiling(i/num_cols)})
 
   el_list_cols <- lapply(el_list, function(el){
     column(width = el_width, el)

@@ -11,7 +11,7 @@ shinyApp(
     includeCSS(system.file("www","styles.css", package = "tfrmtbuilder")),
     html_dependency_pretty(),
     useShinyjs(),
-    useShinyFeedback(),
+    shinyFeedback::useShinyFeedback(),
     datamapping_inputs_ui("mapping", setting_name = setting_name)
   ),
   function(input,output,session){

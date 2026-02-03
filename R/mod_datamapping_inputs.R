@@ -14,8 +14,8 @@ datamapping_inputs_ui <- function(id, setting_name){
         div(
           id = ns("item_div"),
           span(id = ns("multiples"),
-              div(circleButton(ns("addinput"), icon = icon("plus"), size = "xs"), class = "btn-circle"),
-              div(circleButton(ns("dropinput"), icon = icon("minus"), size = "xs"), class = "btn-circle"),
+              div(shinyWidgets::circleButton(ns("addinput"), icon = icon("plus"), size = "xs"), class = "btn-circle"),
+              div(shinyWidgets::circleButton(ns("dropinput"), icon = icon("minus"), size = "xs"), class = "btn-circle"),
               style = "display: flex; gap: 5px;")
         )
         )
@@ -37,7 +37,7 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, multiple, re
 
       # hide add/drop inputs if multiple = FALSE
       observe({
-        toggle("multiples", condition = multiple==TRUE)
+        shinyjs::toggle("multiples", condition = multiple==TRUE)
       })
 
       # starts at zero, 1 for initial state, then increments for each edit
@@ -62,7 +62,7 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, multiple, re
 
         removeUI(paste0("#", ns("item_div_inputs")))
 
-        existing_inputs <- names(input)[str_detect(names(input), "^item-")]
+        existing_inputs <- names(input)[stringr::str_detect(names(input), "^item-")]
         for (i in existing_inputs){
           remove_shiny_inputs(ns, i, input)
         }
@@ -139,7 +139,7 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, multiple, re
 
         vals <- lapply(expected_inputs, function(ind){
           input[[ind]]
-        }) %>% set_names(expected_inputs)
+        }) %>% purrr::set_names(expected_inputs)
 
         selected_items(vals)
 
@@ -182,15 +182,15 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, multiple, re
       expected_inputs <- paste0("item-", active_items())
       req(all(expected_inputs %in% names(selected_items())))
 
-      imap(selected_items(),  function(value, name){
+      purrr::imap(selected_items(),  function(value, name){
 
         show <- is.null(value)
 
-        feedbackDanger(inputId = name, color = "red", icon = NULL, text = NULL, show = show)
+        shinyFeedback::feedbackDanger(inputId = name, color = "red", icon = NULL, text = NULL, show = show)
 
       })
 
-      if (any(map_lgl(selected_items(), is.null))){
+      if (any(purrr::map_lgl(selected_items(), is.null))){
         settings_complete(FALSE)
       } else {
         settings_complete(TRUE)
@@ -201,7 +201,7 @@ datamapping_inputs_server <- function(id, data, settings_in, reset, multiple, re
     # selected items out
     settings <- reactive({
       if (!is.null(selected_items())){
-        keep(selected_items(), function(x)!is.null(x)) %>% unlist() %>% unname()
+        purrr::keep(selected_items(), function(x)!is.null(x)) %>% unlist() %>% unname()
       } else {
         NULL
       }

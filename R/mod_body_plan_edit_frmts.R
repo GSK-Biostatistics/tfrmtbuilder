@@ -17,7 +17,7 @@ body_plan_edit_frmts_ui <- function(id){
     fluidRow(
       div(style = "margin-top:20px; width: 75%",
           div(id = ns("frmt_outer"),
-              aceEditor(ns("frmt"), mode = "r", fontSize = 16, value = "frmt('XXX.X')",
+              shinyAce::aceEditor(ns("frmt"), mode = "r", fontSize = 16, value = "frmt('XXX.X')",
                         wordWrap = TRUE,
                         minLines = 5,
                         maxLines = 8,
@@ -60,7 +60,7 @@ body_plan_edit_frmts_server <- function(id, selected){
 
         }
 
-        updateAceEditor(session,
+        shinyAce::updateAceEditor(session,
                             editorId = "frmt",
                             value = existing_frmt)
       })
@@ -73,7 +73,7 @@ body_plan_edit_frmts_server <- function(id, selected){
         observeEvent(input[[paste0("pst_", x)]],{
 
           dummy_fun <- get(paste0("dummy_", x), envir = asNamespace("tfrmtbuilder"))
-          updateAceEditor(session,
+          shinyAce::updateAceEditor(session,
                           editorId = "frmt",
                               value = paste0(input$frmt, dummy_fun()))
         })

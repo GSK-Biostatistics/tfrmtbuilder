@@ -50,7 +50,7 @@ body_plan_edit_server <- function(id, data, tfrmt_app, selected){
 
         if (!all(collected_filters()$param_val==".default") &&
             length(collected_filters()$param_val)==1){
-          frmt_out_ready <- setNames(frmt_out_ready, collected_filters()$param_val)
+          frmt_out_ready <- purrr::set_names(frmt_out_ready, collected_filters()$param_val)
         }
 
         do.call("frmt_structure", args = c(list(group_val = collected_filters()$group_val,

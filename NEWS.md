@@ -1,4 +1,4 @@
-# tfrmtbuilder development version
+# tfrmtbuilder 0.1.0
 
 * New features:
   - Add ability to specify `tfrmt`, `data`, and/or `mockmode` in the `tfrmtbuilder()` function call, as an alternative to manually uploading/specifying these within the app.

@@ -17,7 +17,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/GSK-Biostatistics/tfrmtbuilder/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/GSK-Biostatistics/tfrmtbuilder/blob/0.1.0/DESCRIPTION)
 
 Krouse B, Fillmore C, Ahmad K, Hughes E (2026). *tfrmtbuilder: 'shiny'
 App Companion to the 'tfrmt' Package*. R package version 0.1.0,

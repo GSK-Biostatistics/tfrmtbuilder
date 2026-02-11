@@ -39,15 +39,15 @@ filters_server <- function(id, data, tfrmt_app, selected,
         var_shell <- reactive({
           req(tfrmt_app())
 
-          include %>% map(function(x){
+          include %>% purrr::map(function(x){
                           ind <- tfrmt_app()[[x]]
                           if (is.list(ind)){
-                            map_chr(ind, as_label)
+                            purrr::map_chr(ind, as_label)
                           } else {
                             as_label(ind)
                           }
           }) %>%
-            setNames(include)
+            purrr::set_names(include)
 
         })
 
@@ -62,18 +62,18 @@ filters_server <- function(id, data, tfrmt_app, selected,
 
             i <- which(var==names(var_shell()))
 
-            if (getFromNamespace("is_col_style_structure","tfrmt")(selected())){
+            if (utils::getFromNamespace("is_col_style_structure","tfrmt")(selected())){
 
-              selected_vars_nms <- selected()$cols %>% map_chr(as_label) %>%
+              selected_vars_nms <- selected()$cols %>% purrr::map_chr(as_label) %>%
                 list() %>%
-                set_names(var_shell()[[var]])
+                purrr::set_names(var_shell()[[var]])
 
               selected_vars <- list(column_val = selected_vars_nms)
 
             } else{
 
               selected_vars <- selected() %>%
-                keep_at(paste0(var, "_val"))
+                purrr::keep_at(paste0(var, "_val"))
             }
 
             all_vars <- var_shell()[[var]]
@@ -84,7 +84,7 @@ filters_server <- function(id, data, tfrmt_app, selected,
 
           }
 
-          arrange_ui_grid(list_flatten(ui_list), el_width = 4)
+          arrange_ui_grid(purrr::list_flatten(ui_list), el_width = 4)
 
         })
 
@@ -105,8 +105,8 @@ filters_server <- function(id, data, tfrmt_app, selected,
                                  }
                                  val
                                }) %>%
-            setNames(all_vars) %>%
-            discard(is.null)
+            purrr::set_names(all_vars) %>%
+            purrr::discard(is.null)
 
           # convert back to tfrmt input parameter level (group_val = list(group1 = val1, group2 = val2))
           vars_list <- list()
@@ -114,14 +114,14 @@ filters_server <- function(id, data, tfrmt_app, selected,
           for (var in names(var_shell)){
 
             i <- which(var==names(var_shell))
-            selected_vars <- keep_at(input_list, var_shell[[var]])
+            selected_vars <- purrr::keep_at(input_list, var_shell[[var]])
 
             ## unlist if not a list to begin with
             if (! is.list(isolate(tfrmt_app()[[var]]))){
               selected_vars <- selected_vars %>% unlist() %>% unname()
             } else {
               # if a list and all .default, then condense
-              if (length(selected_vars)>0 && all(map_lgl(selected_vars, ~all(.x ==".default")))){
+              if (length(selected_vars)>0 && all(purrr::map_lgl(selected_vars, ~all(.x ==".default")))){
                 selected_vars <- ".default"
               }
             }
@@ -130,7 +130,7 @@ filters_server <- function(id, data, tfrmt_app, selected,
           }
 
           vars_list %>%
-            map(function(x){if(length(x)==0) NULL else x})
+            purrr::map(function(x){if(length(x)==0) NULL else x})
 
         })
 

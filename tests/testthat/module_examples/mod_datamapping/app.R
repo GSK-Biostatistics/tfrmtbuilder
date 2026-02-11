@@ -16,9 +16,9 @@ mode <- "mock_with_data"
 shinyApp(
   fluidPage(
     includeCSS(system.file("www","styles.css", package = "tfrmtbuilder")),
-    html_dependency_pretty(),
-    useShinyjs(),
-    useShinyFeedback(),
+    shinyWidgets::html_dependency_pretty(),
+    shinyjs::useShinyjs(),
+    shinyFeedback::useShinyFeedback(),
     datamapping_ui("mappings")
   ),
   function(input,output,session){

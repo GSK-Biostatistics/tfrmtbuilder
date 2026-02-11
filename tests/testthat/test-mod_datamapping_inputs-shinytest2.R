@@ -53,17 +53,17 @@ test_that("Data-driven dropdowns can be added/removed",{
   app <-  shinytest2::AppDriver$new(app_dir)
 
   # get input IDs
-  input_ids <- app$get_values()$input %>% names() %>% .[str_detect(., "^mapping-item")]
+  input_ids <- app$get_values()$input %>% names() %>% .[stringr::str_detect(., "^mapping-item")]
 
 
 # Add a new input ---------------------------------------------------------
 
   app$click("mapping-addinput")
-  input_ids_new <- app$get_values()$input %>% names() %>% .[str_detect(., "^mapping-item")]
+  input_ids_new <- app$get_values()$input %>% names() %>% .[stringr::str_detect(., "^mapping-item")]
   input_id_new <- setdiff(input_ids_new, input_ids)
   input_ids <- input_ids_new
 
-  new_val <- setNames("rowlbl2", input_id_new)
+  new_val <- purrr::set_names("rowlbl2", input_id_new)
   app$set_inputs(!!input_id_new := "rowlbl2")
 
   expect_equal(app$get_value(input=!!input_id_new), "rowlbl2")
@@ -76,11 +76,11 @@ test_that("Data-driven dropdowns can be added/removed",{
   # Add another input -------------------------------------------------------
 
   app$click("mapping-addinput")
-  input_ids_new <- app$get_values()$input %>% names() %>% .[str_detect(., "^mapping-item")]
+  input_ids_new <- app$get_values()$input %>% names() %>% .[stringr::str_detect(., "^mapping-item")]
   input_id_new <- setdiff(input_ids_new, input_ids)
   input_ids <- input_ids_new
 
-  new_val <- setNames("rowlbl1", input_id_new)
+  new_val <- purrr::set_names("rowlbl1", input_id_new)
   app$set_inputs(!!input_id_new := "rowlbl1")
 
   expect_equal(app$get_value(input=!!input_id_new), "rowlbl1")
@@ -111,13 +111,13 @@ test_that("Data-driven dropdowns can be added/removed",{
 # Add input again after the removal ---------------------------------------
 
   app$click("mapping-addinput")
-  input_ids_new <- app$get_values()$input %>% names() %>% .[str_detect(., "^mapping-item")]
+  input_ids_new <- app$get_values()$input %>% names() %>% .[stringr::str_detect(., "^mapping-item")]
   input_id_new <- setdiff(input_ids_new, input_ids)
   input_ids <- input_ids_new
 
   expect_equal(app$get_value(input=!!input_id_new), NULL)
 
-  new_val <- setNames("rowlbl1", input_id_new)
+  new_val <- purrr::set_names("rowlbl1", input_id_new)
   app$set_inputs(!!input_id_new := "rowlbl1")
 
   expect_equal(app$get_value(input=!!input_id_new), "rowlbl1")

@@ -82,7 +82,7 @@ big_n_server <- function(id, data, tfrmt_app, mode_load){
       })
 
       # when any are selected, switch to edit mode
-      onclick("items", expr = {
+      shinyjs::onclick("items", expr = {
 
         if (!is_empty(struct())){
           mode("edit")

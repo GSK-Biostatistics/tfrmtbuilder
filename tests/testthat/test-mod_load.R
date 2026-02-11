@@ -52,7 +52,7 @@ test_that("Upload tfrmt", {
   skip_on_cran()
 
   # save a json
-  tfrmt_n_pct() %>% tfrmt_to_json("test.json")
+  tfrmt_n_pct() %>% tfrmt::tfrmt_to_json("test.json")
 
   json_example_path <- "test.json"
   ard_json <- tfrmt::json_to_tfrmt(path = json_example_path)
@@ -82,7 +82,7 @@ test_that("Upload data", {
   skip_on_cran()
 
   # save a csv
-  tfrmt::data_demog %>% filter(rowlbl1 %in% c("Age (y)","Sex")) %>%
+  tfrmt::data_demog %>% dplyr::filter(rowlbl1 %in% c("Age (y)","Sex")) %>%
     write.csv("ard_demog.csv", row.names = FALSE)
 
   ard_example_path <- "ard_demog.csv"

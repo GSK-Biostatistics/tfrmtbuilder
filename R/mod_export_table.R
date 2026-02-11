@@ -32,11 +32,11 @@ mod_export_table_server <- function(id, tbl, ext){
             dir.create(temp_dir)
 
             n_tbls <- nrow(tbl()$gt_tbls)
-            walk(1:n_tbls, function(x){
-              tbl() %>% grp_pull(x) %>% gtsave(filename = paste0("tfrmt_",x,".", tolower(ext)), path = temp_dir)
+            purrr::walk(1:n_tbls, function(x){
+              tbl() %>% gt::grp_pull(x) %>% gt::gtsave(filename = paste0("tfrmt_",x,".", tolower(ext)), path = temp_dir)
             })
 
-            zip(
+            utils::zip(
               zipfile = con,
               files = file.path(temp_dir, paste0("tfrmt_", seq_along(tbl()), ".", tolower(ext))),
               flags = "-r9Xj"
@@ -45,7 +45,7 @@ mod_export_table_server <- function(id, tbl, ext){
           } else{
 
             gtobj <- tbl()
-            gtsave(gtobj, con)
+            gt::gtsave(gtobj, con)
 
           }
         }

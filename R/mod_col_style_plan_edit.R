@@ -12,7 +12,7 @@ col_style_plan_edit_ui <- function(id){
     fluidRow(
       column(6,
              h3("Align"),
-             awesomeRadio(ns("align_opts"), label = NULL,
+             shinyWidgets::awesomeRadio(ns("align_opts"), label = NULL,
                           choices = list("left", "right", "custom"),
                           inline = TRUE,
                           selected = "left"),
@@ -61,14 +61,14 @@ col_style_plan_edit_server <- function(id, data, tfrmt_app, selected){
        }
 
         if (existing_align[[1]] %in% c("left","right")){
-          updateAwesomeRadio(session, inputId = "align_opts", selected = existing_align)
+          shinyWidgets::updateAwesomeRadio(session, inputId = "align_opts", selected = existing_align)
         } else {
 
           existing_align_txt <- paste0("\"", existing_align, "\"")
           if (length(existing_align_txt)>1){
             existing_align_txt <- paste0("c(", paste(existing_align_txt, collapse = ", "), ")")
           }
-          updateAwesomeRadio(session, inputId = "align_opts", selected = "custom")
+          shinyWidgets::updateAwesomeRadio(session, inputId = "align_opts", selected = "custom")
           updateTextInput(session, inputId = "align_custom", value = existing_align_txt)
         }
 

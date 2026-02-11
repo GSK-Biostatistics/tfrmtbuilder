@@ -15,14 +15,14 @@ load_ui <- function(id){
                    shinyjs::hidden(
                      div(
                      id = ns("tfrmt_opts"),
-                     radioGroupButtons(ns("tfrmt_source"), label = NULL, choices = c("None", "Upload", "Example")),
+                     shinyWidgets::radioGroupButtons(ns("tfrmt_source"), label = NULL, choices = c("None", "Upload", "Example")),
                      fluidRow(
                        column(12,
                               shinyjs::hidden(fileInput(ns("tfrmt_load"), buttonLabel = "Load JSON", label = NULL, accept = c(".json")))
                        )
                      ),
                      fluidRow(
-                       shinyjs::hidden(radioGroupButtons(ns("tfrmt_ex"),
+                       shinyjs::hidden(shinyWidgets::radioGroupButtons(ns("tfrmt_ex"),
                                                          label = NULL,
                                                          choices = c("demog","ae","efficacy")))
                      )
@@ -46,7 +46,7 @@ load_ui <- function(id){
                    shinyjs::hidden(
                      div(
                        id = ns("data_opts"),
-                   radioGroupButtons(ns("data_source"), label = NULL,
+                   shinyWidgets::radioGroupButtons(ns("data_source"), label = NULL,
                                      choices = c("Auto", "Upload", "Example"), selected = "Auto"),
                    fluidRow(
                      conditionalPanel("input.data_source=='Upload'",
@@ -55,7 +55,7 @@ load_ui <- function(id){
                    ),
                    fluidRow(
                      conditionalPanel("input.data_source=='Example'",
-                                      radioGroupButtons(ns("data_ex"), label = NULL, choices = c("demog","ae","labs","efficacy")),
+                                      shinyWidgets::radioGroupButtons(ns("data_ex"), label = NULL, choices = c("demog","ae","labs","efficacy")),
                                       ns = ns)
                    )
                    )
@@ -65,7 +65,7 @@ load_ui <- function(id){
                          shinycssloaders::withSpinner(
                            color = getOption("spinner.color", default = "#254988"),
                            type = 4,
-                           DTOutput(ns("data_view"), height = "500px")
+                           DT::DTOutput(ns("data_view"), height = "500px")
                          )
                      )
                    )
@@ -98,11 +98,11 @@ load_server <- function(id, tfrmt_in = reactive(NULL), data_in = reactive(NULL),
         observe({
 
           if (mockmode()){
-            updateRadioGroupButtons(session, "data_source", disabledChoices = NULL)
+            shinyWidgets::updateRadioGroupButtons(session, "data_source", disabledChoices = NULL)
           } else {
             cur_selected <- input$data_source
             selected <- ifelse(cur_selected=="Auto", "Upload", cur_selected)
-            updateRadioGroupButtons(session, "data_source", disabledChoices = "Auto", selected = selected)
+            shinyWidgets::updateRadioGroupButtons(session, "data_source", disabledChoices = "Auto", selected = selected)
           }
         })
 
@@ -155,8 +155,8 @@ load_server <- function(id, tfrmt_in = reactive(NULL), data_in = reactive(NULL),
         observeEvent(c(input$tfrmt_ex, input$tfrmt_source), {
           req(input$tfrmt_source=="Example")
           req(!input$data_source=="Upload")
-          updateRadioGroupButtons(session, "data_source", selected = "Example")
-          updateRadioGroupButtons(session, "data_ex", selected = input$tfrmt_ex)
+          shinyWidgets::updateRadioGroupButtons(session, "data_source", selected = "Example")
+          shinyWidgets::updateRadioGroupButtons(session, "data_ex", selected = input$tfrmt_ex)
         })
 
         # keep track of mode for downstream functionality
@@ -187,14 +187,14 @@ load_server <- function(id, tfrmt_in = reactive(NULL), data_in = reactive(NULL),
         })
 
         # data preview
-        output$data_view <- renderDT({
+        output$data_view <- DT::renderDT({
 
           if (is.null(data_out())){
             data_tbl <- make_mock_data(tfrmt_out())
           } else {
             data_tbl <- data_out()
           }
-          datatable(data_tbl,
+          DT::datatable(data_tbl,
                     rownames = FALSE,
                     fillContainer = TRUE,
                     options = list(paging = FALSE,

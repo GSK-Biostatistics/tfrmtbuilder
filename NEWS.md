@@ -1,3 +1,8 @@
+# tfrmtbuilder 0.1.1
+
+* Bug fixes: 
+  - Fix namespace conflict between bslib and shinyWidgets
+  
 # tfrmtbuilder 0.1.0
 
 * New features:

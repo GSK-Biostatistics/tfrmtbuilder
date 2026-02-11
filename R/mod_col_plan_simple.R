@@ -75,7 +75,7 @@ col_plan_simple_server <- function(id, data, tfrmt_app, mode_load){
 
       # group/label order for tfrmt
       grp_lbl_ord <- eventReactive(tfrmt_app(),{
-        c(tfrmt_app()$group %>% map_chr(as_label),
+        c(tfrmt_app()$group %>% purrr::map_chr(as_label),
           tfrmt_app()$label %>% as_label())
       })
 
@@ -143,7 +143,7 @@ col_plan_simple_server <- function(id, data, tfrmt_app, mode_load){
       selected <- reactiveVal(NULL)
       selected_num <- reactiveVal(NULL)
 
-      onclick("items", expr = {
+      shinyjs::onclick("items", expr = {
         mode("edit")
         item_num <- as.numeric(input$`button-item`)
 
@@ -196,7 +196,7 @@ col_plan_simple_server <- function(id, data, tfrmt_app, mode_load){
        eventReactive(cols_dat_out(),{
 
          new_name_col <- paste0("__tfrmt_new_name__", col_name())
-        col <- tfrmt_app()$column %>% map_chr(as_label)
+        col <- tfrmt_app()$column %>% purrr::map_chr(as_label)
         cols_to_keep <- cols_dat_out() %>%
           filter(!.data$`__col_plan_dropped__`)
 

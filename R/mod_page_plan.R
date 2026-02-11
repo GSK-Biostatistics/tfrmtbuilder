@@ -7,7 +7,6 @@ page_plan_ui <- function(id){
   ns <- NS(id)
 
   tagList(
-    # fluidRow(
     h3("Page Plan", class = "heading_style",
        actionButton(ns("reset"), "Reset", icon = icon("undo")), class = "btn-reset"),
     h4("Note location"),
@@ -17,7 +16,7 @@ page_plan_ui <- function(id){
       selected = character(0)
     ),
     h4("Max rows"),
-    prettySwitch(ns("max_set"), "Set", value = FALSE),
+    shinyWidgets::prettySwitch(ns("max_set"), "Set", value = FALSE),
     numericInput(ns("max_rows"), label = NULL, value = 10, min = 1, max = NA, step = 5,
                  width = "25%") ,
     h4("Page Structures"),
@@ -35,7 +34,6 @@ page_plan_ui <- function(id){
       column(3, div(actionButton(ns("add"), "New", icon = icon("plus")), class = "btn-new")),
       column(3, offset = 1, div(shinyjs::disabled(actionButton(ns("delete"), "Delete", icon = icon("trash")))), class = "btn-delete")
     ),
-    #  ),
     br(),
     shinyjs::hidden(
       div(id = ns("customize"),
@@ -125,7 +123,7 @@ page_plan_server <- function(id, data, tfrmt_app, mode_load){
 
         req(length(struct_list())>0)
 
-        struct_list_txt <- map(struct_list(),
+        struct_list_txt <- purrr::map(struct_list(),
                                ~.x %>% format_page_struct() %>% {paste0(., collapse = "<br>")})
 
         create_struct_list_sortable(ns, struct_list_txt, mode())
@@ -150,10 +148,10 @@ page_plan_server <- function(id, data, tfrmt_app, mode_load){
 
 
       # when any are selected, switch to edit mode
-      onclick("items", expr = {
+      shinyjs::onclick("items", expr = {
 
-        last_struct <- pluck(struct_list(), length(struct_list()))
-        if(!is_empty(last_struct)){
+        last_struct <- purrr::pluck(struct_list(), length(struct_list()))
+        if(!rlang::is_empty(last_struct)){
           mode("edit")
         }
       })

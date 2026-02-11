@@ -9,14 +9,20 @@ tfrmtbuilder_ui <- function(id, mockmode){
     fluidPage(
       titlePanel(""),
       includeCSS(system.file("www","styles.css", package = "tfrmtbuilder")),
-      html_dependency_pretty(),
-      useShinyjs(),
-      useShinyFeedback(),
+      shinyWidgets::html_dependency_pretty(),
+      shinyjs::useShinyjs(),
+      shinyFeedback::useShinyFeedback(),
       navbarPage(
         windowTitle = "tfrmt Builder",
-        title = span(tagList(fa_i("person-digging"), "tfrmt Builder"), class = "navheader_padding"),
-        theme = bs_theme(bootswatch = "flatly",
-                         base_font = font_collection(font_google("Lato", local = FALSE), "sans-serif"),
+        title = span(
+          tagList(
+            fontawesome::fa_i("person-digging"), "tfrmt Builder"
+            ),
+          class = "navheader_padding"),
+        theme = bslib::bs_theme(bootswatch = "flatly",
+                         base_font = bslib::font_collection(
+                           bslib::font_google("Lato", local = FALSE),
+                           "sans-serif"),
                          primary = "#254988",
                          bg = "#ffffff",
                          fg = "#000000"
@@ -75,7 +81,7 @@ tfrmtbuilder_ui <- function(id, mockmode){
                          nav_panel(title = "Table", br(),
                                   table_outer_ui(ns("tbl_view"))),
                          nav_panel(title = "Data",
-                                  DTOutput(ns("data_view")))
+                                  DT::DTOutput(ns("data_view")))
                        ),
                        position = "right",
                        width = "40%"

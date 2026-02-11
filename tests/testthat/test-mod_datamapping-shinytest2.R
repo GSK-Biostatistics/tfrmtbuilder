@@ -12,19 +12,19 @@ test_that("Mock w/ data mode",{
 
   # No changes from user ----------------------------------------------------
   values <- app$get_values()$export$vals
-  ex_tfrmt <- tfrmt(
+  ex_tfrmt <- tfrmt::tfrmt(
     group = c("rowlbl1", "rowlbl2"),
     label = "grp",
     value = "value",
     param = "param",
     column = "column",
-    body_plan = body_plan(
-      frmt_structure(group_val = ".default", label_val = ".default", frmt("xx.x"))
+    body_plan = tfrmt::body_plan(
+      tfrmt::frmt_structure(group_val = ".default", label_val = ".default", tfrmt::frmt("xx.x"))
     )
   )
 
   expect_equal(values$tfrmt, ex_tfrmt, ignore_attr = TRUE)
-  expect_equal(values$data, tfrmt::data_demog %>% select(-value))
+  expect_equal(values$data, tfrmt::data_demog %>% dplyr::select(-value))
   expect_equal(values$mode, "mock_with_data")
   expect_equal(values$original, TRUE)
 
@@ -42,19 +42,19 @@ test_that("Mock w/ data mode",{
   app$click("mappings-save")
   values <- app$get_values()$export$vals
 
-  ex_tfrmt <- tfrmt(
+  ex_tfrmt <- tfrmt::tfrmt(
     group = c("rowlbl2", "rowlbl1"),
     label = "grp",
     value = "value",
     param = "param",
     column = "column",
-    body_plan = body_plan(
-      frmt_structure(group_val = ".default", label_val = ".default", frmt("xx.x"))
+    body_plan = tfrmt::body_plan(
+      tfrmt::frmt_structure(group_val = ".default", label_val = ".default", tfrmt::frmt("xx.x"))
     )
   )
 
   expect_equal(values$tfrmt, ex_tfrmt, ignore_attr = TRUE)
-  expect_equal(values$data, tfrmt::data_demog %>% select(-value))
+  expect_equal(values$data, tfrmt::data_demog %>% dplyr::select(-value))
   expect_equal(values$mode, "mock_with_data")
   expect_equal(values$original, FALSE)
 
@@ -84,11 +84,14 @@ test_that("Mock w/ data mode",{
   app$click("mappings-save")
   values <- app$get_values()$export$vals
 
-  expect_equal(values$tfrmt, ex_tfrmt %>% layer_tfrmt(tfrmt(sorting_cols = c("ord1","ord2"))), ignore_attr = TRUE)
-  expect_equal(values$data, tfrmt::data_demog %>% select(-value))
+  expect_equal(values$tfrmt, ex_tfrmt %>% tfrmt::layer_tfrmt(
+    tfrmt::tfrmt(sorting_cols = c("ord1","ord2"))
+    ), ignore_attr = TRUE)
+  expect_equal(values$data, tfrmt::data_demog %>% dplyr::select(-value))
   expect_equal(values$mode, "mock_with_data")
   expect_equal(values$original, FALSE)
 
   app$stop()
 
 })
+

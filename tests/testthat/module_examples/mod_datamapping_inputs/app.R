@@ -9,8 +9,8 @@ multiple <- TRUE
 shinyApp(
   fluidPage(
     includeCSS(system.file("www","styles.css", package = "tfrmtbuilder")),
-    html_dependency_pretty(),
-    useShinyjs(),
+    shinyWidgets::html_dependency_pretty(),
+    shinyjs::useShinyjs(),
     shinyFeedback::useShinyFeedback(),
     datamapping_inputs_ui("mapping", setting_name = setting_name)
   ),

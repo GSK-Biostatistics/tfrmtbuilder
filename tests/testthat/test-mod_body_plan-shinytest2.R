@@ -11,9 +11,9 @@ test_that("Body plan as expected with no user changes",{
   body_plan_out <- app$get_values()$export$vals
 
   expect_equal(body_plan_out,
-               body_plan(
-                 frmt_structure(group_val = ".default", label_val = ".default", frmt("xx.x")),
-                 frmt_structure(group_val = ".default", label_val = "n", frmt("xx"))
+               tfrmt::body_plan(
+                 tfrmt::frmt_structure(group_val = ".default", label_val = ".default", tfrmt::frmt("xx.x")),
+                 tfrmt::frmt_structure(group_val = ".default", label_val = "n", tfrmt::frmt("xx"))
                  ))
 
 
@@ -23,9 +23,9 @@ test_that("Body plan as expected with no user changes",{
     allow_no_input_binding_ = TRUE
   )
   body_plan_actual <- app$get_values()$export$vals
-  body_plan_expected <- body_plan(
-    frmt_structure(group_val = ".default", label_val = "n", frmt("xx")),
-    frmt_structure(group_val = ".default", label_val = ".default", frmt("xx.x"))
+  body_plan_expected <- tfrmt::body_plan(
+    tfrmt::frmt_structure(group_val = ".default", label_val = "n", tfrmt::frmt("xx")),
+    tfrmt::frmt_structure(group_val = ".default", label_val = ".default", tfrmt::frmt("xx.x"))
   )
   expect_equal(body_plan_actual, body_plan_expected)
 
@@ -62,10 +62,10 @@ test_that("body plan add/delete rows",{
 
   app$click("bp-save")
   body_plan_actual <- app$get_values()$export$vals
-  body_plan_expected <- body_plan(
-    frmt_structure(group_val = ".default", label_val = ".default", frmt("xx.x")),
-    frmt_structure(group_val = ".default", label_val = "n", frmt("xx")),
-    frmt_structure(group_val = list(rowlbl1 = "Baseline BMI", grp = ".default"), label_val = ".default", frmt("xx.x"))
+  body_plan_expected <- tfrmt::body_plan(
+    tfrmt::frmt_structure(group_val = ".default", label_val = ".default", tfrmt::frmt("xx.x")),
+    tfrmt::frmt_structure(group_val = ".default", label_val = "n", tfrmt::frmt("xx")),
+    tfrmt::frmt_structure(group_val = list(rowlbl1 = "Baseline BMI", grp = ".default"), label_val = ".default", tfrmt::frmt("xx.x"))
   )
 
   expect_equal(body_plan_actual, body_plan_expected)
@@ -84,8 +84,8 @@ test_that("body plan add/delete rows",{
   app$click("bp-delete")
 
   body_plan_actual <- app$get_values()$export$vals
-  body_plan_expected <- body_plan(
-    frmt_structure(group_val = ".default", label_val = ".default", frmt("xx.x"))
+  body_plan_expected <- tfrmt::body_plan(
+    tfrmt::frmt_structure(group_val = ".default", label_val = ".default", tfrmt::frmt("xx.x"))
   )
 
   expect_equal(body_plan_actual, body_plan_expected, ignore_attr = TRUE)

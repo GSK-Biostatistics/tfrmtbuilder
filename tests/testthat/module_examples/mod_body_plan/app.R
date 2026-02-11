@@ -17,8 +17,8 @@ mode <- "mock_with_data"
 shinyApp(
   fluidPage(
     includeCSS(system.file("www","styles.css", package = "tfrmtbuilder")),
-    html_dependency_pretty(),
-    useShinyjs(),
+    shinyWidgets::html_dependency_pretty(),
+    shinyjs::useShinyjs(),
     shinyFeedback::useShinyFeedback(),
     body_plan_ui("bp")
   ),

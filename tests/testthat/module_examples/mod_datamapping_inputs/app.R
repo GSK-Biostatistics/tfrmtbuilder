@@ -25,7 +25,7 @@ shinyApp(
     exportTestValues(
       settings = {vals$settings()},
       valid = {vals$valid()},
-      initial_state = {vals$initial_stat()}
+      state_counter = {vals$state_counter()}
     )
 
   }
